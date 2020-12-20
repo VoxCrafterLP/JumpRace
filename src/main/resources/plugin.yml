@@ -1,0 +1,6 @@
+name: JumpRace
+version: 1.0.0
+author: VoxCrafter_LP
+main: com.voxcrafterlp.jumprace.JumpRace
+
+commands:
