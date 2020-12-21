@@ -20,7 +20,7 @@ public class JumpRaceConfig {
     private final boolean builderServer;
 
     public JumpRaceConfig() {
-        this.configFile = new File("plugins/Pets/config.yml");
+        this.configFile = new File("plugins/JumpRace/config.yml");
         this.configuration = YamlConfiguration.loadConfiguration(this.configFile);
 
         this.builderServer = this.configuration.getBoolean("builder-server");

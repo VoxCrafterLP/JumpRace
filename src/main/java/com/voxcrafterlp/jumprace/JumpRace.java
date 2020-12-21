@@ -2,8 +2,12 @@ package com.voxcrafterlp.jumprace;
 
 import com.voxcrafterlp.jumprace.builderserver.listener.BuilderPlayerJoinListener;
 import com.voxcrafterlp.jumprace.config.JumpRaceConfig;
+import com.voxcrafterlp.jumprace.modules.ModuleLoader;
 import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.bukkit.World;
+import org.bukkit.WorldCreator;
+import org.bukkit.WorldType;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -43,6 +47,16 @@ public class JumpRace extends JavaPlugin {
 
         PluginManager pluginManager = Bukkit.getPluginManager();
         pluginManager.registerEvents(new BuilderPlayerJoinListener(), this);
+
+        if(Bukkit.getWorld("jumprace") == null) {
+            Bukkit.getConsoleSender().sendMessage("§aGenerating JumpRace world...");
+            WorldCreator worldCreator = new WorldCreator("jumprace");
+            worldCreator.environment(World.Environment.NORMAL);
+            worldCreator.type(WorldType.FLAT);
+            worldCreator.generatorSettings("0");
+            worldCreator.generateStructures(false);
+            worldCreator.createWorld();
+        }
     }
 
     private void minigameServerStartup() {
@@ -63,6 +77,7 @@ public class JumpRace extends JavaPlugin {
         Bukkit.getConsoleSender().sendMessage("§7Loading modules..");
         new File("plugins/JumpRace/modules/").mkdir();
 
+        new ModuleLoader(this.jumpRaceConfig.isBuilderServer()).loadModules();
     }
 
     public String getPrefix() { return "§8[§bJumpRace§8] "; }
