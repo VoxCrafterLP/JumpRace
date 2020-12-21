@@ -12,6 +12,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.io.IOException;
 
 /**
  * This file was created by VoxCrafter_LP!
@@ -44,6 +45,7 @@ public class JumpRace extends JavaPlugin {
 
     private void builderServerStartup() {
         Bukkit.getConsoleSender().sendMessage("§7Starting server as a §abuilder §7server.");
+        Bukkit.getConsoleSender().sendMessage(" ");
 
         PluginManager pluginManager = Bukkit.getPluginManager();
         pluginManager.registerEvents(new BuilderPlayerJoinListener(), this);
@@ -57,6 +59,8 @@ public class JumpRace extends JavaPlugin {
             worldCreator.generateStructures(false);
             worldCreator.createWorld();
         }
+
+        loadModules();
     }
 
     private void minigameServerStartup() {
@@ -77,7 +81,11 @@ public class JumpRace extends JavaPlugin {
         Bukkit.getConsoleSender().sendMessage("§7Loading modules..");
         new File("plugins/JumpRace/modules/").mkdir();
 
-        new ModuleLoader(this.jumpRaceConfig.isBuilderServer()).loadModules();
+        try {
+            new ModuleLoader(this.jumpRaceConfig.isBuilderServer()).loadModules();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public String getPrefix() { return "§8[§bJumpRace§8] "; }

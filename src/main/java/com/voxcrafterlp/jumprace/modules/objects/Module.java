@@ -18,11 +18,21 @@ import org.bukkit.block.Block;
 public class Module {
 
     private String name;
+    private String builder;
     private ModuleDifficulty moduleDifficulty;
     private ModuleData moduleData;
 
     private RelativePosition startPoint;
     private RelativePosition endPoint;
+
+    public Module(String name, String builder, ModuleDifficulty moduleDifficulty, ModuleData moduleData, RelativePosition startPoint, RelativePosition endPoint) {
+        this.name = name;
+        this.builder = builder;
+        this.moduleDifficulty = moduleDifficulty;
+        this.moduleData = moduleData;
+        this.startPoint = startPoint;
+        this.endPoint = endPoint;
+    }
 
     public void build(Location location, boolean isLastModule) {
         for(int x = 0; x < moduleData.getWidth(); x++) {
