@@ -4,6 +4,7 @@ import com.voxcrafterlp.jumprace.modules.enums.ModuleDifficulty;
 import com.voxcrafterlp.jumprace.modules.objects.Module;
 import com.voxcrafterlp.jumprace.modules.objects.ModuleData;
 import com.voxcrafterlp.jumprace.modules.objects.RelativePosition;
+import lombok.Getter;
 import net.minecraft.server.v1_8_R3.NBTCompressedStreamTools;
 import org.bukkit.Bukkit;
 import org.json.JSONException;
@@ -22,6 +23,7 @@ import java.util.Objects;
  * Project: JumpRace
  */
 
+@Getter
 public class ModuleLoader {
 
     private final boolean builderServer;

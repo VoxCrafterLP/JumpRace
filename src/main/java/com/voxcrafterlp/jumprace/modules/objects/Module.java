@@ -1,8 +1,10 @@
 package com.voxcrafterlp.jumprace.modules.objects;
 
+import com.voxcrafterlp.jumprace.JumpRace;
 import com.voxcrafterlp.jumprace.modules.enums.ModuleDifficulty;
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -25,6 +27,9 @@ public class Module {
     private RelativePosition startPoint;
     private RelativePosition endPoint;
 
+    private Location spawnLocation;
+    private int particlesTaskID;
+
     public Module(String name, String builder, ModuleDifficulty moduleDifficulty, ModuleData moduleData, RelativePosition startPoint, RelativePosition endPoint) {
         this.name = name;
         this.builder = builder;
@@ -35,6 +40,8 @@ public class Module {
     }
 
     public void build(Location location, boolean isLastModule) {
+        this.spawnLocation = location;
+
         for(int x = 0; x < moduleData.getWidth(); x++) {
             for(int y = 0; y < moduleData.getHeight(); y++) {
                 for(int z = 0; z < moduleData.getLength(); z++) {
@@ -53,7 +60,17 @@ public class Module {
         location.getWorld().getBlockAt(calculateLocation(location, startPoint)).setType(Material.GOLD_BLOCK);
         location.getWorld().getBlockAt(calculateLocation(location, endPoint)).setType(isLastModule ? Material.EMERALD_BLOCK : Material.GOLD_BLOCK);
     }
-    
+
+    public void spawnParticles() {
+        this.particlesTaskID = Bukkit.getScheduler().scheduleAsyncRepeatingTask(JumpRace.getInstance(), () -> {
+
+        }, 35, 5);
+    }
+
+    public void recalculateParticles() {
+
+    }
+
     private Location calculateLocation(Location location, RelativePosition relativePosition) {
         return new Location(location.getWorld(), (location.getX() + relativePosition.getRelativeX()), (location.getY() + relativePosition.getRelativeY()), (location.getZ()) + relativePosition.getRelativeZ());
     }

@@ -27,6 +27,7 @@ public class JumpRace extends JavaPlugin {
     private static JumpRace instance;
 
     private JumpRaceConfig jumpRaceConfig;
+    private ModuleLoader moduleLoader;
 
     @Override
     public void onEnable() {
@@ -82,7 +83,8 @@ public class JumpRace extends JavaPlugin {
         new File("plugins/JumpRace/modules/").mkdir();
 
         try {
-            new ModuleLoader(this.jumpRaceConfig.isBuilderServer()).loadModules();
+            this.moduleLoader = new ModuleLoader(this.jumpRaceConfig.isBuilderServer());
+            this.moduleLoader.loadModules();
         } catch (IOException e) {
             e.printStackTrace();
         }
