@@ -1,7 +1,6 @@
 package com.voxcrafterlp.jumprace.modules.objects;
 
 import lombok.Getter;
-import org.bukkit.Location;
 import org.json.JSONObject;
 
 /**

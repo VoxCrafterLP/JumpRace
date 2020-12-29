@@ -1,6 +1,9 @@
 package com.voxcrafterlp.jumprace;
 
+import com.voxcrafterlp.jumprace.builderserver.commands.JumpRaceCommand;
+import com.voxcrafterlp.jumprace.builderserver.listener.setup.AsyncPlayerChatListener;
 import com.voxcrafterlp.jumprace.builderserver.listener.BuilderPlayerJoinListener;
+import com.voxcrafterlp.jumprace.builderserver.listener.setup.InventoryClickListener;
 import com.voxcrafterlp.jumprace.config.JumpRaceConfig;
 import com.voxcrafterlp.jumprace.modules.ModuleLoader;
 import lombok.Getter;
@@ -48,8 +51,13 @@ public class JumpRace extends JavaPlugin {
         Bukkit.getConsoleSender().sendMessage("§7Starting server as a §abuilder §7server.");
         Bukkit.getConsoleSender().sendMessage(" ");
 
+        getCommand("jumprace").setExecutor(new JumpRaceCommand());
+        getCommand("jr").setExecutor(new JumpRaceCommand());
+
         PluginManager pluginManager = Bukkit.getPluginManager();
         pluginManager.registerEvents(new BuilderPlayerJoinListener(), this);
+        pluginManager.registerEvents(new AsyncPlayerChatListener(), this);
+        pluginManager.registerEvents(new InventoryClickListener(), this);
 
         if(Bukkit.getWorld("jumprace") == null) {
             Bukkit.getConsoleSender().sendMessage("§aGenerating JumpRace world...");

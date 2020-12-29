@@ -17,7 +17,7 @@ public enum ModuleDifficulty {
     HARD("HARD"),
     VERY_HARD("VERY_HARD");
 
-    private String configName;
+    private final String configName;
 
     ModuleDifficulty(String configName) {
         this.configName = configName;

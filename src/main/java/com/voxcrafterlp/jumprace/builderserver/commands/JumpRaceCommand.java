@@ -51,6 +51,11 @@ public class JumpRaceCommand implements CommandExecutor {
                 module.spawnParticles();
             }
         }
+        if(args.length == 1) {
+            if(args[0].equalsIgnoreCase("newmodule")) {
+
+            }
+        }
 
         return false;
     }

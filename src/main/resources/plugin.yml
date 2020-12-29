@@ -4,3 +4,7 @@ author: VoxCrafter_LP
 main: com.voxcrafterlp.jumprace.JumpRace
 
 commands:
+  jumprace:
+    description: Main command for the builderserver
+  jr:
+    description: Main command for the builderserver
