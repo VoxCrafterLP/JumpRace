@@ -24,19 +24,24 @@ public class Module {
     private ModuleDifficulty moduleDifficulty;
     private ModuleData moduleData;
 
-    private RelativePosition startPoint;
-    private RelativePosition endPoint;
+    private RelativePosition startPoint, endPoint;
+    private RelativePosition border1, border2;
 
     private Location spawnLocation;
     private int particlesTaskID;
 
-    public Module(String name, String builder, ModuleDifficulty moduleDifficulty, ModuleData moduleData, RelativePosition startPoint, RelativePosition endPoint) {
+    public Module(String name, String builder, ModuleDifficulty moduleDifficulty, ModuleData moduleData, RelativePosition startPoint, RelativePosition endPoint, boolean loadDefaults) {
         this.name = name;
         this.builder = builder;
         this.moduleDifficulty = moduleDifficulty;
         this.moduleData = moduleData;
         this.startPoint = startPoint;
         this.endPoint = endPoint;
+
+        if(loadDefaults) {
+
+        }
+
     }
 
     public void build(Location location, boolean isLastModule) {

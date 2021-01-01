@@ -61,7 +61,7 @@ public class ModuleLoader {
                         ModuleDifficulty.getModuleDifficultyByConfigName(properties.getString("difficulty")),
                         this.getModuleDataFromFile(moduleSchematic),
                         new RelativePosition(properties.getJSONObject("startpoint")),
-                        new RelativePosition(properties.getJSONObject("endpoint")));
+                        new RelativePosition(properties.getJSONObject("endpoint")), false);
 
                 moduleList.add(module);
                 Bukkit.getConsoleSender().sendMessage("§aSuccessfully loaded module " + module.getName() + ".");

@@ -38,7 +38,7 @@ public class AsyncPlayerChatListener implements Listener {
                 setup.setName(input[0]);
                 setup.nextStep();
             }
-            if(setup.getSetupStep() == 0) {
+            if(setup.getSetupStep() == 1) {
                 player.sendMessage(JumpRace.getInstance().getPrefix() + "§7Module builder(s) has/have been set to: §a" + event.getMessage());
 
                 setup.setBuilder(event.getMessage());

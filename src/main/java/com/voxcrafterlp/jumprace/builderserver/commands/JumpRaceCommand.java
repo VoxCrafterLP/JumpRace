@@ -1,6 +1,7 @@
 package com.voxcrafterlp.jumprace.builderserver.commands;
 
 import com.voxcrafterlp.jumprace.JumpRace;
+import com.voxcrafterlp.jumprace.builderserver.objects.ModuleSetup;
 import com.voxcrafterlp.jumprace.modules.objects.Module;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -53,7 +54,7 @@ public class JumpRaceCommand implements CommandExecutor {
         }
         if(args.length == 1) {
             if(args[0].equalsIgnoreCase("newmodule")) {
-
+                new ModuleSetup(player);
             }
         }
 

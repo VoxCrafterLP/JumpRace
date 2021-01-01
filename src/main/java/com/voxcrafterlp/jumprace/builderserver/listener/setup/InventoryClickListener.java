@@ -31,6 +31,8 @@ public class InventoryClickListener implements Listener {
         if(ModuleSetup.getActiveSetups().containsKey(player)) {
             ModuleSetup setup = ModuleSetup.getActiveSetups().get(player);
 
+            if(setup.getSetupStep() != 2) return;
+
             switch (event.getSlot()) {
                 case 10:
                     player.sendMessage(JumpRace.getInstance().getPrefix() + "§7You set the module difficulty to §aEASY§7.");
