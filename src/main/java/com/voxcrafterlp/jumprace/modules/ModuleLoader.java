@@ -29,6 +29,7 @@ public class ModuleLoader {
     private final boolean builderServer;
     private final File modulesFolder;
     private List<Module> moduleList;
+    private Module defaultModule;
 
     public ModuleLoader(boolean builderServer) {
         this.builderServer = builderServer;
@@ -63,8 +64,12 @@ public class ModuleLoader {
                         new RelativePosition(properties.getJSONObject("startpoint")),
                         new RelativePosition(properties.getJSONObject("endpoint")), false);
 
-                moduleList.add(module);
-                Bukkit.getConsoleSender().sendMessage("§aSuccessfully loaded module " + module.getName() + ".");
+
+                if(!module.getName().equals("default")) {
+                    Bukkit.getConsoleSender().sendMessage("§aSuccessfully loaded module " + module.getName() + ".");
+                    moduleList.add(module);
+                } else
+                    this.defaultModule = module;
             }
         }
     }

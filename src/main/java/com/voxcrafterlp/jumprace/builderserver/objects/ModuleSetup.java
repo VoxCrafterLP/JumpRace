@@ -3,6 +3,7 @@ package com.voxcrafterlp.jumprace.builderserver.objects;
 import com.voxcrafterlp.jumprace.JumpRace;
 import com.voxcrafterlp.jumprace.modules.enums.ModuleDifficulty;
 import com.voxcrafterlp.jumprace.modules.objects.Module;
+import com.voxcrafterlp.jumprace.modules.utils.ModuleEditor;
 import com.voxcrafterlp.jumprace.utils.ItemManager;
 import lombok.Getter;
 import lombok.Setter;
@@ -68,14 +69,18 @@ public class ModuleSetup {
                 player.playSound(player.getLocation(), Sound.CHEST_OPEN,3,3);
                 break;
             case 3:
-                //TODO
-                finish();
+                new ModuleEditor(this.player, this.finish()).startEditor();
                 break;
         }
     }
 
+    /**
+     * Builds a new module
+     * @return Dummy module
+     */
     private Module finish() {
-        return null;
+        activeSetups.remove(this.player);
+        return new Module(this.name, this.builder, this.moduleDifficulty, null, null, null, true);
     }
 
 }

@@ -39,9 +39,12 @@ public class Module {
         this.endPoint = endPoint;
 
         if(loadDefaults) {
-
+            this.moduleData = JumpRace.getInstance().getModuleLoader().getDefaultModule().getModuleData();
+            this.startPoint = JumpRace.getInstance().getModuleLoader().getDefaultModule().getStartPoint();
+            this.endPoint = JumpRace.getInstance().getModuleLoader().getDefaultModule().getEndPoint();
         }
 
+        this.recalculateParticles();
     }
 
     public void build(Location location, boolean isLastModule) {
@@ -51,11 +54,11 @@ public class Module {
             for(int y = 0; y < moduleData.getHeight(); y++) {
                 for(int z = 0; z < moduleData.getLength(); z++) {
                     int index = y * moduleData.getWidth() * moduleData.getLength() + z * moduleData.getWidth() + x;
-                    int b = moduleData.getBlocks()[index] & 0xFF; //make the block unsigned,
+                    int b = moduleData.getBlocks()[index] & 0xFF; //make the block unsigned
                     Material material = Material.getMaterial(b);
                     if(material != Material.AIR) {
                         Block block = new Location(location.getWorld(), location.getBlockX() + x, location.getBlockY() + y, location.getBlockZ() + z).getBlock();
-                        block.setType(material, true);
+                        block.setType(material, true); //TODO try false
                         block.setData(moduleData.getData()[index]);
                     }
                 }
@@ -72,8 +75,15 @@ public class Module {
         }, 35, 5);
     }
 
+    /**
+     * Calculates the border particles based on the size of the module
+     */
     public void recalculateParticles() {
 
+    }
+
+    public void stopParticles() {
+        Bukkit.getScheduler().cancelTask(this.particlesTaskID);
     }
 
     private Location calculateLocation(Location location, RelativePosition relativePosition) {
