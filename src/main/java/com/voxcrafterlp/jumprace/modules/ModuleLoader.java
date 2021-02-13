@@ -1,5 +1,6 @@
 package com.voxcrafterlp.jumprace.modules;
 
+import com.google.common.collect.Lists;
 import com.voxcrafterlp.jumprace.modules.enums.ModuleDifficulty;
 import com.voxcrafterlp.jumprace.modules.objects.Module;
 import com.voxcrafterlp.jumprace.modules.objects.ModuleData;
@@ -28,20 +29,20 @@ public class ModuleLoader {
 
     private final boolean builderServer;
     private final File modulesFolder;
-    private List<Module> moduleList;
+    private final List<Module> moduleList;
     private Module defaultModule;
 
     public ModuleLoader(boolean builderServer) {
         this.builderServer = builderServer;
-
+        this.moduleList = Lists.newCopyOnWriteArrayList();
         this.modulesFolder = new File("plugins/JumpRace/modules/");
     }
 
     public void loadModules() throws IOException {
         for(File file : Objects.requireNonNull(this.modulesFolder.listFiles())) {
             if(file.isDirectory()) {
-                File moduleProperties = new File(file.getAbsolutePath() + "module.json");
-                File moduleSchematic = new File(file.getAbsolutePath() + "module.schematic");
+                File moduleProperties = new File(file.getAbsolutePath() + File.separator + "module.json");
+                File moduleSchematic = new File(file.getAbsolutePath() + File.separator + "module.schematic");
 
                 if(!(moduleProperties.exists() && moduleSchematic.exists())) {
                     Bukkit.getConsoleSender().sendMessage("§cInvalid module found in directory " + file.getName() + ".");
@@ -67,11 +68,13 @@ public class ModuleLoader {
 
                 if(!module.getName().equals("default")) {
                     Bukkit.getConsoleSender().sendMessage("§aSuccessfully loaded module " + module.getName() + ".");
-                    moduleList.add(module);
+                    this.moduleList.add(module);
                 } else
                     this.defaultModule = module;
             }
         }
+        if(this.moduleList.isEmpty())
+            Bukkit.getConsoleSender().sendMessage("§cNo modules found");
     }
 
     private String readModuleProperties(File moduleProperties) throws IOException {

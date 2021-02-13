@@ -1,3 +1,6 @@
 # Determines if the current server should be a builder-server.
 # On a builder-server, you cannot play the actual minigame but only build and edit the modules.
 builder-server: false
+
+# Determines the height on which the modules should spawn at
+module-spawn-height: 100

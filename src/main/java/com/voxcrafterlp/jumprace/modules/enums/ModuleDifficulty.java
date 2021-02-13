@@ -12,15 +12,17 @@ import lombok.Getter;
 @Getter
 public enum ModuleDifficulty {
 
-    EASY("EASY"),
-    NORMAL("NORMAL"),
-    HARD("HARD"),
-    VERY_HARD("VERY_HARD");
+    EASY("EASY", "§aEasy"),
+    NORMAL("NORMAL", "§6Normal"),
+    HARD("HARD", "§cHard"),
+    VERY_HARD("VERY_HARD", "§4Very hard");
 
     private final String configName;
+    private final String displayName;
 
-    ModuleDifficulty(String configName) {
+    ModuleDifficulty(String configName, String displayName) {
         this.configName = configName;
+        this.displayName = displayName;
     }
 
     public static ModuleDifficulty getModuleDifficultyByConfigName(String configName) {
@@ -30,6 +32,4 @@ public enum ModuleDifficulty {
         }
         return null;
     }
-
-
 }

@@ -1,13 +1,20 @@
 package com.voxcrafterlp.jumprace.modules.objects;
 
+import com.google.common.collect.Lists;
 import com.voxcrafterlp.jumprace.JumpRace;
 import com.voxcrafterlp.jumprace.modules.enums.ModuleDifficulty;
+import com.voxcrafterlp.jumprace.modules.enums.ParticleDirection;
 import lombok.Getter;
 import lombok.Setter;
+import net.minecraft.server.v1_8_R3.EnumParticle;
+import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+
+import java.util.List;
 
 /**
  * This file was created by VoxCrafter_LP!
@@ -27,8 +34,10 @@ public class Module {
     private RelativePosition startPoint, endPoint;
     private RelativePosition border1, border2;
 
-    private Location spawnLocation;
+    private Location spawnLocation, startPointLocation, endPointLocation;
+
     private int particlesTaskID;
+    private List<ParticleLine> particleLines;
 
     public Module(String name, String builder, ModuleDifficulty moduleDifficulty, ModuleData moduleData, RelativePosition startPoint, RelativePosition endPoint, boolean loadDefaults) {
         this.name = name;
@@ -44,7 +53,8 @@ public class Module {
             this.endPoint = JumpRace.getInstance().getModuleLoader().getDefaultModule().getEndPoint();
         }
 
-        this.recalculateParticles();
+        this.border1 = new RelativePosition(0, 0, 0);
+        this.border2 = new RelativePosition((this.moduleData.getWidth() - 1), (this.moduleData.getHeight() - 1), (this.moduleData.getLength() - 1));
     }
 
     public void build(Location location, boolean isLastModule) {
@@ -65,29 +75,69 @@ public class Module {
             }
         }
 
-        location.getWorld().getBlockAt(calculateLocation(location, startPoint)).setType(Material.GOLD_BLOCK);
-        location.getWorld().getBlockAt(calculateLocation(location, endPoint)).setType(isLastModule ? Material.EMERALD_BLOCK : Material.GOLD_BLOCK);
+        this.startPointLocation = calculateLocation(location, startPoint);
+        this.endPointLocation = calculateLocation(location, endPoint);
+
+        location.getWorld().getBlockAt(this.startPointLocation).setType(Material.GOLD_BLOCK);
+        location.getWorld().getBlockAt(this.endPointLocation).setType(isLastModule ? Material.EMERALD_BLOCK : Material.GOLD_BLOCK);
+
+        this.recalculateParticles();
+        this.spawnParticles();
     }
 
     public void spawnParticles() {
         this.particlesTaskID = Bukkit.getScheduler().scheduleAsyncRepeatingTask(JumpRace.getInstance(), () -> {
-
-        }, 35, 5);
+            this.particleLines.forEach(ParticleLine::draw);
+        }, 20, 4);
     }
 
     /**
      * Calculates the border particles based on the size of the module
      */
     public void recalculateParticles() {
+        int width = this.border2.getRelativeZ() - this.border1.getRelativeZ() + 1;
+        int depth = this.border2.getRelativeX() - this.border1.getRelativeX() + 1;
+        int height = this.border2.getRelativeY() - this.border1.getRelativeY() + 1;
 
+        RelativePosition border3, border4, border5;
+        border3 = new RelativePosition(border1.getRelativeX(), border1.getRelativeY(), (border1.getRelativeZ() + width));
+        border4 = new RelativePosition((border1.getRelativeX() + depth), border1.getRelativeY(), border1.getRelativeZ());
+        border5 = new RelativePosition(border1.getRelativeX(), (border1.getRelativeY() + height), border1.getRelativeZ());
+
+        List<ParticleLine> particleLines = Lists.newCopyOnWriteArrayList();
+
+        particleLines.add(new ParticleLine(this.calculateLocation(this.spawnLocation, this.border1), ParticleDirection.EAST, depth));
+        particleLines.add(new ParticleLine(this.calculateLocation(this.spawnLocation, this.border1), ParticleDirection.UP, height));
+        particleLines.add(new ParticleLine(this.calculateLocation(this.spawnLocation, this.border1), ParticleDirection.SOUTH, width));
+
+        particleLines.add(new ParticleLine(this.calculateLocation(this.spawnLocation, new RelativePosition(this.border2).getForParticles()), ParticleDirection.WEST, depth));
+        particleLines.add(new ParticleLine(this.calculateLocation(this.spawnLocation, new RelativePosition(this.border2).getForParticles()), ParticleDirection.DOWN, height));
+        particleLines.add(new ParticleLine(this.calculateLocation(this.spawnLocation, new RelativePosition(this.border2).getForParticles()), ParticleDirection.NORTH, width));
+
+        particleLines.add(new ParticleLine(this.calculateLocation(this.spawnLocation, border3), ParticleDirection.UP, height));
+        particleLines.add(new ParticleLine(this.calculateLocation(this.spawnLocation, border3), ParticleDirection.EAST, depth));
+
+        particleLines.add(new ParticleLine(this.calculateLocation(this.spawnLocation, border4), ParticleDirection.UP, height));
+        particleLines.add(new ParticleLine(this.calculateLocation(this.spawnLocation, border4), ParticleDirection.SOUTH, width));
+
+        particleLines.add(new ParticleLine(this.calculateLocation(this.spawnLocation, border5), ParticleDirection.EAST, depth));
+        particleLines.add(new ParticleLine(this.calculateLocation(this.spawnLocation, border5), ParticleDirection.SOUTH, width));
+
+        this.particleLines = particleLines;
+        this.startPointLocation = calculateLocation(this.spawnLocation, startPoint);
+        this.endPointLocation = calculateLocation(this.spawnLocation, endPoint);
     }
 
     public void stopParticles() {
         Bukkit.getScheduler().cancelTask(this.particlesTaskID);
     }
 
-    private Location calculateLocation(Location location, RelativePosition relativePosition) {
+    public Location calculateLocation(Location location, RelativePosition relativePosition) {
         return new Location(location.getWorld(), (location.getX() + relativePosition.getRelativeX()), (location.getY() + relativePosition.getRelativeY()), (location.getZ()) + relativePosition.getRelativeZ());
+    }
+
+    public Location[] getModuleBorders() {
+        return new Location[]{this.calculateLocation(this.spawnLocation, this.border1), this.calculateLocation(this.spawnLocation, this.border2)};
     }
 
 }

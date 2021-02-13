@@ -1,22 +1,29 @@
 package com.voxcrafterlp.jumprace;
 
+import com.google.common.collect.Lists;
 import com.voxcrafterlp.jumprace.builderserver.commands.JumpRaceCommand;
+import com.voxcrafterlp.jumprace.builderserver.listener.editor.PlayerModifyBarrierListener;
+import com.voxcrafterlp.jumprace.builderserver.listener.editor.Protection;
 import com.voxcrafterlp.jumprace.builderserver.listener.setup.AsyncPlayerChatListener;
 import com.voxcrafterlp.jumprace.builderserver.listener.BuilderPlayerJoinListener;
 import com.voxcrafterlp.jumprace.builderserver.listener.setup.InventoryClickListener;
 import com.voxcrafterlp.jumprace.builderserver.listener.setup.InventoryCloseListener;
 import com.voxcrafterlp.jumprace.config.JumpRaceConfig;
 import com.voxcrafterlp.jumprace.modules.ModuleLoader;
+import com.voxcrafterlp.jumprace.modules.utils.ModuleEditor;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.WorldType;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * This file was created by VoxCrafter_LP!
@@ -32,6 +39,7 @@ public class JumpRace extends JavaPlugin {
 
     private JumpRaceConfig jumpRaceConfig;
     private ModuleLoader moduleLoader;
+    private HashMap<Player, ModuleEditor> editorSessions = new HashMap<>();
 
     @Override
     public void onEnable() {
@@ -60,6 +68,9 @@ public class JumpRace extends JavaPlugin {
         pluginManager.registerEvents(new AsyncPlayerChatListener(), this);
         pluginManager.registerEvents(new InventoryClickListener(), this);
         pluginManager.registerEvents(new InventoryCloseListener(), this);
+
+        pluginManager.registerEvents(new Protection(), this);
+        pluginManager.registerEvents(new PlayerModifyBarrierListener(), this);
 
         if(Bukkit.getWorld("jumprace") == null) {
             Bukkit.getConsoleSender().sendMessage("§aGenerating JumpRace world...");

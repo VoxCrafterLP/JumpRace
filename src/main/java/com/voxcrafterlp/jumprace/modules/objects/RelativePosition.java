@@ -1,6 +1,7 @@
 package com.voxcrafterlp.jumprace.modules.objects;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.json.JSONObject;
 
 /**
@@ -13,9 +14,9 @@ import org.json.JSONObject;
 @Getter
 public class RelativePosition {
 
-    private final int relativeX;
-    private final int relativeY;
-    private final int relativeZ;
+    private int relativeX;
+    private int relativeY;
+    private int relativeZ;
 
     public RelativePosition(int relativeX, int relativeY, int relativeZ) {
         this.relativeX = relativeX;
@@ -29,4 +30,46 @@ public class RelativePosition {
         this.relativeZ = jsonObject.getInt("relativeZ");
     }
 
+    public RelativePosition(RelativePosition relativePosition) {
+        this.relativeX = relativePosition.getRelativeX();
+        this.relativeY = relativePosition.getRelativeY();
+        this.relativeZ = relativePosition.getRelativeZ();
+    }
+
+    public RelativePosition addRelativeX() {
+        this.relativeX++;
+        return this;
+    }
+
+    public RelativePosition addRelativeY() {
+        this.relativeY++;
+        return this;
+    }
+
+    public RelativePosition addRelativeZ() {
+        this.relativeZ++;
+        return this;
+    }
+
+    public RelativePosition subtractRelativeX() {
+        this.relativeX--;
+        return this;
+    }
+
+    public RelativePosition subtractRelativeY() {
+        this.relativeY--;
+        return this;
+    }
+
+    public RelativePosition subtractRelativeZ() {
+        this.relativeZ--;
+        return this;
+    }
+
+    public RelativePosition getForParticles() {
+        this.relativeX++;
+        this.relativeY++;
+        this.relativeZ++;
+        return this;
+    }
 }

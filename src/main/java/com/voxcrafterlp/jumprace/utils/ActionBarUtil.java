@@ -14,10 +14,9 @@ import org.bukkit.entity.Player;
 
 public class ActionBarUtil {
 
-    public static void sendActionbar (Player player, String text){
+    public void sendActionbar(Player player, String text) {
         IChatBaseComponent iChatBaseComponent = IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + text + "\"}");
         PacketPlayOutChat packetPlayOutChat = new PacketPlayOutChat(iChatBaseComponent, (byte) 2);
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packetPlayOutChat);
     }
-
 }

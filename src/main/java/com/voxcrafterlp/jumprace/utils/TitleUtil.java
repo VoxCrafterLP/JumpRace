@@ -14,13 +14,13 @@ import org.bukkit.entity.Player;
 
 public class TitleUtil {
 
-    public static void sendTitle (Player player, String title, int fadeIn, int stay, int fadeOut){
+    public void sendTitle (Player player, String title, int fadeIn, int stay, int fadeOut) {
         PacketPlayOutTitle packetPlayOutTitle = new PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction.TITLE,
                 IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + title + "\"}"), fadeIn, stay, fadeOut);
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packetPlayOutTitle);
     }
 
-    public static void sendSubTitle (Player player, String title, int fadeIn, int stay, int fadeOut){
+    public void sendSubTitle (Player player, String title, int fadeIn, int stay, int fadeOut) {
         PacketPlayOutTitle packetPlayOutTitle = new PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction.TITLE,
                 IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + title + "\"}"), fadeIn, stay, fadeOut);
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packetPlayOutTitle);
