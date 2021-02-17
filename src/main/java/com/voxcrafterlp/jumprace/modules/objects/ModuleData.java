@@ -20,4 +20,14 @@ public class ModuleData {
     private byte[] blocks;
     private byte[] data;
 
+    public ModuleData(short width, short height, short length, byte[] blocks, byte[] data) {
+        this.width = width;
+        this.height = height;
+        this.length = length;
+        this.blocks = blocks;
+        this.data = data;
+    }
+
+    public ModuleData() {}
+
 }

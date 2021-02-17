@@ -50,8 +50,9 @@ public class ModuleEditor {
     public void exitEditor() {
         this.resetToPreviousInventory();
         Bukkit.getScheduler().cancelTask(this.actionbarTaskID);
-
         JumpRace.getInstance().getEditorSessions().remove(this.player);
+
+
     }
 
     /**

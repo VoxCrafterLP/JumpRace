@@ -14,7 +14,14 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.lang.reflect.Array;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This file was created by VoxCrafter_LP!
@@ -140,8 +147,33 @@ public class Module {
         return new Location[]{this.calculateLocation(this.spawnLocation, this.border1), this.calculateLocation(this.spawnLocation, this.border2)};
     }
 
-    public void save() {
-        
+    public void saveModule() {
+
+    }
+
+    private void saveSchematic() {
+        final Location[] moduleBorders = this.getModuleBorders();
+
+        final int width = moduleBorders[1].getBlockX() - moduleBorders[0].getBlockX();
+        final int height = moduleBorders[1].getBlockY() - moduleBorders[0].getBlockY();
+        final int length = moduleBorders[1].getBlockZ() - moduleBorders[0].getBlockZ();
+
+        final Array blocks = (Array) Array.newInstance(Byte.class);
+        final Array data = (Array) Array.newInstance(Byte.class);
+
+        for(int x = moduleBorders[0].getBlockX(); x<moduleBorders[1].getBlockX(); x++) {
+            for(int y = moduleBorders[0].getBlockY(); y<moduleBorders[1].getBlockY(); y++) {
+                for(int z = moduleBorders[0].getBlockZ(); z<moduleBorders[1].getBlockZ(); z++) {
+                    int index = x + (y * length + z) * width;
+                    final Block block = spawnLocation.getWorld().getBlockAt(new Location(spawnLocation.getWorld(), x, y, z));
+                    Array.setByte(blocks, index, (byte) block.getTypeId());
+                    Array.setByte(data, index, block.getData());
+                }
+            }
+        }
+
+        //TODO nbt
+
     }
 
 }
