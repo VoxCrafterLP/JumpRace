@@ -140,4 +140,8 @@ public class Module {
         return new Location[]{this.calculateLocation(this.spawnLocation, this.border1), this.calculateLocation(this.spawnLocation, this.border2)};
     }
 
+    public void save() {
+        
+    }
+
 }

@@ -98,18 +98,95 @@ public class ModuleEditor {
         if(interactAction == InteractionType.PLACE) {
             if(moduleBorders[1].getBlockX() < location.getBlockX())
                 this.module.getBorder2().addRelativeX();
+
+            if(moduleBorders[0].getBlockZ() > location.getBlockZ())
+                this.module.getBorder1().subtractRelativeZ();
+            if(moduleBorders[1].getBlockZ() < location.getBlockZ())
+                this.module.getBorder2().addRelativeZ();
+
+            if(moduleBorders[0].getBlockY() > location.getBlockY())
+                this.module.getBorder1().subtractRelativeY();
+            if(moduleBorders[1].getBlockY() < location.getBlockY())
+                this.module.getBorder2().addRelativeY();
         } else {
-            boolean containsBlock = false;
-            while (!containsBlock) {
-                moduleBorders = this.module.getModuleBorders();
-                for(int y = moduleBorders[0].getBlockY(); y<(moduleBorders[1].getBlockY()+ 1); y++) {
-                    for(int z = moduleBorders[0].getBlockZ(); z<(moduleBorders[1].getBlockZ()+ 1); z++) {
-                        if(location.getWorld().getBlockAt(moduleBorders[1].getBlockX(), y, z).getType() != Material.AIR) {
-                            containsBlock = true;
-                            this.module.getBorder2().subtractRelativeX();
-                            break;
+            {
+                boolean containsBlock = false;
+                while (!containsBlock) {
+                    moduleBorders = this.module.getModuleBorders();
+                    for(int y = moduleBorders[0].getBlockY(); y<(moduleBorders[1].getBlockY() + 1); y++) {
+                        for(int z = moduleBorders[0].getBlockZ(); z<(moduleBorders[1].getBlockZ() + 1); z++) {
+                            if(location.getWorld().getBlockAt(moduleBorders[1].getBlockX(), y, z).getType() != Material.AIR) {
+                                containsBlock = true;
+                                break;
+                            }
                         }
                     }
+                    if(!containsBlock)
+                        this.module.getBorder2().subtractRelativeX();
+                }
+            }
+            {
+                boolean containsBlock = false;
+                while (!containsBlock) {
+                    moduleBorders = this.module.getModuleBorders();
+                    for(int y = moduleBorders[0].getBlockY(); y<(moduleBorders[1].getBlockY() + 1); y++) {
+                        for(int x = moduleBorders[0].getBlockX(); x<(moduleBorders[1].getBlockX() + 1); x++) {
+                            if(location.getWorld().getBlockAt(x, y, moduleBorders[1].getBlockZ()).getType() != Material.AIR) {
+                                containsBlock = true;
+                                break;
+                            }
+                        }
+                    }
+                    if(!containsBlock)
+                        this.module.getBorder2().subtractRelativeZ();
+                }
+            }
+            {
+                boolean containsBlock = false;
+                while (!containsBlock) {
+                    moduleBorders = this.module.getModuleBorders();
+                    for (int y = moduleBorders[0].getBlockY(); y < (moduleBorders[1].getBlockY() + 1); y++) {
+                        for (int x = moduleBorders[0].getBlockX(); x < (moduleBorders[1].getBlockX() + 1); x++) {
+                            if (location.getWorld().getBlockAt(x, y, moduleBorders[0].getBlockZ()).getType() != Material.AIR) {
+                                containsBlock = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (!containsBlock)
+                        this.module.getBorder1().addRelativeZ();
+                }
+            }
+            {
+                boolean containsBlock = false;
+                while (!containsBlock) {
+                    moduleBorders = this.module.getModuleBorders();
+                    for(int x = moduleBorders[0].getBlockX(); x<(moduleBorders[1].getBlockX() + 1); x++) {
+                        for(int z = moduleBorders[0].getBlockZ(); z<(moduleBorders[1].getBlockZ() + 1); z++) {
+                            if(location.getWorld().getBlockAt(x, moduleBorders[1].getBlockY(), z).getType() != Material.AIR) {
+                                containsBlock = true;
+                                break;
+                            }
+                        }
+                    }
+                    if(!containsBlock)
+                        this.module.getBorder2().subtractRelativeY();
+                }
+            }
+            {
+                boolean containsBlock = false;
+                while (!containsBlock) {
+                    moduleBorders = this.module.getModuleBorders();
+                    for(int x = moduleBorders[0].getBlockX(); x<(moduleBorders[1].getBlockX() + 1); x++) {
+                        for(int z = moduleBorders[0].getBlockZ(); z<(moduleBorders[1].getBlockZ() + 1); z++) {
+                            if(location.getWorld().getBlockAt(x, moduleBorders[0].getBlockY(), z).getType() != Material.AIR) {
+                                containsBlock = true;
+                                break;
+                            }
+                        }
+                    }
+                    if(!containsBlock)
+                        this.module.getBorder1().addRelativeY();
                 }
             }
         }

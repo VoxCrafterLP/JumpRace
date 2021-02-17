@@ -26,8 +26,7 @@ public class PlayerModifyBarrierListener implements Listener {
             final Location[] moduleBorders = session.getModule().getModuleBorders();
 
             if(!isInRegion(event.getBlock().getLocation(), moduleBorders[0], moduleBorders[1])) {
-                if(event.getBlock().getLocation().getBlockX() < session.getModule().calculateLocation(session.getModule().getSpawnLocation(), session.getModule().getStartPoint()).getBlockX() ||
-                        (event.getBlock().getLocation().getBlockZ() < session.getModule().calculateLocation(session.getModule().getSpawnLocation(), session.getModule().getStartPoint()).getBlockZ())) {
+                if(event.getBlock().getLocation().getBlockX() < session.getModule().calculateLocation(session.getModule().getSpawnLocation(), session.getModule().getStartPoint()).getBlockX()) {
                     event.setCancelled(true);
                     event.getPlayer().sendMessage(JumpRace.getInstance().getPrefix() + "§7You can't build §chere§8!");
                     return;
@@ -44,7 +43,15 @@ public class PlayerModifyBarrierListener implements Listener {
             final Location[] moduleBorders = session.getModule().getModuleBorders();
 
             if(isInRegion(event.getBlock().getLocation(), moduleBorders[0], moduleBorders[1])) {
-                session.updateBorders(moduleBorders, event.getBlock().getLocation(), InteractionType.BREAK);
+                if(event.getBlock().getLocation().equals(session.getModule().getStartPointLocation())) {
+                    event.setCancelled(true);
+                    event.getPlayer().sendMessage(JumpRace.getInstance().getPrefix() + "§7You can't §cbreak §7the spawn block§7!");
+                    return;
+                }
+
+                Bukkit.getScheduler().scheduleSyncDelayedTask(JumpRace.getInstance(), () -> {
+                    session.updateBorders(moduleBorders, event.getBlock().getLocation(), InteractionType.BREAK);
+                }, 1);
             }
         }
     }
