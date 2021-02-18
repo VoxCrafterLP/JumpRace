@@ -1,13 +1,13 @@
 package com.voxcrafterlp.jumprace;
 
-import com.google.common.collect.Lists;
 import com.voxcrafterlp.jumprace.builderserver.commands.JumpRaceCommand;
+import com.voxcrafterlp.jumprace.builderserver.listener.PlayerInteractListener;
 import com.voxcrafterlp.jumprace.builderserver.listener.editor.PlayerModifyBarrierListener;
 import com.voxcrafterlp.jumprace.builderserver.listener.editor.Protection;
-import com.voxcrafterlp.jumprace.builderserver.listener.setup.AsyncPlayerChatListener;
+import com.voxcrafterlp.jumprace.builderserver.listener.AsyncPlayerChatListener;
 import com.voxcrafterlp.jumprace.builderserver.listener.BuilderPlayerJoinListener;
-import com.voxcrafterlp.jumprace.builderserver.listener.setup.InventoryClickListener;
-import com.voxcrafterlp.jumprace.builderserver.listener.setup.InventoryCloseListener;
+import com.voxcrafterlp.jumprace.builderserver.listener.InventoryClickListener;
+import com.voxcrafterlp.jumprace.builderserver.listener.InventoryCloseListener;
 import com.voxcrafterlp.jumprace.config.JumpRaceConfig;
 import com.voxcrafterlp.jumprace.modules.ModuleLoader;
 import com.voxcrafterlp.jumprace.modules.utils.ModuleEditor;
@@ -23,7 +23,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * This file was created by VoxCrafter_LP!
@@ -71,6 +70,7 @@ public class JumpRace extends JavaPlugin {
 
         pluginManager.registerEvents(new Protection(), this);
         pluginManager.registerEvents(new PlayerModifyBarrierListener(), this);
+        pluginManager.registerEvents(new PlayerInteractListener(), this);
 
         if(Bukkit.getWorld("jumprace") == null) {
             Bukkit.getConsoleSender().sendMessage("§aGenerating JumpRace world...");

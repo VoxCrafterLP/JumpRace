@@ -4,6 +4,7 @@ import com.voxcrafterlp.jumprace.JumpRace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
@@ -38,6 +39,19 @@ public class Protection implements Listener {
             if(drop.getItemMeta() == null) return;
             if(drop.getItemMeta().getDisplayName() == null) return;
             if(drop.getItemMeta().getDisplayName().equals("§cSettings"))
+                event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onPlace(BlockPlaceEvent event) {
+        if(JumpRace.getInstance().getEditorSessions().containsKey((Player) event.getPlayer())) {
+            if(event.getItemInHand() == null) return;
+            final ItemStack item = event.getItemInHand();
+
+            if(item.getItemMeta() == null) return;
+            if(item.getItemMeta().getDisplayName() == null) return;
+            if(item.getItemMeta().getDisplayName().equals("§cSettings"))
                 event.setCancelled(true);
         }
     }

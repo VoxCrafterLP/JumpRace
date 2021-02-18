@@ -1,6 +1,7 @@
 package com.voxcrafterlp.jumprace.modules.utils;
 
 import com.voxcrafterlp.jumprace.JumpRace;
+import com.voxcrafterlp.jumprace.modules.enums.EditorMode;
 import com.voxcrafterlp.jumprace.modules.enums.InteractionType;
 import com.voxcrafterlp.jumprace.modules.objects.Module;
 import com.voxcrafterlp.jumprace.utils.ActionBarUtil;
@@ -28,10 +29,12 @@ public class ModuleEditor {
     private Inventory playerInventory;
 
     private int actionbarTaskID;
+    private ModuleEditorSettings settings;
 
     public ModuleEditor(Player player, Module module) {
         this.player = player;
         this.module = module;
+        this.settings = new ModuleEditorSettings(this);
 
         JumpRace.getInstance().getEditorSessions().put(this.player, this);
     }
@@ -96,6 +99,8 @@ public class ModuleEditor {
     }
 
     public void updateBorders(Location[] moduleBorders, Location location, InteractionType interactAction) {
+        if(this.settings.getEditorMode() == EditorMode.PERFORMANCE) return;
+
         if(interactAction == InteractionType.PLACE) {
             if(moduleBorders[1].getBlockX() < location.getBlockX())
                 this.module.getBorder2().addRelativeX();

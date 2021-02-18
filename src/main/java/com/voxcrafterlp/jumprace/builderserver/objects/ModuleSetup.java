@@ -80,6 +80,7 @@ public class ModuleSetup {
      */
     private Module finish() {
         activeSetups.remove(this.player);
+        this.player.playSound(player.getLocation(), Sound.LEVEL_UP, 1,1);
         return new Module(this.name, this.builder, this.moduleDifficulty, null, null, null, true);
     }
 

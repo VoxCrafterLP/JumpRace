@@ -6,22 +6,13 @@ import com.voxcrafterlp.jumprace.modules.enums.ModuleDifficulty;
 import com.voxcrafterlp.jumprace.modules.enums.ParticleDirection;
 import lombok.Getter;
 import lombok.Setter;
-import net.minecraft.server.v1_8_R3.EnumParticle;
-import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.lang.reflect.Array;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * This file was created by VoxCrafter_LP!
@@ -148,6 +139,11 @@ public class Module {
     }
 
     public void saveModule() {
+        this.saveProperties();
+        this.saveSchematic();
+    }
+
+    private void saveProperties() {
 
     }
 

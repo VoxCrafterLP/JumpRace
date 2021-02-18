@@ -1,4 +1,4 @@
-package com.voxcrafterlp.jumprace.builderserver.listener.setup;
+package com.voxcrafterlp.jumprace.builderserver.listener;
 
 import com.voxcrafterlp.jumprace.JumpRace;
 import com.voxcrafterlp.jumprace.builderserver.objects.ModuleSetup;
@@ -28,6 +28,11 @@ public class InventoryCloseListener implements Listener {
                 player.playSound(player.getLocation(), Sound.NOTE_BASS,2,2);
             },2);
         }
-    }
 
+        if(event.getInventory().getName() == null) return;
+
+        if(event.getInventory().getName().equals("§cSettings")) {
+            player.playSound(player.getLocation(), Sound.CHEST_CLOSE, 1, 1);
+        }
+    }
 }

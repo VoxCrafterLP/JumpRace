@@ -1,4 +1,4 @@
-package com.voxcrafterlp.jumprace.builderserver.listener.setup;
+package com.voxcrafterlp.jumprace.builderserver.listener;
 
 import com.voxcrafterlp.jumprace.JumpRace;
 import com.voxcrafterlp.jumprace.builderserver.objects.ModuleSetup;
