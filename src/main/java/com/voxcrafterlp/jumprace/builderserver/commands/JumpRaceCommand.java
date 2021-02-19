@@ -26,38 +26,72 @@ public class JumpRaceCommand implements CommandExecutor {
 
         Player player = (Player) commandSender;
 
-        if(args.length == 2) {
-            if(args[0].equalsIgnoreCase("edit")) {
-                final String moduleName = args[1];
-                boolean found = false;
-                Module module = null;
+        switch (args.length) {
+            case 1:
+                switch (args[0].toLowerCase()) {
+                    case "newmodule":
+                        new ModuleSetup(player);
+                        break;
+                    case "list":
 
-                for(Module modules : JumpRace.getInstance().getModuleLoader().getModuleList()) {
-                    if(modules.getName().equalsIgnoreCase(moduleName)) {
-                        found = true;
-                        module = modules;
-                    }
+                        break;
+                    default:
+                        this.listCommands(player);
+                        break;
                 }
+                break;
 
-                if(!found) {
-                    player.sendMessage(JumpRace.getInstance().getPrefix() + "§cInvalid module!");
-                    return false;
+            case 2:
+                switch (args[0].toLowerCase()) {
+                    case "edit":
+                        final String moduleName = args[1];
+                        boolean found = false;
+                        Module module = null;
+
+                        for(Module modules : JumpRace.getInstance().getModuleLoader().getModuleList()) {
+                            if(modules.getName().equalsIgnoreCase(moduleName)) {
+                                found = true;
+                                module = modules;
+                            }
+                        }
+
+                        if(!found) {
+                            player.sendMessage(JumpRace.getInstance().getPrefix() + "§cInvalid module!");
+                            return false;
+                        }
+
+                        if(JumpRace.getInstance().getEditorSessions().containsKey(player)) {
+                            player.sendMessage(JumpRace.getInstance().getPrefix() + "§7You are §calready editing §7a module§8.");
+                            return false;
+                        }
+
+                        if(!player.getWorld().getName().equalsIgnoreCase("jumprace")) {
+                            player.sendMessage(JumpRace.getInstance().getPrefix() + "§aTeleporting to JumpRace world...");
+                            player.teleport(new Location(Bukkit.getWorld("jumprace"), 0, 100, 0));
+                        }
+
+                        new ModuleEditor(player, module).startEditor();
+                        break;
+                    default:
+                        this.listCommands(player);
+                        break;
                 }
+                break;
 
-                if(!player.getWorld().getName().equalsIgnoreCase("jumprace")) {
-                    player.sendMessage(JumpRace.getInstance().getPrefix() + "§aTeleporting to JumpRace world...");
-                    player.teleport(new Location(Bukkit.getWorld("jumprace"), 0, 100, 0));
-                }
-
-                new ModuleEditor(player, module).startEditor();
-            }
+            default:
+                this.listCommands(player);
+                break;
         }
-        if(args.length == 1) {
-            if(args[0].equalsIgnoreCase("newmodule")) {
-                new ModuleSetup(player);
-            }
-        }
-
         return false;
     }
+
+    private void listCommands(Player player) {
+        player.sendMessage("§8===================================");
+        player.sendMessage(JumpRace.getInstance().getPrefix() + "§b/jumprace§8: §7Shows this window");
+        player.sendMessage(JumpRace.getInstance().getPrefix() + "§b/jumprace newmodule§8: §7Create a new module");
+        player.sendMessage(JumpRace.getInstance().getPrefix() + "§b/jumprace list§8: §7Shows a list of all modules");
+        player.sendMessage(JumpRace.getInstance().getPrefix() + "§b/jumprace edit <module>§8: §7Edit a module");
+        player.sendMessage("§8===================================");
+    }
+
 }

@@ -6,6 +6,7 @@ import com.voxcrafterlp.jumprace.modules.enums.InteractionType;
 import com.voxcrafterlp.jumprace.modules.objects.Module;
 import com.voxcrafterlp.jumprace.utils.ActionBarUtil;
 import com.voxcrafterlp.jumprace.utils.ItemManager;
+import com.voxcrafterlp.jumprace.utils.TitleUtil;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -58,10 +59,12 @@ public class ModuleEditor {
 
         this.resetToPreviousInventory();
         Bukkit.getScheduler().cancelTask(this.actionbarTaskID);
+        this.module.stopParticles();
         this.module.saveModule();
 
         JumpRace.getInstance().getEditorSessions().remove(this.player);
         player.sendMessage(JumpRace.getInstance().getPrefix() + "§7The module was saved §asuccessfully§8.");
+        new TitleUtil().sendFullTitle(player, "§7Module", "§asaved", 10, 40, 10);
     }
 
     /**
