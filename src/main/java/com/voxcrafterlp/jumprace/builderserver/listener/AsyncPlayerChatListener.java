@@ -32,6 +32,10 @@ public class AsyncPlayerChatListener implements Listener {
                     player.sendMessage(JumpRace.getInstance().getPrefix() + "§cThe name is too long!");
                     return;
                 }
+                if(input[0].equalsIgnoreCase("default")) {
+                    player.sendMessage(JumpRace.getInstance().getPrefix() + "§cInvalid name");
+                    return;
+                }
 
                 player.sendMessage(JumpRace.getInstance().getPrefix() + "§7Module name has been set to: §a" + input[0]);
 

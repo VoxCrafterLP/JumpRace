@@ -61,6 +61,7 @@ public class ModuleEditor {
         Bukkit.getScheduler().cancelTask(this.actionbarTaskID);
         this.module.stopParticles();
         this.module.saveModule();
+        this.clearArea(this.module.getModuleBorders());
 
         JumpRace.getInstance().getEditorSessions().remove(this.player);
         player.sendMessage(JumpRace.getInstance().getPrefix() + "§7The module was saved §asuccessfully§8.");
@@ -205,8 +206,17 @@ public class ModuleEditor {
                 }
             }
         }
-
         this.module.recalculateParticles();
     }
 
+
+    private void clearArea(Location[] borders) {
+        for (int x = borders[0].getBlockX(); x < (borders[1].getBlockX() + 1); x++) {
+            for (int y = borders[0].getBlockY(); y < (borders[1].getBlockY() + 1); y++) {
+                for (int z = borders[0].getBlockZ(); z < (borders[1].getBlockZ() + 1); z++) {
+                    borders[0].getWorld().getBlockAt(new Location(borders[0].getWorld(), x, y, z)).setType(Material.AIR);
+                }
+            }
+        }
+    }
 }

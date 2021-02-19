@@ -175,7 +175,7 @@ public class Module {
 
     private void saveSchematic() throws IOException {
         final Location[] moduleBorders = this.getModuleBorders();
-        moduleBorders[1] = moduleBorders[1].add(1.0, 1.0, 1.0);
+        moduleBorders[1] = moduleBorders[1].clone().add(1.0, 1.0, 1.0);
 
         final int width = moduleBorders[1].getBlockX() - moduleBorders[0].getBlockX();
         final int height = moduleBorders[1].getBlockY() - moduleBorders[0].getBlockY();

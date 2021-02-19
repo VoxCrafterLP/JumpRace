@@ -11,6 +11,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.List;
+
 /**
  * This file was created by VoxCrafter_LP!
  * Date: 21.12.2020
@@ -33,7 +35,15 @@ public class JumpRaceCommand implements CommandExecutor {
                         new ModuleSetup(player);
                         break;
                     case "list":
+                        final List<Module> modules = JumpRace.getInstance().getModuleLoader().getModuleList();
 
+                        if(modules.isEmpty()) {
+                            player.sendMessage(JumpRace.getInstance().getPrefix() + "§7§cNo modules §7could be found§8!");
+                            return false;
+                        }
+
+                        player.sendMessage(JumpRace.getInstance().getPrefix() + "§7The following modules are §bloaded§8:");
+                        modules.forEach(module -> player.sendMessage(JumpRace.getInstance().getPrefix() + "§8- §b" + module.getName()));
                         break;
                     default:
                         this.listCommands(player);

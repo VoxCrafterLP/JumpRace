@@ -107,6 +107,11 @@ public class InventoryClickListener implements Listener {
 
                 new AnvilGUI.Builder()
                         .onComplete((user, input) -> {
+                            if(input.equalsIgnoreCase("default")) {
+                                player.sendMessage(JumpRace.getInstance().getPrefix() + "§cInvalid name");
+                                return AnvilGUI.Response.text("");
+                            }
+
                             session.getModule().setName(input);
                             user.sendMessage(JumpRace.getInstance().getPrefix() + "§7You changed the name to§8: §a" + input + "§8.");
                             user.playSound(player.getLocation(), Sound.LEVEL_UP,1,1);
