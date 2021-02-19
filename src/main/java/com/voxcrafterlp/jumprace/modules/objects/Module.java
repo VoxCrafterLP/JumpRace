@@ -6,13 +6,20 @@ import com.voxcrafterlp.jumprace.modules.enums.ModuleDifficulty;
 import com.voxcrafterlp.jumprace.modules.enums.ParticleDirection;
 import lombok.Getter;
 import lombok.Setter;
+import net.minecraft.server.v1_8_R3.NBTCompressedStreamTools;
+import net.minecraft.server.v1_8_R3.NBTTagCompound;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.json.JSONObject;
 
-import java.lang.reflect.Array;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
+import java.util.TreeMap;
 
 /**
  * This file was created by VoxCrafter_LP!
@@ -79,8 +86,10 @@ public class Module {
         location.getWorld().getBlockAt(this.startPointLocation).setType(Material.GOLD_BLOCK);
         location.getWorld().getBlockAt(this.endPointLocation).setType(isLastModule ? Material.EMERALD_BLOCK : Material.GOLD_BLOCK);
 
-        this.recalculateParticles();
-        this.spawnParticles();
+        if(JumpRace.getInstance().getJumpRaceConfig().isBuilderServer()) {
+            this.recalculateParticles();
+            this.spawnParticles();
+        }
     }
 
     public void spawnParticles() {
@@ -139,37 +148,78 @@ public class Module {
     }
 
     public void saveModule() {
-        this.saveProperties();
-        this.saveSchematic();
+        new File("plugins/JumpRace/modules/" + this.name).mkdir();
+
+        try {
+            this.saveProperties();
+            this.saveSchematic();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void saveProperties() {
+    private void saveProperties() throws IOException {
+        final File propertiesFile = new File("plugins/JumpRace/modules/" + this.name + "/module.json");
+        final JSONObject properties = new JSONObject();
 
+        properties.put("name", this.name).put("builder", this.builder).put("difficulty", this.moduleDifficulty.getConfigName());
+        properties.put("startpoint", this.startPoint.toJSONObject()).put("endpoint", this.endPoint.toJSONObject());
+
+        if(!propertiesFile.exists())
+            propertiesFile.createNewFile();
+
+        FileWriter myWriter = new FileWriter("plugins/JumpRace/modules/" + this.name + "/module.json");
+        myWriter.write(properties.toString());
+        myWriter.close();
     }
 
-    private void saveSchematic() {
+    private void saveSchematic() throws IOException {
         final Location[] moduleBorders = this.getModuleBorders();
+        moduleBorders[1] = moduleBorders[1].add(1.0, 1.0, 1.0);
 
         final int width = moduleBorders[1].getBlockX() - moduleBorders[0].getBlockX();
         final int height = moduleBorders[1].getBlockY() - moduleBorders[0].getBlockY();
         final int length = moduleBorders[1].getBlockZ() - moduleBorders[0].getBlockZ();
 
-        final Array blocks = (Array) Array.newInstance(Byte.class);
-        final Array data = (Array) Array.newInstance(Byte.class);
+        final TreeMap<Integer, Byte> blockMap = new TreeMap<>();
+        final TreeMap<Integer, Byte> dataMap = new TreeMap<>();
 
         for(int x = moduleBorders[0].getBlockX(); x<moduleBorders[1].getBlockX(); x++) {
             for(int y = moduleBorders[0].getBlockY(); y<moduleBorders[1].getBlockY(); y++) {
                 for(int z = moduleBorders[0].getBlockZ(); z<moduleBorders[1].getBlockZ(); z++) {
                     int index = x + (y * length + z) * width;
                     final Block block = spawnLocation.getWorld().getBlockAt(new Location(spawnLocation.getWorld(), x, y, z));
-                    Array.setByte(blocks, index, (byte) block.getTypeId());
-                    Array.setByte(data, index, block.getData());
+                    blockMap.put(index, (byte) block.getTypeId());
+                    dataMap.put(index, block.getData());
                 }
             }
         }
 
-        //TODO nbt
+        byte[] blocks = this.convertMapToByteArray(blockMap);
+        byte[] data = this.convertMapToByteArray(dataMap);
 
+        final File schematicFile = new File("plugins/JumpRace/modules/" + this.name + "/module.schematic");
+
+        NBTTagCompound nbt = new NBTTagCompound();
+        nbt.setInt("Width", width);
+        nbt.setInt("Height", height);
+        nbt.setInt("Length", length);
+        nbt.setString("Materials", "Alpha");
+        nbt.setByteArray("Blocks", blocks);
+        nbt.setByteArray("Data", data);
+
+        NBTCompressedStreamTools.a(nbt, new FileOutputStream(schematicFile));
+    }
+
+    private byte[] convertMapToByteArray(TreeMap<Integer, Byte> map) {
+        Byte[] array =  map.values().toArray(new Byte[0]);
+        byte[] bytes = new byte[array.length];
+
+        int i = 0;
+        for(Byte b: array)
+            bytes[i++] = b;
+
+        return bytes;
     }
 
 }

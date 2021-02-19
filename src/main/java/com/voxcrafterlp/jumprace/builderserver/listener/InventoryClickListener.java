@@ -133,6 +133,13 @@ public class InventoryClickListener implements Listener {
                 player.sendMessage(JumpRace.getInstance().getPrefix() + "§7Please choose the new §bdifficulty §7of the §bmodule§7.");
                 player.openInventory(inventory);
                 player.playSound(player.getLocation(), Sound.WOOD_CLICK, 2, 2);
+                return;
+            }
+            if(event.getCurrentItem().getType() == Material.SKULL_ITEM) {
+                final ModuleEditor session = JumpRace.getInstance().getEditorSessions().get(player);
+                player.closeInventory();
+                player.playSound(player.getLocation(), Sound.LEVEL_UP,1,1);
+                session.exitEditor();
             }
         }
 

@@ -51,11 +51,17 @@ public class ModuleEditor {
     }
 
     public void exitEditor() {
+        if(this.settings.getEditorMode() == EditorMode.PERFORMANCE) {
+            //TODO performance editor
+            return;
+        }
+
         this.resetToPreviousInventory();
         Bukkit.getScheduler().cancelTask(this.actionbarTaskID);
+        this.module.saveModule();
+
         JumpRace.getInstance().getEditorSessions().remove(this.player);
-
-
+        player.sendMessage(JumpRace.getInstance().getPrefix() + "§7The module was saved §asuccessfully§8.");
     }
 
     /**

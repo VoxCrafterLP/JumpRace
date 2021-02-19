@@ -36,6 +36,10 @@ public class RelativePosition {
         this.relativeZ = relativePosition.getRelativeZ();
     }
 
+    public JSONObject toJSONObject() {
+        return new JSONObject().put("relativeX", this.relativeX).put("relativeY", this.relativeY).put("relativeZ", this.relativeZ);
+    }
+
     public RelativePosition addRelativeX() {
         this.relativeX++;
         return this;

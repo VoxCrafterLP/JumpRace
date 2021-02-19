@@ -3,6 +3,7 @@ package com.voxcrafterlp.jumprace.builderserver.commands;
 import com.voxcrafterlp.jumprace.JumpRace;
 import com.voxcrafterlp.jumprace.builderserver.objects.ModuleSetup;
 import com.voxcrafterlp.jumprace.modules.objects.Module;
+import com.voxcrafterlp.jumprace.modules.utils.ModuleEditor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -48,8 +49,7 @@ public class JumpRaceCommand implements CommandExecutor {
                     player.teleport(new Location(Bukkit.getWorld("jumprace"), 0, 100, 0));
                 }
 
-                module.build(new Location(Bukkit.getWorld("jumprace"), 0, 100, 0), true); // Visualizes the endpoint in the editor
-                module.spawnParticles();
+                new ModuleEditor(player, module).startEditor();
             }
         }
         if(args.length == 1) {
