@@ -9,7 +9,7 @@ import com.voxcrafterlp.jumprace.builderserver.listener.BuilderPlayerJoinListene
 import com.voxcrafterlp.jumprace.builderserver.listener.InventoryClickListener;
 import com.voxcrafterlp.jumprace.builderserver.listener.InventoryCloseListener;
 import com.voxcrafterlp.jumprace.config.JumpRaceConfig;
-import com.voxcrafterlp.jumprace.modules.ModuleLoader;
+import com.voxcrafterlp.jumprace.modules.utils.ModuleLoader;
 import com.voxcrafterlp.jumprace.modules.utils.ModuleEditor;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -80,6 +80,8 @@ public class JumpRace extends JavaPlugin {
             worldCreator.generatorSettings("0");
             worldCreator.generateStructures(false);
             worldCreator.createWorld();
+
+            Bukkit.getWorld("jumprace").setGameRuleValue("doDaylightCycle", "false");
         }
 
         loadModules();

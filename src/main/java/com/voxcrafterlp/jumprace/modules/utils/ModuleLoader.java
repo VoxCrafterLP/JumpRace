@@ -1,4 +1,4 @@
-package com.voxcrafterlp.jumprace.modules;
+package com.voxcrafterlp.jumprace.modules.utils;
 
 import com.google.common.collect.Lists;
 import com.voxcrafterlp.jumprace.modules.enums.ModuleDifficulty;

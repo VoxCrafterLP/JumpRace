@@ -1,10 +1,14 @@
 package com.voxcrafterlp.jumprace.builderserver.listener.editor;
 
 import com.voxcrafterlp.jumprace.JumpRace;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
@@ -54,6 +58,20 @@ public class Protection implements Listener {
             if(item.getItemMeta().getDisplayName().equals("§cSettings"))
                 event.setCancelled(true);
         }
+    }
+
+    @EventHandler
+    public void onEntityExplode(EntityExplodeEvent event) {
+        event.blockList().forEach(block -> {
+            if(block.getType() == Material.GOLD_BLOCK) {
+                JumpRace.getInstance().getEditorSessions().forEach((player, session) -> {
+                    if(session.getModule().getSpawnLocation() != null) {
+                        if(session.getModule().getStartPointLocation().equals(block.getLocation()))
+                            Bukkit.getScheduler().scheduleSyncDelayedTask(JumpRace.getInstance(), () -> block.setType(Material.GOLD_BLOCK), 1);
+                    }
+                });
+            }
+        });
     }
 
 }
