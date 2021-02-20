@@ -1,13 +1,10 @@
 package com.voxcrafterlp.jumprace;
 
 import com.voxcrafterlp.jumprace.builderserver.commands.JumpRaceCommand;
-import com.voxcrafterlp.jumprace.builderserver.listener.PlayerInteractListener;
+import com.voxcrafterlp.jumprace.builderserver.listener.*;
+import com.voxcrafterlp.jumprace.builderserver.listener.editor.EditorSetupListener;
 import com.voxcrafterlp.jumprace.builderserver.listener.editor.PlayerModifyBarrierListener;
 import com.voxcrafterlp.jumprace.builderserver.listener.editor.Protection;
-import com.voxcrafterlp.jumprace.builderserver.listener.AsyncPlayerChatListener;
-import com.voxcrafterlp.jumprace.builderserver.listener.BuilderPlayerJoinListener;
-import com.voxcrafterlp.jumprace.builderserver.listener.InventoryClickListener;
-import com.voxcrafterlp.jumprace.builderserver.listener.InventoryCloseListener;
 import com.voxcrafterlp.jumprace.config.JumpRaceConfig;
 import com.voxcrafterlp.jumprace.modules.utils.ModuleLoader;
 import com.voxcrafterlp.jumprace.modules.utils.ModuleEditor;
@@ -19,7 +16,6 @@ import org.bukkit.WorldType;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -63,7 +59,8 @@ public class JumpRace extends JavaPlugin {
         getCommand("jr").setExecutor(new JumpRaceCommand());
 
         PluginManager pluginManager = Bukkit.getPluginManager();
-        pluginManager.registerEvents(new BuilderPlayerJoinListener(), this);
+        pluginManager.registerEvents(new PlayerJoinListener(), this);
+        pluginManager.registerEvents(new PlayerQuitListener(), this);
         pluginManager.registerEvents(new AsyncPlayerChatListener(), this);
         pluginManager.registerEvents(new InventoryClickListener(), this);
         pluginManager.registerEvents(new InventoryCloseListener(), this);
@@ -71,6 +68,7 @@ public class JumpRace extends JavaPlugin {
         pluginManager.registerEvents(new Protection(), this);
         pluginManager.registerEvents(new PlayerModifyBarrierListener(), this);
         pluginManager.registerEvents(new PlayerInteractListener(), this);
+        pluginManager.registerEvents(new EditorSetupListener(), this);
 
         if(Bukkit.getWorld("jumprace") == null) {
             Bukkit.getConsoleSender().sendMessage("§aGenerating JumpRace world...");

@@ -3,7 +3,9 @@ package com.voxcrafterlp.jumprace.modules.utils;
 import com.voxcrafterlp.jumprace.JumpRace;
 import com.voxcrafterlp.jumprace.modules.enums.EditorMode;
 import com.voxcrafterlp.jumprace.modules.enums.InteractionType;
+import com.voxcrafterlp.jumprace.modules.objects.EditorSetup;
 import com.voxcrafterlp.jumprace.modules.objects.Module;
+import com.voxcrafterlp.jumprace.modules.objects.RelativePosition;
 import com.voxcrafterlp.jumprace.utils.ActionBarUtil;
 import com.voxcrafterlp.jumprace.utils.ItemManager;
 import com.voxcrafterlp.jumprace.utils.TitleUtil;
@@ -31,6 +33,7 @@ public class ModuleEditor {
 
     private int actionbarTaskID;
     private ModuleEditorSettings settings;
+    private EditorSetup editorSetup;
 
     public ModuleEditor(Player player, Module module) {
         this.player = player;
@@ -45,27 +48,39 @@ public class ModuleEditor {
         this.player.teleport(this.getPlayerSpawnLocation());
         this.player.setGameMode(GameMode.CREATIVE);
         this.player.sendMessage(JumpRace.getInstance().getPrefix() + "§7You can now start §bbuilding§8.");
-        this.player.sendMessage(JumpRace.getInstance().getPrefix() + "§7You can §cdisable §7particles in the §bsettings§8.");
+        this.player.sendMessage(JumpRace.getInstance().getPrefix() + "§7You can §cdisable §7particles in the §bsettings by switching to the §cperformance editor§8.");
+
+        if(this.settings.getEditorMode() == EditorMode.PERFORMANCE)
+            this.module.stopParticles();
 
         this.giveItems();
         this.startActionbar();
     }
 
-    public void exitEditor() {
-        if(this.settings.getEditorMode() == EditorMode.PERFORMANCE) {
-            //TODO performance editor
-            return;
-        }
+    public void startEditorSetup() {
+        this.editorSetup = new EditorSetup(this);
+        this.editorSetup.startSetup();
+    }
 
+    public void exitEditor() {
         this.resetToPreviousInventory();
         Bukkit.getScheduler().cancelTask(this.actionbarTaskID);
         this.module.stopParticles();
-        this.module.saveModule();
-        this.clearArea(this.module.getModuleBorders());
+
+        final Location[] borders;
+
+        if(this.settings.getEditorMode() == EditorMode.QUICK) {
+            borders = this.module.getModuleBorders();
+            borders[1].add(1.0, 1.0, 1.0);
+        } else
+            borders = this.editorSetup.getBorders();
+
+        this.module.saveModule(borders, calculateRelativePosition(this.module.getStartPointLocation(), borders[0]), calculateRelativePosition(this.module.getEndPointLocation(), borders[0]));
+        this.clearArea(borders);
 
         JumpRace.getInstance().getEditorSessions().remove(this.player);
-        player.sendMessage(JumpRace.getInstance().getPrefix() + "§7The module was saved §asuccessfully§8.");
-        new TitleUtil().sendFullTitle(player, "§7Module", "§asaved", 10, 40, 10);
+        player.sendMessage(JumpRace.getInstance().getPrefix() + "§7The module has been saved §asuccessfully§8.");
+        new TitleUtil().sendFullTitle(player, "§7Module", "§asaved", 10, 35, 5);
     }
 
     /**
@@ -218,5 +233,13 @@ public class ModuleEditor {
                 }
             }
         }
+    }
+
+    private RelativePosition calculateRelativePosition(Location location, Location borderLocation) {
+        int relativeX = location.getBlockX() - borderLocation.getBlockX();
+        int relativeY = location.getBlockY() - borderLocation.getBlockY();
+        int relativeZ = location.getBlockZ() - borderLocation.getBlockZ();
+
+        return new RelativePosition(relativeX, relativeY, relativeZ);
     }
 }

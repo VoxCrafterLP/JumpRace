@@ -109,6 +109,7 @@ public class InventoryClickListener implements Listener {
                         .onComplete((user, input) -> {
                             if(input.equalsIgnoreCase("default")) {
                                 player.sendMessage(JumpRace.getInstance().getPrefix() + "§cInvalid name");
+                                player.playSound(player.getLocation(), Sound.NOTE_BASS_DRUM, 2, 2);
                                 return AnvilGUI.Response.text("");
                             }
 
@@ -144,7 +145,7 @@ public class InventoryClickListener implements Listener {
                 final ModuleEditor session = JumpRace.getInstance().getEditorSessions().get(player);
                 player.closeInventory();
                 player.playSound(player.getLocation(), Sound.LEVEL_UP,1,1);
-                session.exitEditor();
+                session.startEditorSetup();
             }
         }
 

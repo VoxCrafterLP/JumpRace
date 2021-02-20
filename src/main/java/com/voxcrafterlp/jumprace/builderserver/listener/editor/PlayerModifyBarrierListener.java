@@ -1,6 +1,7 @@
 package com.voxcrafterlp.jumprace.builderserver.listener.editor;
 
 import com.voxcrafterlp.jumprace.JumpRace;
+import com.voxcrafterlp.jumprace.modules.enums.EditorMode;
 import com.voxcrafterlp.jumprace.modules.enums.InteractionType;
 import com.voxcrafterlp.jumprace.modules.utils.ModuleEditor;
 import org.bukkit.Bukkit;
@@ -23,7 +24,10 @@ public class PlayerModifyBarrierListener implements Listener {
     public void onPlace(BlockPlaceEvent event){
         if(JumpRace.getInstance().getEditorSessions().containsKey(event.getPlayer())) {
             final ModuleEditor session = JumpRace.getInstance().getEditorSessions().get(event.getPlayer());
+            if(session.getEditorSetup() != null) return;
             final Location[] moduleBorders = session.getModule().getModuleBorders();
+
+            if(session.getSettings().getEditorMode() == EditorMode.PERFORMANCE) return;
 
             if(!isInRegion(event.getBlock().getLocation(), moduleBorders[0], moduleBorders[1])) {
                 if(event.getBlock().getLocation().getBlockX() < session.getModule().calculateLocation(session.getModule().getSpawnLocation(), session.getModule().getStartPoint()).getBlockX()) {
@@ -40,7 +44,10 @@ public class PlayerModifyBarrierListener implements Listener {
     public void onBreak(BlockBreakEvent event){
         if(JumpRace.getInstance().getEditorSessions().containsKey(event.getPlayer())) {
             final ModuleEditor session = JumpRace.getInstance().getEditorSessions().get(event.getPlayer());
+            if(session.getEditorSetup() != null) return;
             final Location[] moduleBorders = session.getModule().getModuleBorders();
+
+            if(session.getSettings().getEditorMode() == EditorMode.PERFORMANCE) return;
 
             if(isInRegion(event.getBlock().getLocation(), moduleBorders[0], moduleBorders[1])) {
                 if(event.getBlock().getLocation().equals(session.getModule().getStartPointLocation())) {
