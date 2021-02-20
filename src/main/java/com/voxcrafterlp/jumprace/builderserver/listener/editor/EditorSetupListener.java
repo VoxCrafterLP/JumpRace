@@ -46,16 +46,20 @@ public class EditorSetupListener implements Listener {
                     }
                     break;
                 case 2:
-                    session.getModule().setStartPointLocation(event.getBlock().getLocation());
-                    player.sendMessage(JumpRace.getInstance().getPrefix() + "§7The §bstart point location §7has been set §asuccessfully§8.");
-                    session.getEditorSetup().nextStep();
-                    event.setCancelled(true);
+                    if(event.getPlayer().getItemInHand().equals(new ItemManager(Material.DIAMOND_AXE).setDisplayName("§bSelection tool").build())) {
+                        session.getModule().setStartPointLocation(event.getBlock().getLocation());
+                        player.sendMessage(JumpRace.getInstance().getPrefix() + "§7The §bstart point location §7has been set §asuccessfully§8.");
+                        session.getEditorSetup().nextStep();
+                        event.setCancelled(true);
+                    }
                     break;
                 case 3:
-                    session.getModule().setEndPointLocation(event.getBlock().getLocation());
-                    player.sendMessage(JumpRace.getInstance().getPrefix() + "§7The §bend point location §7has been set §asuccessfully§8.");
-                    session.getEditorSetup().nextStep();
-                    event.setCancelled(true);
+                    if(event.getPlayer().getItemInHand().equals(new ItemManager(Material.DIAMOND_AXE).setDisplayName("§bSelection tool").build())) {
+                        session.getModule().setEndPointLocation(event.getBlock().getLocation());
+                        player.sendMessage(JumpRace.getInstance().getPrefix() + "§7The §bend point location §7has been set §asuccessfully§8.");
+                        session.getEditorSetup().nextStep();
+                        event.setCancelled(true);
+                    }
                     break;
             }
         }

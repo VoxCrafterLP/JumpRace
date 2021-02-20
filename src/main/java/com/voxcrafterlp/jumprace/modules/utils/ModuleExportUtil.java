@@ -1,9 +1,11 @@
 package com.voxcrafterlp.jumprace.modules.utils;
 
+import com.voxcrafterlp.jumprace.JumpRace;
 import com.voxcrafterlp.jumprace.modules.enums.ModuleDifficulty;
 import com.voxcrafterlp.jumprace.modules.objects.RelativePosition;
 import net.minecraft.server.v1_8_R3.NBTCompressedStreamTools;
 import net.minecraft.server.v1_8_R3.NBTTagCompound;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.json.JSONObject;
@@ -48,6 +50,9 @@ public class ModuleExportUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        //Reload modules
+        Bukkit.getScheduler().scheduleSyncDelayedTask(JumpRace.getInstance(), () -> JumpRace.getInstance().getModuleLoader().reloadModules(), 3);
     }
 
     private void saveProperties() throws IOException {
@@ -66,6 +71,8 @@ public class ModuleExportUtil {
     }
 
     private void saveSchematic() throws IOException {
+        this.moduleBorders[1] = this.moduleBorders[1].add(1.0, 1.0, 1.0);
+
         final int width = this.moduleBorders[1].getBlockX() - this.moduleBorders[0].getBlockX();
         final int height = this.moduleBorders[1].getBlockY() - this.moduleBorders[0].getBlockY();
         final int length = this.moduleBorders[1].getBlockZ() - this.moduleBorders[0].getBlockZ();

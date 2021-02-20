@@ -31,7 +31,7 @@ public class ModuleEditor {
     private final Module module;
     private Inventory playerInventory;
 
-    private int actionbarTaskID;
+    public int actionbarTaskID;
     private ModuleEditorSettings settings;
     private EditorSetup editorSetup;
 
@@ -67,13 +67,7 @@ public class ModuleEditor {
         Bukkit.getScheduler().cancelTask(this.actionbarTaskID);
         this.module.stopParticles();
 
-        final Location[] borders;
-
-        if(this.settings.getEditorMode() == EditorMode.QUICK) {
-            borders = this.module.getModuleBorders();
-            borders[1].add(1.0, 1.0, 1.0);
-        } else
-            borders = this.editorSetup.getBorders();
+        final Location[] borders = (this.settings.getEditorMode() == EditorMode.QUICK) ? this.module.getModuleBorders() : this.editorSetup.getBorders();
 
         this.module.saveModule(borders, calculateRelativePosition(this.module.getStartPointLocation(), borders[0]), calculateRelativePosition(this.module.getEndPointLocation(), borders[0]));
         this.clearArea(borders);
@@ -94,7 +88,7 @@ public class ModuleEditor {
         this.player.getInventory().setItem(8, new ItemManager(Material.REDSTONE_COMPARATOR).setDisplayName("§cSettings").build());
     }
 
-    private void resetToPreviousInventory() {
+    public void resetToPreviousInventory() {
         this.player.getInventory().clear();
         this.player.getInventory().setContents(this.playerInventory.getContents());
     }
@@ -225,7 +219,7 @@ public class ModuleEditor {
     }
 
 
-    private void clearArea(Location[] borders) {
+    public void clearArea(Location[] borders) {
         for (int x = borders[0].getBlockX(); x < (borders[1].getBlockX() + 1); x++) {
             for (int y = borders[0].getBlockY(); y < (borders[1].getBlockY() + 1); y++) {
                 for (int z = borders[0].getBlockZ(); z < (borders[1].getBlockZ() + 1); z++) {

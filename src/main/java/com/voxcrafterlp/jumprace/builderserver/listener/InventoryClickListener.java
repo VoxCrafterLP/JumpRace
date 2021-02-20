@@ -8,6 +8,7 @@ import com.voxcrafterlp.jumprace.modules.utils.ModuleEditor;
 import com.voxcrafterlp.jumprace.utils.ItemManager;
 import net.wesjd.anvilgui.AnvilGUI;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -136,7 +137,7 @@ public class InventoryClickListener implements Listener {
                 inventory.setItem(14, new ItemManager(Material.WOOL,14).setDisplayName("§cHard").build());
                 inventory.setItem(16, new ItemManager(Material.WOOL,15).setDisplayName("§4Very hard").build());
 
-                player.sendMessage(JumpRace.getInstance().getPrefix() + "§7Please choose the new §bdifficulty §7of the §bmodule§7.");
+                player.sendMessage(JumpRace.getInstance().getPrefix() + "§7Please choose the new §bdifficulty §7of the §bmodule§8.");
                 player.openInventory(inventory);
                 player.playSound(player.getLocation(), Sound.WOOD_CLICK, 2, 2);
                 return;
@@ -146,6 +147,18 @@ public class InventoryClickListener implements Listener {
                 player.closeInventory();
                 player.playSound(player.getLocation(), Sound.LEVEL_UP,1,1);
                 session.startEditorSetup();
+            }
+            if(event.getCurrentItem().getType() == Material.BARRIER) {
+                final ModuleEditor session = JumpRace.getInstance().getEditorSessions().get(player);
+                player.closeInventory();
+                player.playSound(player.getLocation(), Sound.LEVEL_UP,1,1);
+
+                session.resetToPreviousInventory();
+                Bukkit.getScheduler().cancelTask(session.actionbarTaskID);
+                session.getModule().stopParticles();
+                final Location[] borders = (session.getSettings().getEditorMode() == EditorMode.QUICK) ? session.getModule().getModuleBorders() : session.getEditorSetup().getBorders();
+                session.clearArea(borders);
+                JumpRace.getInstance().getEditorSessions().remove(player);
             }
         }
 

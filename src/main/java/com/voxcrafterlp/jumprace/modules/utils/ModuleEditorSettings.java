@@ -44,6 +44,7 @@ public class ModuleEditorSettings {
         this.settingsInventory.setItem(12, new ItemManager(Material.ANVIL).setDisplayName("§cChange difficulty").addLore("§8§m------------------", " ", "§7Here you can change the", "§7difficulty of the module", " ", "§8§m------------------").build());
         this.settingsInventory.setItem(14, new ItemManager((this.editorMode == EditorMode.PERFORMANCE) ? Material.DIODE : Material.REDSTONE_COMPARATOR).setDisplayName((this.editorMode == EditorMode.PERFORMANCE) ? "§aQuick editor" : "§cPerformance editor").addLore("§8§m------------------", " ", "§7Here you can change", "§7the editor mode", " ", "§8§m------------------").build());
         this.settingsInventory.setItem(16, new ItemManager(Material.SKULL_ITEM, 3).setDisplayName("§2Save").addLore("§8§m------------------", " ", "§7Here you can save the", "§7module and exit the editor", " ", "§8§m------------------").setHeadValueAndBuild("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2UyYTUzMGY0MjcyNmZhN2EzMWVmYWI4ZTQzZGFkZWUxODg5MzdjZjgyNGFmODhlYThlNGM5M2E0OWM1NzI5NCJ9fX0="));
+        this.settingsInventory.setItem(26, new ItemManager(Material.BARRIER).setDisplayName("§4Cancel").addLore("§8§m------------------", " ", "§7Clicking here will close the", "§7editor without saving", " ", "§8§m------------------").build());
     }
 
     public void updateInventory() {

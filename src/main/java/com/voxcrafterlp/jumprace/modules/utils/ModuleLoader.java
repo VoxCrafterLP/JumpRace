@@ -1,6 +1,7 @@
 package com.voxcrafterlp.jumprace.modules.utils;
 
 import com.google.common.collect.Lists;
+import com.voxcrafterlp.jumprace.JumpRace;
 import com.voxcrafterlp.jumprace.modules.enums.ModuleDifficulty;
 import com.voxcrafterlp.jumprace.modules.objects.Module;
 import com.voxcrafterlp.jumprace.modules.objects.ModuleData;
@@ -75,6 +76,15 @@ public class ModuleLoader {
         }
         if(this.moduleList.isEmpty())
             Bukkit.getConsoleSender().sendMessage("§cNo modules found");
+    }
+
+    public void reloadModules() {
+        this.moduleList.clear();
+        try {
+            this.loadModules();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private String readModuleProperties(File moduleProperties) throws IOException {

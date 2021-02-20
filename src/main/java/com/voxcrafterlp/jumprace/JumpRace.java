@@ -82,7 +82,8 @@ public class JumpRace extends JavaPlugin {
             Bukkit.getWorld("jumprace").setGameRuleValue("doDaylightCycle", "false");
         }
 
-        loadModules();
+        this.loadDefaultModule();
+        this.loadModules();
     }
 
     private void minigameServerStartup() {
@@ -101,13 +102,20 @@ public class JumpRace extends JavaPlugin {
 
     private void loadModules() {
         Bukkit.getConsoleSender().sendMessage("§7Loading modules..");
-        new File("plugins/JumpRace/modules/").mkdir();
 
         try {
             this.moduleLoader = new ModuleLoader(this.jumpRaceConfig.isBuilderServer());
             this.moduleLoader.loadModules();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void loadDefaultModule() {
+        new File("plugins/JumpRace/modules/").mkdir();
+        if(new File("plugins/JumpRace/modules/default").mkdir()) {
+            JumpRace.getInstance().saveResource("modules/default/module.json", false);
+            JumpRace.getInstance().saveResource("modules/default/module.schematic", false);
         }
     }
 
