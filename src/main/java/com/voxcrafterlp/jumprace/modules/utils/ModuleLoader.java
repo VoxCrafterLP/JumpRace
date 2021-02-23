@@ -1,7 +1,6 @@
 package com.voxcrafterlp.jumprace.modules.utils;
 
 import com.google.common.collect.Lists;
-import com.voxcrafterlp.jumprace.JumpRace;
 import com.voxcrafterlp.jumprace.modules.enums.ModuleDifficulty;
 import com.voxcrafterlp.jumprace.modules.objects.Module;
 import com.voxcrafterlp.jumprace.modules.objects.ModuleData;
@@ -11,7 +10,6 @@ import net.minecraft.server.v1_8_R3.NBTCompressedStreamTools;
 import org.bukkit.Bukkit;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.*;
 import java.lang.reflect.Method;
 import java.nio.file.Files;
@@ -28,13 +26,11 @@ import java.util.Objects;
 @Getter
 public class ModuleLoader {
 
-    private final boolean builderServer;
     private final File modulesFolder;
     private final List<Module> moduleList;
     private Module defaultModule;
 
-    public ModuleLoader(boolean builderServer) {
-        this.builderServer = builderServer;
+    public ModuleLoader() {
         this.moduleList = Lists.newCopyOnWriteArrayList();
         this.modulesFolder = new File("plugins/JumpRace/modules/");
     }

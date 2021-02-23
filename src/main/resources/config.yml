@@ -4,3 +4,6 @@ builder-server: false
 
 # Determines the height on which the modules should spawn at
 module-spawn-height: 100
+
+team-size: 1
+team-amount: 8

@@ -18,7 +18,7 @@ public class JumpRaceConfig {
     private final YamlConfiguration configuration;
 
     private final boolean builderServer;
-    private final int moduleSpawnHeight;
+    private final int moduleSpawnHeight, teamSize, teamAmount;
 
     public JumpRaceConfig() {
         this.configFile = new File("plugins/JumpRace/config.yml");
@@ -26,6 +26,9 @@ public class JumpRaceConfig {
 
         this.builderServer = this.configuration.getBoolean("builder-server");
         this.moduleSpawnHeight = this.configuration.getInt("module-spawn-height");
+
+        this.teamSize = this.configuration.getInt("team-size");
+        this.teamAmount = this.configuration.getInt("team-amount");
     }
 
 }

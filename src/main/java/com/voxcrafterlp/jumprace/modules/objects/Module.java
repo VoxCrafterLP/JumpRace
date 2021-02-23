@@ -148,4 +148,8 @@ public class Module {
         new ModuleExportUtil(this.name, this.builder, this.moduleDifficulty, startPoint, endPoint, borders, this.spawnLocation).exportModule();
     }
 
+    public Module clone() throws CloneNotSupportedException {
+        return (Module) super.clone();
+    }
+
 }
