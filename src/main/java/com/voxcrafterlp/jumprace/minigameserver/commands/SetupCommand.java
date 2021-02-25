@@ -1,6 +1,9 @@
 package com.voxcrafterlp.jumprace.minigameserver.commands;
 
 import com.voxcrafterlp.jumprace.JumpRace;
+import com.voxcrafterlp.jumprace.minigameserver.setup.objects.MapSetup;
+import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -28,7 +31,11 @@ public class SetupCommand implements CommandExecutor {
             case 1:
                 switch (args[0]) {
                     case "lobby":
+                        JumpRace.getInstance().getLocationManager().setLobbyLocation(player.getLocation().clone());
+                        JumpRace.getInstance().getLocationManager().saveData();
 
+                        player.playSound(player.getLocation(), Sound.LEVEL_UP, 1,1);
+                        player.sendMessage(JumpRace.getInstance().getPrefix() + "§7The location has been §asaved §7successfully§8.");
                         break;
                     default:
                         this.listCommands(player);
@@ -38,7 +45,7 @@ public class SetupCommand implements CommandExecutor {
             case 2:
                 switch (args[0]) {
                     case "map":
-                        final String mapname = args [1];
+                        new MapSetup(player, args[1]);
                         break;
                     default:
                         this.listCommands(player);

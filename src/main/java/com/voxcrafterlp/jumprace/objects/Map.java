@@ -34,10 +34,6 @@ public class Map {
         this.spawnLocations = spawnLocations;
     }
 
-    public void addSpawnLocation(Location location) {
-        this.spawnLocations.add(location);
-    }
-
     public Location getRandomSpawnLocation() {
         if(spawnLocations.isEmpty()) return null;
 

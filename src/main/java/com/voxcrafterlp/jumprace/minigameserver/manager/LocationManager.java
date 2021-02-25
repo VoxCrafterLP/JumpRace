@@ -1,4 +1,4 @@
-package com.voxcrafterlp.jumprace.config;
+package com.voxcrafterlp.jumprace.minigameserver.manager;
 
 import com.google.common.collect.Lists;
 import com.voxcrafterlp.jumprace.objects.Map;
@@ -43,7 +43,9 @@ public class LocationManager {
         this.loadData();
     }
 
-    private void loadData() {
+    public void loadData() {
+        this.loadedMaps.clear();
+
         Bukkit.getConsoleSender().sendMessage(" ");
         Bukkit.getConsoleSender().sendMessage("Loading maps..");
 
@@ -67,6 +69,12 @@ public class LocationManager {
 
         if(!this.loadedMaps.isEmpty())
             this.configuration.set("maps", this.getMapList());
+
+        try {
+            this.configuration.save(this.locationFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private List<String> getMapList() {

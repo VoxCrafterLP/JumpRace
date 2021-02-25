@@ -6,9 +6,11 @@ import com.voxcrafterlp.jumprace.builderserver.listener.editor.EditorSetupListen
 import com.voxcrafterlp.jumprace.builderserver.listener.editor.PlayerModifyBarrierListener;
 import com.voxcrafterlp.jumprace.builderserver.listener.editor.Protection;
 import com.voxcrafterlp.jumprace.config.JumpRaceConfig;
-import com.voxcrafterlp.jumprace.config.LocationManager;
+import com.voxcrafterlp.jumprace.minigameserver.manager.LocationManager;
 import com.voxcrafterlp.jumprace.minigameserver.commands.SetupCommand;
 import com.voxcrafterlp.jumprace.minigameserver.manager.ModuleManager;
+import com.voxcrafterlp.jumprace.minigameserver.setup.listener.SetupListener;
+import com.voxcrafterlp.jumprace.minigameserver.setup.objects.MapSetup;
 import com.voxcrafterlp.jumprace.modules.utils.ModuleLoader;
 import com.voxcrafterlp.jumprace.modules.utils.ModuleEditor;
 import lombok.Getter;
@@ -36,6 +38,7 @@ public class JumpRace extends JavaPlugin {
     private ModuleLoader moduleLoader;
 
     private HashMap<Player, ModuleEditor> editorSessions;
+    private HashMap<Player, MapSetup> mapSetups;
 
     private ModuleManager moduleManager;
     private LocationManager locationManager;
@@ -101,6 +104,7 @@ public class JumpRace extends JavaPlugin {
 
         PluginManager pluginManager = Bukkit.getPluginManager();
         pluginManager.registerEvents(new com.voxcrafterlp.jumprace.minigameserver.listener.PlayerJoinListener(), this);
+        pluginManager.registerEvents(new SetupListener(), this);
 
         if(Bukkit.getWorld("jumprace") == null) {
             Bukkit.getConsoleSender().sendMessage("§aGenerating JumpRace world...");
@@ -114,6 +118,8 @@ public class JumpRace extends JavaPlugin {
             Bukkit.getWorld("jumprace").setGameRuleValue("doDaylightCycle", "false");
             Bukkit.getWorld("jumprace").setDifficulty(Difficulty.PEACEFUL);
         }
+
+        this.mapSetups = new HashMap<>();
 
         this.loadModules();
 
