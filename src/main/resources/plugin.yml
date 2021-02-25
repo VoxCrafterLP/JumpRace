@@ -8,3 +8,5 @@ commands:
     description: Main command for the builderserver
   jr:
     description: Main command for the builderserver
+  setup:
+    description: Setup command for the maps

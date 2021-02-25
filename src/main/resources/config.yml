@@ -7,3 +7,6 @@ module-spawn-height: 100
 
 team-size: 1
 team-amount: 8
+
+builder-permission: jumprace.builder
+setup-permission: jumprace.setup

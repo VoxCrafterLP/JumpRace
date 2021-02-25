@@ -6,14 +6,13 @@ import com.voxcrafterlp.jumprace.builderserver.listener.editor.EditorSetupListen
 import com.voxcrafterlp.jumprace.builderserver.listener.editor.PlayerModifyBarrierListener;
 import com.voxcrafterlp.jumprace.builderserver.listener.editor.Protection;
 import com.voxcrafterlp.jumprace.config.JumpRaceConfig;
+import com.voxcrafterlp.jumprace.config.LocationManager;
+import com.voxcrafterlp.jumprace.minigameserver.commands.SetupCommand;
 import com.voxcrafterlp.jumprace.minigameserver.manager.ModuleManager;
 import com.voxcrafterlp.jumprace.modules.utils.ModuleLoader;
 import com.voxcrafterlp.jumprace.modules.utils.ModuleEditor;
 import lombok.Getter;
-import org.bukkit.Bukkit;
-import org.bukkit.World;
-import org.bukkit.WorldCreator;
-import org.bukkit.WorldType;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -39,6 +38,7 @@ public class JumpRace extends JavaPlugin {
     private HashMap<Player, ModuleEditor> editorSessions;
 
     private ModuleManager moduleManager;
+    private LocationManager locationManager;
 
     @Override
     public void onEnable() {
@@ -84,6 +84,7 @@ public class JumpRace extends JavaPlugin {
             worldCreator.createWorld();
 
             Bukkit.getWorld("jumprace").setGameRuleValue("doDaylightCycle", "false");
+            Bukkit.getWorld("jumprace").setDifficulty(Difficulty.PEACEFUL);
         }
 
         this.editorSessions = new HashMap<>();
@@ -95,6 +96,8 @@ public class JumpRace extends JavaPlugin {
     private void minigameServerStartup() {
         Bukkit.getConsoleSender().sendMessage("§7Starting server as a §aminigame §7server.");
         Bukkit.getConsoleSender().sendMessage(" ");
+
+        getCommand("setup").setExecutor(new SetupCommand());
 
         PluginManager pluginManager = Bukkit.getPluginManager();
         pluginManager.registerEvents(new com.voxcrafterlp.jumprace.minigameserver.listener.PlayerJoinListener(), this);
@@ -109,12 +112,15 @@ public class JumpRace extends JavaPlugin {
             worldCreator.createWorld();
 
             Bukkit.getWorld("jumprace").setGameRuleValue("doDaylightCycle", "false");
+            Bukkit.getWorld("jumprace").setDifficulty(Difficulty.PEACEFUL);
         }
 
         this.loadModules();
 
         this.moduleManager = new ModuleManager();
         this.moduleManager.buildModules();
+
+        this.locationManager = new LocationManager();
     }
 
     /**
@@ -128,6 +134,7 @@ public class JumpRace extends JavaPlugin {
     }
 
     private void loadModules() {
+        Bukkit.getConsoleSender().sendMessage(" ");
         Bukkit.getConsoleSender().sendMessage("§7Loading modules..");
 
         try {

@@ -20,6 +20,8 @@ public class JumpRaceConfig {
     private final boolean builderServer;
     private final int moduleSpawnHeight, teamSize, teamAmount;
 
+    private final String builderPermission, setupPermission;
+
     public JumpRaceConfig() {
         this.configFile = new File("plugins/JumpRace/config.yml");
         this.configuration = YamlConfiguration.loadConfiguration(this.configFile);
@@ -29,6 +31,9 @@ public class JumpRaceConfig {
 
         this.teamSize = this.configuration.getInt("team-size");
         this.teamAmount = this.configuration.getInt("team-amount");
+
+        this.builderPermission = this.configuration.getString("builder-permission");
+        this.setupPermission = this.configuration.getString("setup-permission");
     }
 
 }

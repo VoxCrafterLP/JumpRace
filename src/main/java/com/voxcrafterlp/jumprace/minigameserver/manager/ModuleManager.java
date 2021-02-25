@@ -46,6 +46,9 @@ public class ModuleManager {
             exception.printStackTrace();
         }
 
+        Bukkit.getConsoleSender().sendMessage(" ");
+        Bukkit.getConsoleSender().sendMessage("Building modules..");
+
         final int rows = JumpRace.getInstance().getJumpRaceConfig().getTeamAmount() * JumpRace.getInstance().getJumpRaceConfig().getTeamSize();
         AtomicInteger i = new AtomicInteger(0);
         AtomicInteger taskID = new AtomicInteger();
@@ -58,6 +61,8 @@ public class ModuleManager {
             if(i.get() == rows)
                 Bukkit.getScheduler().cancelTask(taskID.get());
         }, 10, 10));
+
+        Bukkit.getConsoleSender().sendMessage("§aModules built successfully");
     }
 
     private void buildModuleRow(final int z, List<Module> selectedModules) {
