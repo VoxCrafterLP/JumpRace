@@ -60,7 +60,6 @@ public class JumpRace extends JavaPlugin {
 
     private void builderServerStartup() {
         Bukkit.getConsoleSender().sendMessage("§7Starting server as a §abuilder §7server.");
-        Bukkit.getConsoleSender().sendMessage(" ");
 
         getCommand("jumprace").setExecutor(new JumpRaceCommand());
         getCommand("jr").setExecutor(new JumpRaceCommand());

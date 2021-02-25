@@ -69,7 +69,7 @@ public class Module {
                     Material material = Material.getMaterial(b);
                     if(material != Material.AIR) {
                         Block block = new Location(location.getWorld(), location.getBlockX() + x, location.getBlockY() + y, location.getBlockZ() + z).getBlock();
-                        block.setType(material, true);
+                        block.setType(material, false);
                         block.setData(moduleData.getData()[index]);
                     }
                 }
