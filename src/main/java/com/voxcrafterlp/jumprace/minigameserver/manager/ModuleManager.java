@@ -27,53 +27,53 @@ import java.util.concurrent.atomic.AtomicReference;
 public class ModuleManager {
 
     private final List<Module> loadedModules;
+    private final List<Module> selectedModules;
 
     public ModuleManager() {
         this.loadedModules = JumpRace.getInstance().getModuleLoader().getModuleList();
+        this.selectedModules = Lists.newCopyOnWriteArrayList();
     }
 
     public void buildModules() {
         if(this.loadedModules.isEmpty()) return;
 
-        final Module[] selectedModules = new Module[10];
         try {
-            this.fillArray(selectedModules, ModuleDifficulty.EASY, 4);
-            this.fillArray(selectedModules, ModuleDifficulty.NORMAL, 3);
-            this.fillArray(selectedModules, ModuleDifficulty.HARD, 2);
-            this.fillArray(selectedModules, ModuleDifficulty.VERY_HARD, 1);
+            this.fillList(this.selectedModules, ModuleDifficulty.EASY, 4);
+            this.fillList(this.selectedModules, ModuleDifficulty.NORMAL, 3);
+            this.fillList(this.selectedModules, ModuleDifficulty.HARD, 2);
+            this.fillList(this.selectedModules, ModuleDifficulty.VERY_HARD, 1);
         } catch (ModuleNotFoundException exception) {
             exception.printStackTrace();
         }
 
-        //final int rows = JumpRace.getInstance().getJumpRaceConfig().getTeamAmount() * JumpRace.getInstance().getJumpRaceConfig().getTeamSize();
-        int rows = 1;
+        final int rows = JumpRace.getInstance().getJumpRaceConfig().getTeamAmount() * JumpRace.getInstance().getJumpRaceConfig().getTeamSize();
         AtomicInteger i = new AtomicInteger(0);
         AtomicInteger taskID = new AtomicInteger();
 
         taskID.set(Bukkit.getScheduler().scheduleSyncRepeatingTask(JumpRace.getInstance(), () -> {
             int z = i.get() * 100;
-            this.buildModuleRow(z, selectedModules);
+            this.buildModuleRow(z, this.selectedModules);
             i.getAndIncrement();
 
-            if(i.get() == (rows - 1))
+            if(i.get() == rows)
                 Bukkit.getScheduler().cancelTask(taskID.get());
         }, 10, 10));
     }
 
-    private void buildModuleRow(final int z, Module[] selectedModules) {
-        int spawnedModules = 0;
+    private void buildModuleRow(final int z, List<Module> selectedModules) {
+        AtomicInteger spawnedModules = new AtomicInteger(0);
         final int height = JumpRace.getInstance().getJumpRaceConfig().getModuleSpawnHeight();
-        Location lastEndPoint = null;
+        AtomicReference<Location> lastEndPoint = new AtomicReference<>();
 
-        for(Module module : selectedModules) {
-            if(spawnedModules == 0)
+        selectedModules.forEach(module -> {
+            if(spawnedModules.get() == 0)
                 module.build(new Location(Bukkit.getWorld("jumprace"), 0, height, z), false);
             else
-                module.build(this.calculateSpawnLocation(lastEndPoint, module.getStartPoint()), spawnedModules == 9);
+                module.build(this.calculateSpawnLocation(lastEndPoint.get(), module.getStartPoint()), spawnedModules.get() == 9);
 
-            lastEndPoint = module.getEndPointLocation();
-            spawnedModules++;
-        }
+            lastEndPoint.set(module.getEndPointLocation().clone());
+            spawnedModules.getAndIncrement();
+        });
     }
 
     private Module[] pickRandomModules(ModuleDifficulty moduleDifficulty, int amount) {
@@ -111,14 +111,13 @@ public class ModuleManager {
         return new Location(Bukkit.getWorld("jumprace"), x, y, z);
     }
 
-    private void fillArray(Module[] array, ModuleDifficulty moduleDifficulty, int amount) throws ModuleNotFoundException{
+    private void fillList(List<Module> list, ModuleDifficulty moduleDifficulty, int amount) throws ModuleNotFoundException {
         final Module[] newModules = this.pickRandomModules(moduleDifficulty, amount);
 
         if(newModules.length == 0)
             throw new ModuleNotFoundException("The server couldn't find enough modules to build the map!");
 
-        for(int i = 0; i<newModules.length; i++)
-            Array.set(array, i, newModules[i]);
+        list.addAll(Arrays.asList(newModules));
     }
 
 }
