@@ -3,6 +3,7 @@ package com.voxcrafterlp.jumprace.objects;
 import com.voxcrafterlp.jumprace.JumpRace;
 import com.voxcrafterlp.jumprace.utils.TitleUtil;
 import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 
@@ -13,7 +14,7 @@ import org.bukkit.Sound;
  * Project: JumpRace
  */
 
-@Getter
+@Getter @Setter
 public class Countdown {
 
     private final Type type;

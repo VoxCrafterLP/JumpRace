@@ -12,7 +12,9 @@ import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -28,10 +30,12 @@ public class GameManager {
     private final List<Team> registeredTeams;
     private GameState gameState;
     private final Countdown lobbyCountdown, endingCountdown;
+    private final Map<Player, String> playerNames;
 
     public GameManager() {
         this.registeredTeams = Lists.newCopyOnWriteArrayList();
         this.gameState = GameState.LOBBY;
+        this.playerNames = new HashMap<>();
 
         try {
             this.registerTeams();
@@ -56,14 +60,61 @@ public class GameManager {
 
     public void startGame() {
         this.gameState = GameState.JUMPING;
+        this.loadPlayerNames();
     }
 
-    public void handlePlayerJoin(Player player) {
+    private void loadPlayerNames() {
+        this.registeredTeams.forEach(team -> team.getMembers().forEach(player ->
+                this.playerNames.put(player, team.getTeamColor().getColorCode() + player.getName())));
+    }
 
+    public void handlePlayerJoin() {
+        if(!this.lobbyCountdown.isRunning() && Bukkit.getOnlinePlayers().size() >= JumpRace.getInstance().getJumpRaceConfig().getPlayersRequiredForStart())
+            this.lobbyCountdown.startCountdown();
     }
 
     public void handlePlayerQuit(Player player) {
+        if(gameState == GameState.LOBBY && Bukkit.getOnlinePlayers().size() < JumpRace.getInstance().getJumpRaceConfig().getPlayersRequiredForStart())
+            this.lobbyCountdown.reset(false);
 
+        if(gameState == GameState.JUMPING || gameState == GameState.ARENA) {
+            final Team team = this.getTeamFromPlayer(player);
+            if(team != null) {
+                team.getMembers().remove(player);
+                Bukkit.getOnlinePlayers().forEach(players -> {
+                    players.sendMessage(JumpRace.getInstance().getPrefix() + this.playerNames.get(players) + " §7left the game§8.");
+                    if(team.getMembers().size() == 0)
+                        players.sendMessage(JumpRace.getInstance().getPrefix() + team.getTeamColor().getColorCode() + " Team " +
+                                team.getTeamColor().getDisplayName() + " §7has been §4eliminated§8.");
+                });
+                checkTeams();
+            }
+            this.playerNames.remove(player);
+        }
+    }
+
+    private void checkTeams() {
+        if((int) this.registeredTeams.stream().filter(team -> team.getMembers().size() >= 1).count() < 2) {
+            this.gameState = GameState.ENDING;
+            this.endGame();
+        }
+    }
+
+    private void endGame() {
+
+    }
+
+    public Team getTeamFromPlayer(Player player) {
+        return this.registeredTeams.stream().filter(team -> team.getMembers().contains(player)).findAny().orElse(null);
+    }
+
+    private void addPlayersRandomToTeams() {
+        Bukkit.getOnlinePlayers().forEach(player -> {
+            if(this.getTeamFromPlayer(player) == null) {
+                this.registeredTeams.stream().filter(team -> team.getMembers().size() <
+                        JumpRace.getInstance().getJumpRaceConfig().getTeamSize()).limit(1).findAny().get().getMembers().add(player);
+            }
+        });
     }
 
     public void sendLobbyActionBar() {
@@ -77,7 +128,7 @@ public class GameManager {
                             ((playerLeft == 1) ? "§7Waiting for §bonen §7more player§8..." : "§7Waiting for §b" + playerLeft + " §7more players§8...")));
                 } else
                     Bukkit.getOnlinePlayers().forEach(player -> {
-                        //TODO TEAM COLOR
+                        new ActionBarUtil().sendActionbar(player, "§cTeaming forbidden");
                     });
             }
         }, 20, 20));
