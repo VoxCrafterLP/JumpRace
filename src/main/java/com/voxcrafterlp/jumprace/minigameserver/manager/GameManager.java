@@ -46,6 +46,8 @@ public class GameManager {
         this.lobbyCountdown = new Countdown(Countdown.Type.LOBBY, this::startGame);
         this.endingCountdown = new Countdown(Countdown.Type.ENDING, () -> Bukkit.getOnlinePlayers().forEach(player ->
                 player.kickPlayer(JumpRace.getInstance().getPrefix() + "§7The game is §bover§8.")));
+
+        this.startLobbyActionBar();
     }
 
     private void registerTeams() throws TeamAmountException {
@@ -82,10 +84,12 @@ public class GameManager {
             if(team != null) {
                 team.getMembers().remove(player);
                 Bukkit.getOnlinePlayers().forEach(players -> {
-                    players.sendMessage(JumpRace.getInstance().getPrefix() + this.playerNames.get(players) + " §7left the game§8.");
                     if(team.getMembers().size() == 0)
                         players.sendMessage(JumpRace.getInstance().getPrefix() + team.getTeamColor().getColorCode() + " Team " +
                                 team.getTeamColor().getDisplayName() + " §7has been §4eliminated§8.");
+                    else
+                        players.sendMessage(JumpRace.getInstance().getPrefix() + team.getTeamColor().getColorCode() + " Team " +
+                                team.getTeamColor().getDisplayName() + " §7has got §c" + team.getMembers().size() + " players §7left§8.");
                 });
                 checkTeams();
             }
@@ -117,21 +121,17 @@ public class GameManager {
         });
     }
 
-    public void sendLobbyActionBar() {
-        AtomicInteger taskID = new AtomicInteger();
-
-        taskID.set(Bukkit.getScheduler().scheduleAsyncRepeatingTask(JumpRace.getInstance(), () -> {
+    public void startLobbyActionBar() {
+        Bukkit.getScheduler().scheduleAsyncRepeatingTask(JumpRace.getInstance(), () -> {
             if(this.gameState == GameState.LOBBY) {
                 if(!this.lobbyCountdown.isRunning()) {
                     final int playerLeft = JumpRace.getInstance().getJumpRaceConfig().getPlayersRequiredForStart() - Bukkit.getOnlinePlayers().size();
-                    Bukkit.getOnlinePlayers().forEach(player -> new ActionBarUtil().sendActionbar(player, JumpRace.getInstance().getPrefix() +
-                            ((playerLeft == 1) ? "§7Waiting for §bonen §7more player§8..." : "§7Waiting for §b" + playerLeft + " §7more players§8...")));
+                    Bukkit.getOnlinePlayers().forEach(player -> new ActionBarUtil().sendActionbar(player,
+                            ((playerLeft == 1) ? "§7Waiting for §bone §7more player§8..." : "§7Waiting for §b" + playerLeft + " §7more players§8...")));
                 } else
-                    Bukkit.getOnlinePlayers().forEach(player -> {
-                        new ActionBarUtil().sendActionbar(player, "§cTeaming forbidden");
-                    });
+                    Bukkit.getOnlinePlayers().forEach(player -> new ActionBarUtil().sendActionbar(player, "§cTeaming forbidden"));
             }
-        }, 20, 20));
+        }, 20, 20);
     }
 
 }

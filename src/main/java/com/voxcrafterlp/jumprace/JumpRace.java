@@ -6,6 +6,9 @@ import com.voxcrafterlp.jumprace.builderserver.listener.editor.EditorSetupListen
 import com.voxcrafterlp.jumprace.builderserver.listener.editor.PlayerModifyBarrierListener;
 import com.voxcrafterlp.jumprace.builderserver.listener.editor.Protection;
 import com.voxcrafterlp.jumprace.config.JumpRaceConfig;
+import com.voxcrafterlp.jumprace.minigameserver.listener.PlayerLoginListener;
+import com.voxcrafterlp.jumprace.minigameserver.manager.GameManager;
+import com.voxcrafterlp.jumprace.minigameserver.manager.InventoryManager;
 import com.voxcrafterlp.jumprace.minigameserver.manager.LocationManager;
 import com.voxcrafterlp.jumprace.minigameserver.commands.SetupCommand;
 import com.voxcrafterlp.jumprace.minigameserver.manager.ModuleManager;
@@ -40,8 +43,10 @@ public class JumpRace extends JavaPlugin {
     private HashMap<Player, ModuleEditor> editorSessions;
     private HashMap<Player, MapSetup> mapSetups;
 
+    private GameManager gameManager;
     private ModuleManager moduleManager;
     private LocationManager locationManager;
+    private InventoryManager inventoryManager;
 
     @Override
     public void onEnable() {
@@ -104,6 +109,8 @@ public class JumpRace extends JavaPlugin {
         PluginManager pluginManager = Bukkit.getPluginManager();
         pluginManager.registerEvents(new com.voxcrafterlp.jumprace.minigameserver.listener.PlayerJoinListener(), this);
         pluginManager.registerEvents(new SetupListener(), this);
+        pluginManager.registerEvents(new PlayerLoginListener(), this);
+        pluginManager.registerEvents(new com.voxcrafterlp.jumprace.minigameserver.listener.Protection(), this);
 
         if(Bukkit.getWorld("jumprace") == null) {
             Bukkit.getConsoleSender().sendMessage("§aGenerating JumpRace world...");
@@ -122,9 +129,10 @@ public class JumpRace extends JavaPlugin {
 
         this.loadModules();
 
+        this.gameManager = new GameManager();
         this.moduleManager = new ModuleManager();
         this.moduleManager.buildModules();
-
+        this.inventoryManager = new InventoryManager();
         this.locationManager = new LocationManager();
     }
 

@@ -67,7 +67,7 @@ public class Countdown {
 
             Bukkit.getOnlinePlayers().forEach(player -> {
                 player.setLevel(this.timeLeft);
-                player.setExp(this.timeLeft * ((float) 1/60));
+                player.setExp(this.timeLeft * ((float) 1 / this.type.getDuration()));
             });
 
             this.timeLeft--;
