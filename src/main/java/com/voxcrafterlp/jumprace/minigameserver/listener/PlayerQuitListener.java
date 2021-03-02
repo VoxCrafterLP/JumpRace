@@ -3,6 +3,7 @@ package com.voxcrafterlp.jumprace.minigameserver.listener;
 import com.voxcrafterlp.jumprace.JumpRace;
 import com.voxcrafterlp.jumprace.minigameserver.manager.InventoryManager;
 import com.voxcrafterlp.jumprace.objects.Countdown;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -24,7 +25,7 @@ public class PlayerQuitListener implements Listener {
         switch (JumpRace.getInstance().getGameManager().getGameState()) {
             case LOBBY:
                 event.setQuitMessage(JumpRace.getInstance().getPrefix() + "§a" + player.getName() + " §7left the §bgame§8.");
-                JumpRace.getInstance().getGameManager().handlePlayerQuit(player);
+                Bukkit.getScheduler().scheduleAsyncDelayedTask(JumpRace.getInstance(), () -> JumpRace.getInstance().getGameManager().handlePlayerQuit(player), 1);
                 break;
             case ARENA:
             case JUMPING:

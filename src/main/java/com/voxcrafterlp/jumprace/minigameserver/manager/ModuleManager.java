@@ -5,6 +5,7 @@ import com.voxcrafterlp.jumprace.JumpRace;
 import com.voxcrafterlp.jumprace.exceptions.ModuleNotFoundException;
 import com.voxcrafterlp.jumprace.modules.enums.ModuleDifficulty;
 import com.voxcrafterlp.jumprace.modules.objects.Module;
+import com.voxcrafterlp.jumprace.modules.objects.ModuleRow;
 import com.voxcrafterlp.jumprace.modules.objects.RelativePosition;
 import lombok.Getter;
 import net.minecraft.server.v1_8_R3.ExceptionPlayerNotFound;
@@ -28,10 +29,12 @@ public class ModuleManager {
 
     private final List<Module> loadedModules;
     private final List<Module> selectedModules;
+    private final List<ModuleRow> moduleRows;
 
     public ModuleManager() {
         this.loadedModules = JumpRace.getInstance().getModuleLoader().getModuleList();
         this.selectedModules = Lists.newCopyOnWriteArrayList();
+        this.moduleRows = Lists.newCopyOnWriteArrayList();
     }
 
     public void buildModules() {
@@ -55,7 +58,7 @@ public class ModuleManager {
 
         taskID.set(Bukkit.getScheduler().scheduleSyncRepeatingTask(JumpRace.getInstance(), () -> {
             int z = i.get() * 100;
-            this.buildModuleRow(z, this.selectedModules);
+            this.moduleRows.add(new ModuleRow(this.selectedModules, z));
             i.getAndIncrement();
 
             if(i.get() == rows)
@@ -63,22 +66,6 @@ public class ModuleManager {
         }, 10, 10));
 
         Bukkit.getConsoleSender().sendMessage("§aModules built successfully");
-    }
-
-    private void buildModuleRow(final int z, List<Module> selectedModules) {
-        AtomicInteger spawnedModules = new AtomicInteger(0);
-        final int height = JumpRace.getInstance().getJumpRaceConfig().getModuleSpawnHeight();
-        AtomicReference<Location> lastEndPoint = new AtomicReference<>();
-
-        selectedModules.forEach(module -> {
-            if(spawnedModules.get() == 0)
-                module.build(new Location(Bukkit.getWorld("jumprace"), 0, height, z), false);
-            else
-                module.build(this.calculateSpawnLocation(lastEndPoint.get(), module.getStartPoint()), spawnedModules.get() == 9);
-
-            lastEndPoint.set(module.getEndPointLocation().clone());
-            spawnedModules.getAndIncrement();
-        });
     }
 
     private Module[] pickRandomModules(ModuleDifficulty moduleDifficulty, int amount) {
@@ -100,20 +87,6 @@ public class ModuleManager {
         }
 
         return array;
-    }
-
-    /**
-     * Calculates the spawn location of the module based on the last module
-     * @param endPoint Endpoint location of the last module
-     * @param relativePosition RelativePosition of the module
-     * @return Spawn location of the module
-     */
-    private Location calculateSpawnLocation(Location endPoint, RelativePosition relativePosition) {
-        int x = endPoint.getBlockX() - relativePosition.getRelativeX();
-        int y = endPoint.getBlockY() - relativePosition.getRelativeY();
-        int z = endPoint.getBlockZ() - relativePosition.getRelativeZ();
-
-        return new Location(Bukkit.getWorld("jumprace"), x, y, z);
     }
 
     private void fillList(List<Module> list, ModuleDifficulty moduleDifficulty, int amount) throws ModuleNotFoundException {

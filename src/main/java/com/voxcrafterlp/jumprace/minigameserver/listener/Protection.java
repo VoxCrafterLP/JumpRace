@@ -35,7 +35,7 @@ public class Protection implements Listener {
     }
 
     @EventHandler
-    public void onBreak(BlockPlaceEvent event) {
+    public void onPlace(BlockPlaceEvent event) {
         if(event.getPlayer().getGameMode() != GameMode.CREATIVE)
             event.setCancelled(true);
     }
@@ -55,6 +55,7 @@ public class Protection implements Listener {
 
     @EventHandler
     public void onClick(InventoryClickEvent event) {
+        if(JumpRace.getInstance().getGameManager().getGameState() == GameState.JUMPING || JumpRace.getInstance().getGameManager().getGameState() == GameState.ARENA) return;
         if(event.getWhoClicked().getGameMode() != GameMode.CREATIVE)
             event.setCancelled(true);
     }

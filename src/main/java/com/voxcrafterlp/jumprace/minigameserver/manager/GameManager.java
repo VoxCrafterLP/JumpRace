@@ -5,6 +5,7 @@ import com.voxcrafterlp.jumprace.JumpRace;
 import com.voxcrafterlp.jumprace.enums.GameState;
 import com.voxcrafterlp.jumprace.enums.TeamColor;
 import com.voxcrafterlp.jumprace.exceptions.TeamAmountException;
+import com.voxcrafterlp.jumprace.modules.objects.ModuleRow;
 import com.voxcrafterlp.jumprace.objects.Countdown;
 import com.voxcrafterlp.jumprace.objects.Team;
 import com.voxcrafterlp.jumprace.utils.ActionBarUtil;
@@ -31,11 +32,13 @@ public class GameManager {
     private GameState gameState;
     private final Countdown lobbyCountdown, endingCountdown;
     private final Map<Player, String> playerNames;
+    private final Map<Player, ModuleRow> moduleRows;
 
     public GameManager() {
         this.registeredTeams = Lists.newCopyOnWriteArrayList();
         this.gameState = GameState.LOBBY;
         this.playerNames = new HashMap<>();
+        this.moduleRows = new HashMap<>();
 
         try {
             this.registerTeams();
@@ -64,6 +67,14 @@ public class GameManager {
         this.gameState = GameState.JUMPING;
         this.addPlayersToRandomTeams();
         this.loadPlayerNames();
+
+        AtomicInteger i = new AtomicInteger(0);
+
+        Bukkit.getOnlinePlayers().forEach(player -> {
+            this.moduleRows.put(player, JumpRace.getInstance().getModuleManager().getModuleRows().get(i.get()).assignPlayer(player));
+            JumpRace.getInstance().getInventoryManager().setInventory(player, InventoryManager.Type.JUMPING);
+            i.getAndIncrement();
+        });
     }
 
     private void loadPlayerNames() {

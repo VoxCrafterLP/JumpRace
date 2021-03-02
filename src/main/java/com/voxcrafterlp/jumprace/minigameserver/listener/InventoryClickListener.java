@@ -23,6 +23,7 @@ public class InventoryClickListener implements Listener {
         if(event.getInventory() == null) return;
         if(event.getInventory().getName() == null) return;
         if(event.getCurrentItem() == null) return;
+        if(event.getCurrentItem().getItemMeta() == null) return;
         if(event.getCurrentItem().getItemMeta().getDisplayName() == null) return;
 
         if(event.getInventory().getName().equalsIgnoreCase(JumpRace.getInstance().getInventoryManager().getTeamSelectorInventory().getName())) {

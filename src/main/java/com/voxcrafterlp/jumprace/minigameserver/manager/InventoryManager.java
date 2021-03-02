@@ -41,7 +41,7 @@ public class InventoryManager {
         //===============================================//
 
         this.jumpingInventory.setItem(0, new ItemManager(Material.WOOD_AXE).setUnbreakable(true).build());
-        this.jumpingInventory.setItem(9, new ItemManager(Material.COMPASS).build());
+        this.jumpingInventory.setItem(8, new ItemManager(Material.COMPASS).build());
 
         //===============================================//
 
@@ -67,7 +67,7 @@ public class InventoryManager {
                 break;
             case JUMPING:
                 player.getInventory().clear();
-                player.getInventory().setContents(this.lobbyInventory.getContents());
+                player.getInventory().setContents(this.jumpingInventory.getContents());
                 player.getInventory().setHelmet(new ItemManager(Material.LEATHER_HELMET).setUnbreakable(true).build());
                 player.getInventory().setChestplate(new ItemManager(Material.LEATHER_CHESTPLATE).setUnbreakable(true).build());
                 player.getInventory().setLeggings(new ItemManager(Material.LEATHER_LEGGINGS).setUnbreakable(true).build());
@@ -76,7 +76,7 @@ public class InventoryManager {
             case ENDING:
                 player.getInventory().clear();
                 player.getInventory().setArmorContents(null);
-                player.getInventory().setContents(this.lobbyInventory.getContents());
+                player.getInventory().setContents(this.endingInventory.getContents());
                 break;
         }
     }

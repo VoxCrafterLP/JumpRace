@@ -45,7 +45,7 @@ public class ModuleEditor {
 
     public void startEditor() {
         this.module.build(this.getSpawnLocation(), true);
-        this.player.teleport(this.getPlayerSpawnLocation());
+        this.player.teleport(this.module.getPlayerSpawnLocation());
         this.player.setGameMode(GameMode.CREATIVE);
         this.player.sendMessage(JumpRace.getInstance().getPrefix() + "§7You can now start §bbuilding§8.");
         this.player.sendMessage(JumpRace.getInstance().getPrefix() + "§7You can §cdisable §7particles in the §bsettings by switching to the §cperformance editor§8.");
@@ -98,17 +98,6 @@ public class ModuleEditor {
      */
     private Location getSpawnLocation() {
         return new Location(Bukkit.getWorld("jumprace"), 0, JumpRace.getInstance().getJumpRaceConfig().getModuleSpawnHeight(), 0);
-    }
-
-    private Location getPlayerSpawnLocation() {
-        final Location spawnLocation = this.module.calculateLocation(this.getSpawnLocation(), this.module.getStartPoint());
-        spawnLocation.setX(spawnLocation.getX() + 0.5);
-        spawnLocation.setY(spawnLocation.getY() + 1.0);
-        spawnLocation.setZ(spawnLocation.getZ() + 0.5);
-        spawnLocation.setYaw(-90F);
-        spawnLocation.setPitch(1.0F);
-
-        return spawnLocation;
     }
 
     private void startActionbar() {

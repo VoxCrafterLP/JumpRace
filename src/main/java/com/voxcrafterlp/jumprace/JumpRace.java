@@ -137,6 +137,11 @@ public class JumpRace extends JavaPlugin {
         this.moduleManager.buildModules();
         this.inventoryManager = new InventoryManager();
         this.locationManager = new LocationManager();
+
+        if(this.locationManager.getLobbyLocation() != null) {
+            Bukkit.getWorld(this.locationManager.getLobbyLocation().getWorld().getName()).setGameRuleValue("doDaylightCycle", "false");
+            Bukkit.getWorld(this.locationManager.getLobbyLocation().getWorld().getName()).setDifficulty(Difficulty.PEACEFUL);
+        }
     }
 
     /**

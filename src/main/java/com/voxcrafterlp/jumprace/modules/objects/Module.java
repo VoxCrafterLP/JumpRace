@@ -7,12 +7,20 @@ import com.voxcrafterlp.jumprace.modules.enums.ParticleDirection;
 import com.voxcrafterlp.jumprace.modules.utils.ModuleExportUtil;
 import lombok.Getter;
 import lombok.Setter;
+import net.minecraft.server.v1_8_R3.EntityArmorStand;
+import net.minecraft.server.v1_8_R3.PacketPlayOutSpawnEntityLiving;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.entity.Player;
+
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * This file was created by VoxCrafter_LP!
@@ -32,7 +40,7 @@ public class Module {
     private RelativePosition startPoint, endPoint;
     private RelativePosition border1, border2;
 
-    private Location spawnLocation, startPointLocation, endPointLocation;
+    private Location spawnLocation, startPointLocation, endPointLocation, enderChestLocation;
 
     private int particlesTaskID;
     private List<ParticleLine> particleLines;
@@ -71,6 +79,9 @@ public class Module {
                         Block block = new Location(location.getWorld(), location.getBlockX() + x, location.getBlockY() + y, location.getBlockZ() + z).getBlock();
                         block.setType(material, false);
                         block.setData(moduleData.getData()[index]);
+
+                        if(block.getType() == Material.ENDER_CHEST)
+                            this.enderChestLocation = block.getLocation();
                     }
                 }
             }
@@ -148,8 +159,50 @@ public class Module {
         new ModuleExportUtil(this.name, this.builder, this.moduleDifficulty, startPoint, endPoint, borders, this.spawnLocation).exportModule();
     }
 
-    public Module clone() throws CloneNotSupportedException {
-        return (Module) super.clone();
+    public void spawnHologram(Player player, int moduleNumber) {
+        final List<String> lines = Lists.newCopyOnWriteArrayList();
+
+        lines.addAll(Arrays.asList("§8===============", "§7Module §b#" + moduleNumber, "§7Name§8: §b" + this.name, "§7Builder(s)§8: §b" + this.builder,
+                "§7Difficulty§8: " + this.moduleDifficulty.getDisplayName(), "§8==============="));
+
+        double d = (0.3 * lines.size());
+        System.out.println(d);
+
+        final Location hologramLocation = this.startPointLocation.clone().add(2.0, 0.7 + d, 0.5); //Hologram offset
+        lines.forEach(line -> this.summonArmorStand(player, hologramLocation.add(0.0, -0.3, 0.0), line));
+    }
+
+    private void summonArmorStand(Player player, Location location, String text) {
+        final EntityArmorStand armorStand = new EntityArmorStand(((CraftWorld) location.getWorld()).getHandle());
+        armorStand.setLocation(location.getX(), location.getY(), location.getZ(), 0, 0);
+        armorStand.setCustomName(text);
+        armorStand.setCustomNameVisible(true);
+        armorStand.setSmall(true);
+        armorStand.setInvisible(true);
+
+        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(new PacketPlayOutSpawnEntityLiving(armorStand));
+    }
+
+    public Location getPlayerSpawnLocation() {
+        final Location spawnLocation = this.calculateLocation(this.getSpawnLocation(), this.getStartPoint());
+        spawnLocation.setX(spawnLocation.getX() + 0.5);
+        spawnLocation.setY(spawnLocation.getY() + 1.0);
+        spawnLocation.setZ(spawnLocation.getZ() + 0.5);
+        spawnLocation.setYaw(-90F);
+        spawnLocation.setPitch(1.0F);
+
+        return spawnLocation;
+    }
+
+    @Override
+    public Module clone() {
+        final Module module = new Module(this.name, this.builder, this.moduleDifficulty, this.moduleData, this.startPoint, this.endPoint, false);
+        module.setSpawnLocation(this.spawnLocation);
+        module.setStartPointLocation(this.startPointLocation);
+        module.setEndPointLocation(this.endPointLocation);
+        module.setEnderChestLocation(this.enderChestLocation);
+
+        return module;
     }
 
 }
