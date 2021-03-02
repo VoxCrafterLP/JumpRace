@@ -10,6 +10,8 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 
 /**
  * This file was created by VoxCrafter_LP!
@@ -42,6 +44,18 @@ public class Protection implements Listener {
     public void onDamage(EntityDamageEvent event) {
         if(event.getEntityType() != EntityType.PLAYER) return;
         if(JumpRace.getInstance().getGameManager().getGameState() != GameState.ARENA)
+            event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onDrop(PlayerDropItemEvent event) {
+        if(JumpRace.getInstance().getGameManager().getGameState() == GameState.LOBBY || JumpRace.getInstance().getGameManager().getGameState() == GameState.ENDING)
+            event.setCancelled(!(event.getPlayer().getGameMode() == GameMode.CREATIVE));
+    }
+
+    @EventHandler
+    public void onClick(InventoryClickEvent event) {
+        if(event.getWhoClicked().getGameMode() != GameMode.CREATIVE)
             event.setCancelled(true);
     }
 

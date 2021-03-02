@@ -62,6 +62,7 @@ public class GameManager {
 
     public void startGame() {
         this.gameState = GameState.JUMPING;
+        this.addPlayersToRandomTeams();
         this.loadPlayerNames();
     }
 
@@ -76,10 +77,17 @@ public class GameManager {
     }
 
     public void handlePlayerQuit(Player player) {
-        if(gameState == GameState.LOBBY && Bukkit.getOnlinePlayers().size() < JumpRace.getInstance().getJumpRaceConfig().getPlayersRequiredForStart())
+        if(this.gameState == GameState.LOBBY && Bukkit.getOnlinePlayers().size() < JumpRace.getInstance().getJumpRaceConfig().getPlayersRequiredForStart())
             this.lobbyCountdown.reset(false);
 
-        if(gameState == GameState.JUMPING || gameState == GameState.ARENA) {
+        if(this.gameState == GameState.LOBBY) {
+            final Team team = this.getTeamFromPlayer(player);
+            if(team != null) team.getMembers().remove(player);
+
+            JumpRace.getInstance().getInventoryManager().updateTeamSelectorInventory();
+        }
+
+        if(this.gameState == GameState.JUMPING || this.gameState == GameState.ARENA) {
             final Team team = this.getTeamFromPlayer(player);
             if(team != null) {
                 team.getMembers().remove(player);
@@ -112,7 +120,7 @@ public class GameManager {
         return this.registeredTeams.stream().filter(team -> team.getMembers().contains(player)).findAny().orElse(null);
     }
 
-    private void addPlayersRandomToTeams() {
+    private void addPlayersToRandomTeams() {
         Bukkit.getOnlinePlayers().forEach(player -> {
             if(this.getTeamFromPlayer(player) == null) {
                 this.registeredTeams.stream().filter(team -> team.getMembers().size() <

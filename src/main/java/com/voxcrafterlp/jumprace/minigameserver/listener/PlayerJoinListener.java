@@ -19,7 +19,7 @@ public class PlayerJoinListener implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
-        Player player = event.getPlayer();
+        final Player player = event.getPlayer();
 
         switch (JumpRace.getInstance().getGameManager().getGameState()) {
             case LOBBY:

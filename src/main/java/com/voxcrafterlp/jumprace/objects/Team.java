@@ -5,9 +5,12 @@ import com.voxcrafterlp.jumprace.JumpRace;
 import com.voxcrafterlp.jumprace.enums.TeamColor;
 import lombok.Getter;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
+
 import java.util.List;
 
 /**
@@ -44,10 +47,19 @@ public class Team {
         lore.add("§8§m-------------------");
 
         bootsMeta.setLore(lore);
+
+        if(this.members.size() == JumpRace.getInstance().getJumpRaceConfig().getTeamSize()) {
+            boots.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
+            bootsMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        }
+
         boots.setItemMeta(bootsMeta);
 
         return boots;
     }
 
+    public boolean isFull() {
+        return this.members.size() == JumpRace.getInstance().getJumpRaceConfig().getTeamSize();
+    }
 
 }

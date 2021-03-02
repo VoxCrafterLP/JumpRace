@@ -108,9 +108,12 @@ public class JumpRace extends JavaPlugin {
 
         PluginManager pluginManager = Bukkit.getPluginManager();
         pluginManager.registerEvents(new com.voxcrafterlp.jumprace.minigameserver.listener.PlayerJoinListener(), this);
+        pluginManager.registerEvents(new com.voxcrafterlp.jumprace.minigameserver.listener.PlayerQuitListener(), this);
         pluginManager.registerEvents(new SetupListener(), this);
         pluginManager.registerEvents(new PlayerLoginListener(), this);
         pluginManager.registerEvents(new com.voxcrafterlp.jumprace.minigameserver.listener.Protection(), this);
+        pluginManager.registerEvents(new com.voxcrafterlp.jumprace.minigameserver.listener.InventoryClickListener(), this);
+        pluginManager.registerEvents(new com.voxcrafterlp.jumprace.minigameserver.listener.PlayerInteractListener(), this);
 
         if(Bukkit.getWorld("jumprace") == null) {
             Bukkit.getConsoleSender().sendMessage("§aGenerating JumpRace world...");
