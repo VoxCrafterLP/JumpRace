@@ -3,15 +3,20 @@ package com.voxcrafterlp.jumprace.minigameserver.listener;
 import com.voxcrafterlp.jumprace.JumpRace;
 import com.voxcrafterlp.jumprace.enums.GameState;
 import org.bukkit.GameMode;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 
 /**
  * This file was created by VoxCrafter_LP!
@@ -57,6 +62,12 @@ public class Protection implements Listener {
     public void onClick(InventoryClickEvent event) {
         if(JumpRace.getInstance().getGameManager().getGameState() == GameState.JUMPING || JumpRace.getInstance().getGameManager().getGameState() == GameState.ARENA) return;
         if(event.getWhoClicked().getGameMode() != GameMode.CREATIVE)
+            event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onInteract(PlayerInteractEvent event) {
+        if(event.getAction() == Action.PHYSICAL && event.getClickedBlock().getType() == Material.SOIL)
             event.setCancelled(true);
     }
 
