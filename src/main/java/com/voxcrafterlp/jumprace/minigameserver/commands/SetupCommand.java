@@ -2,7 +2,6 @@ package com.voxcrafterlp.jumprace.minigameserver.commands;
 
 import com.voxcrafterlp.jumprace.JumpRace;
 import com.voxcrafterlp.jumprace.minigameserver.setup.objects.MapSetup;
-import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

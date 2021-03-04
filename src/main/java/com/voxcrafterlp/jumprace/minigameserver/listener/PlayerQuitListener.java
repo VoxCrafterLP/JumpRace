@@ -1,8 +1,6 @@
 package com.voxcrafterlp.jumprace.minigameserver.listener;
 
 import com.voxcrafterlp.jumprace.JumpRace;
-import com.voxcrafterlp.jumprace.minigameserver.manager.InventoryManager;
-import com.voxcrafterlp.jumprace.objects.Countdown;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

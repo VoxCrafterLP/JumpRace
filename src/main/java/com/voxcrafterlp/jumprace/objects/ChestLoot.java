@@ -3,13 +3,15 @@ package com.voxcrafterlp.jumprace.objects;
 import com.google.common.collect.Lists;
 import com.voxcrafterlp.jumprace.modules.enums.ModuleDifficulty;
 import lombok.Getter;
-import org.bukkit.*;
+import org.bukkit.Effect;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.lang.reflect.Array;
-import java.util.*;
 import java.util.Map;
+import java.util.*;
 
 /**
  * This file was created by VoxCrafter_LP!

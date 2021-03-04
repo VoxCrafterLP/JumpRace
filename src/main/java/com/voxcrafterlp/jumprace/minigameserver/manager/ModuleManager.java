@@ -6,16 +6,14 @@ import com.voxcrafterlp.jumprace.exceptions.ModuleNotFoundException;
 import com.voxcrafterlp.jumprace.modules.enums.ModuleDifficulty;
 import com.voxcrafterlp.jumprace.modules.objects.Module;
 import com.voxcrafterlp.jumprace.modules.objects.ModuleRow;
-import com.voxcrafterlp.jumprace.modules.objects.RelativePosition;
 import lombok.Getter;
-import net.minecraft.server.v1_8_R3.ExceptionPlayerNotFound;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 
-import java.lang.reflect.Array;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * This file was created by VoxCrafter_LP!

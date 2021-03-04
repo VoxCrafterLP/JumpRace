@@ -86,7 +86,8 @@ public class GameManager {
     }
 
     public void handlePlayerJoin() {
-        if(!this.lobbyCountdown.isRunning() && Bukkit.getOnlinePlayers().size() >= JumpRace.getInstance().getJumpRaceConfig().getPlayersRequiredForStart())
+        if(!this.lobbyCountdown.isRunning() && Bukkit.getOnlinePlayers().size() >= JumpRace.getInstance().getJumpRaceConfig().getPlayersRequiredForStart()  &&
+            JumpRace.getInstance().getLocationManager().getLoadedMaps().size() != 0)
             this.lobbyCountdown.startCountdown();
     }
 
@@ -147,6 +148,11 @@ public class GameManager {
         Bukkit.getScheduler().scheduleAsyncRepeatingTask(JumpRace.getInstance(), () -> {
             if(this.gameState == GameState.LOBBY) {
                 if(!this.lobbyCountdown.isRunning()) {
+                    if(JumpRace.getInstance().getLocationManager().getLoadedMaps().size() == 0) {
+                        Bukkit.getOnlinePlayers().forEach(player -> new ActionBarUtil().sendActionbar(player, "§cNo map has been set up!"));
+                        return;
+                    }
+
                     final int playerLeft = JumpRace.getInstance().getJumpRaceConfig().getPlayersRequiredForStart() - Bukkit.getOnlinePlayers().size();
                     Bukkit.getOnlinePlayers().forEach(player -> new ActionBarUtil().sendActionbar(player,
                             ((playerLeft == 1) ? "§7Waiting for §bone §7more player§8..." : "§7Waiting for §b" + playerLeft + " §7more players§8...")));

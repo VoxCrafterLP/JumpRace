@@ -2,6 +2,7 @@ package com.voxcrafterlp.jumprace.config;
 
 import lombok.Getter;
 import org.bukkit.configuration.file.YamlConfiguration;
+
 import java.io.File;
 
 /**

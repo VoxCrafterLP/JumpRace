@@ -2,7 +2,6 @@ package com.voxcrafterlp.jumprace.minigameserver.listener;
 
 import com.voxcrafterlp.jumprace.JumpRace;
 import com.voxcrafterlp.jumprace.enums.GameState;
-import com.voxcrafterlp.jumprace.modules.objects.ModuleRow;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;

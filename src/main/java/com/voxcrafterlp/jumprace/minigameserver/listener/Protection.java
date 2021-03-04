@@ -4,8 +4,6 @@ import com.voxcrafterlp.jumprace.JumpRace;
 import com.voxcrafterlp.jumprace.enums.GameState;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
