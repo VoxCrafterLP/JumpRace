@@ -1,11 +1,15 @@
 package com.voxcrafterlp.jumprace.objects;
 
 import com.voxcrafterlp.jumprace.JumpRace;
+import com.voxcrafterlp.jumprace.minigameserver.scoreboard.PlayerScoreboard;
 import com.voxcrafterlp.jumprace.utils.TitleUtil;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
+import org.bukkit.entity.Player;
+
+import java.util.Map;
 
 /**
  * This file was created by VoxCrafter_LP!
@@ -39,36 +43,43 @@ public class Countdown {
                 return;
             }
 
-            switch (timeLeft) {
-                case 60:
-                case 30:
-                case 15:
-                case 10:
-                case 5:
-                    if(this.type == Type.LOBBY)
-                        Bukkit.getOnlinePlayers().forEach(player -> new TitleUtil().sendTitle(player, "§bJumpRace", 10, 30, 5));
-                case 4:
-                case 3:
-                case 2:
-                    Bukkit.getOnlinePlayers().forEach(player -> {
-                        player.sendMessage(JumpRace.getInstance().getPrefix() + "§7The game " + ((this.type == Type.LOBBY) ? "§bstarts" : "§cends") +
-                                " §7in " + ((this.type == Type.LOBBY) ? "§b" : "§c") + this.timeLeft +" seconds§8.");
-                        player.playSound(player.getLocation(), Sound.NOTE_BASS, 10, 10);
-                    });
-                    break;
-                case 1:
-                    Bukkit.getOnlinePlayers().forEach(player -> {
-                        player.sendMessage(JumpRace.getInstance().getPrefix() + "§7The game " + ((this.type == Type.LOBBY) ? "§bstarts" : "§cends") +
-                                " §7in " + ((this.type == Type.LOBBY) ? "§b" : "§c") + this.timeLeft +" second§8.");
-                        player.playSound(player.getLocation(), Sound.NOTE_BASS, 10, 10);
-                    });
-                    break;
+            if(this.type == Type.LOBBY || this.type == Type.ENDING) {
+                switch (timeLeft) {
+                    case 60:
+                    case 30:
+                    case 15:
+                    case 10:
+                    case 5:
+                        if(this.type == Type.LOBBY)
+                            Bukkit.getOnlinePlayers().forEach(player -> new TitleUtil().sendTitle(player, "§bJumpRace", 10, 35, 10));
+                    case 4:
+                    case 3:
+                    case 2:
+                        Bukkit.getOnlinePlayers().forEach(player -> {
+                            player.sendMessage(JumpRace.getInstance().getPrefix() + "§7The game " + ((this.type == Type.LOBBY) ? "§bstarts" : "§cends") +
+                                    " §7in " + ((this.type == Type.LOBBY) ? "§b" : "§c") + this.timeLeft +" seconds§8.");
+                            player.playSound(player.getLocation(), Sound.NOTE_BASS, 10, 10);
+                        });
+                        break;
+                    case 1:
+                        Bukkit.getOnlinePlayers().forEach(player -> {
+                            player.sendMessage(JumpRace.getInstance().getPrefix() + "§7The game " + ((this.type == Type.LOBBY) ? "§bstarts" : "§cends") +
+                                    " §7in " + ((this.type == Type.LOBBY) ? "§b" : "§c") + this.timeLeft +" second§8.");
+                            player.playSound(player.getLocation(), Sound.NOTE_BASS, 10, 10);
+                        });
+                        break;
+                }
+
+                Bukkit.getOnlinePlayers().forEach(player -> {
+                    player.setLevel(this.timeLeft);
+                    player.setExp(this.timeLeft * ((float) 1 / this.type.getDuration()));
+                });
             }
 
-            Bukkit.getOnlinePlayers().forEach(player -> {
-                player.setLevel(this.timeLeft);
-                player.setExp(this.timeLeft * ((float) 1 / this.type.getDuration()));
-            });
+            if(this.type == Type.JUMPING) {
+                final Map<Player, Integer> map = JumpRace.getInstance().getGameManager().getTopScoreboardPlayers();
+                Bukkit.getOnlinePlayers().forEach(player -> new PlayerScoreboard().updateScoreboard(player, map));
+            }
 
             this.timeLeft--;
         }, 0, 20);
@@ -92,11 +103,19 @@ public class Countdown {
         this.runnable.run();
     }
 
+    public String getTimeLeftFormatted() {
+        final int seconds = this.timeLeft % 60;
+        final int minutes = this.timeLeft / 60;
+
+        return ((minutes > 9) ? minutes: "0" + minutes) + ":" + ((seconds > 9) ? seconds: "0" + seconds);
+    }
+
     @Getter
     public enum Type {
 
         LOBBY(10),
-        ENDING(15);
+        ENDING(15),
+        JUMPING(480);
 
         private final int duration;
 

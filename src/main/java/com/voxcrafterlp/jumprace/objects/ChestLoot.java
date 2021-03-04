@@ -115,8 +115,6 @@ public class ChestLoot {
 
         int amount = new Random().nextInt(MAX_ITEMS - MIN_ITEMS + 1) + MIN_ITEMS;
 
-        System.out.println(amount);
-
         for(int i = 0; i<amount; i++)
             loot.add(lootFromDifficulty.get(new Random().nextInt(lootFromDifficulty.size())));
 
