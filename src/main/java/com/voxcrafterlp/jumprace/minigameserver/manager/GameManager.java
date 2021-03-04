@@ -6,6 +6,7 @@ import com.voxcrafterlp.jumprace.enums.GameState;
 import com.voxcrafterlp.jumprace.enums.TeamColor;
 import com.voxcrafterlp.jumprace.exceptions.TeamAmountException;
 import com.voxcrafterlp.jumprace.modules.objects.ModuleRow;
+import com.voxcrafterlp.jumprace.objects.ChestLoot;
 import com.voxcrafterlp.jumprace.objects.Countdown;
 import com.voxcrafterlp.jumprace.objects.Team;
 import com.voxcrafterlp.jumprace.utils.ActionBarUtil;
@@ -33,12 +34,14 @@ public class GameManager {
     private final Countdown lobbyCountdown, endingCountdown;
     private final Map<Player, String> playerNames;
     private final Map<Player, ModuleRow> moduleRows;
+    private final ChestLoot chestLoot;
 
     public GameManager() {
         this.registeredTeams = Lists.newCopyOnWriteArrayList();
         this.gameState = GameState.LOBBY;
         this.playerNames = new HashMap<>();
         this.moduleRows = new HashMap<>();
+        this.chestLoot = new ChestLoot();
 
         try {
             this.registerTeams();

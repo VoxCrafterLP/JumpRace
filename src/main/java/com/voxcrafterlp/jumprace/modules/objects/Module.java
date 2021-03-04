@@ -40,7 +40,7 @@ public class Module {
     private RelativePosition startPoint, endPoint;
     private RelativePosition border1, border2;
 
-    private Location spawnLocation, startPointLocation, endPointLocation, enderChestLocation, goldPlateLocation;
+    private Location spawnLocation, startPointLocation, endPointLocation, goldPlateLocation;
 
     private int particlesTaskID;
     private List<ParticleLine> particleLines;
@@ -79,9 +79,6 @@ public class Module {
                         Block block = new Location(location.getWorld(), location.getBlockX() + x, location.getBlockY() + y, location.getBlockZ() + z).getBlock();
                         block.setType(material, false);
                         block.setData(moduleData.getData()[index]);
-
-                        if(block.getType() == Material.ENDER_CHEST)
-                            this.enderChestLocation = block.getLocation();
                     }
                 }
             }
@@ -200,7 +197,6 @@ public class Module {
         module.setSpawnLocation(this.spawnLocation);
         module.setStartPointLocation(this.startPointLocation);
         module.setEndPointLocation(this.endPointLocation);
-        module.setEnderChestLocation(this.enderChestLocation);
 
         return module;
     }

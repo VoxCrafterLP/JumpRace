@@ -2,6 +2,7 @@ package com.voxcrafterlp.jumprace.modules.objects;
 
 import com.google.common.collect.Lists;
 import com.voxcrafterlp.jumprace.JumpRace;
+import com.voxcrafterlp.jumprace.modules.enums.ModuleDifficulty;
 import com.voxcrafterlp.jumprace.modules.utils.CalculatorUtil;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -25,7 +26,6 @@ import java.util.concurrent.atomic.AtomicReference;
 public class ModuleRow {
 
     private final List<Module> modules;
-    private final List<Location> enderChestLocations;
     private final int z;
     private Player player;
     private Location respawnLocation;
@@ -34,7 +34,6 @@ public class ModuleRow {
     public ModuleRow(List<Module> modules, int z) {
         this.z = z;
         this.modules = Lists.newCopyOnWriteArrayList();
-        this.enderChestLocations = Lists.newCopyOnWriteArrayList();
         this.build(modules);
     }
 
@@ -55,8 +54,6 @@ public class ModuleRow {
             this.modules.add(newModule);
             spawnedModules.getAndIncrement();
         });
-
-        this.modules.forEach(module -> this.enderChestLocations.add(module.getEnderChestLocation()));
     }
 
     public ModuleRow assignPlayer(Player player) {
@@ -83,19 +80,32 @@ public class ModuleRow {
     }
 
    public void triggerGoldPlate(Location location) {
+       if(this.modulesCompleted == 10) return;
+
         if(!location.equals(this.modules.get(this.modulesCompleted).getGoldPlateLocation())) return;
 
         this.modulesCompleted++;
         player.playSound(player.getLocation(), Sound.LEVEL_UP,1,1);
         player.sendMessage(JumpRace.getInstance().getPrefix() + "§7You completed §bmodule " + this.modulesCompleted + "§8.");
 
-        if(this.modulesCompleted == 10) {
-            JumpRace.getInstance().getGameManager().reachGoal(player);
-            return;
-        }
+       if(this.modulesCompleted == 10) {
+           JumpRace.getInstance().getGameManager().reachGoal(player);
+           return;
+       }
 
         this.respawnLocation = this.modules.get(this.modulesCompleted).getPlayerSpawnLocation();
        this.respawnHeight = this.getModules().get(this.modulesCompleted).getModuleBorders()[0].getBlockY();
+   }
+
+   public ModuleDifficulty getCurrentModuleDifficulty() {
+        if(this.modulesCompleted < 4)
+            return ModuleDifficulty.EASY;
+        else if(this.modulesCompleted < 7)
+            return ModuleDifficulty.NORMAL;
+        else if(this.modulesCompleted < 9)
+            return ModuleDifficulty.HARD;
+        else
+            return ModuleDifficulty.VERY_HARD;
    }
 
    private void startRespawnScheduler() {
