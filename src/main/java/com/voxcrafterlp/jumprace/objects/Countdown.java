@@ -95,7 +95,7 @@ public class Countdown {
     @Getter
     public enum Type {
 
-        LOBBY(60),
+        LOBBY(10),
         ENDING(15);
 
         private final int duration;

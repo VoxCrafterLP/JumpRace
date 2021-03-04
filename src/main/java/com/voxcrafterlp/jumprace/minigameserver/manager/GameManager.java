@@ -153,4 +153,8 @@ public class GameManager {
         }, 20, 20);
     }
 
+    public void reachGoal(Player player) {
+
+    }
+
 }

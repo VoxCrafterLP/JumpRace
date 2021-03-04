@@ -6,6 +6,8 @@ import com.voxcrafterlp.jumprace.modules.utils.CalculatorUtil;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -26,6 +28,8 @@ public class ModuleRow {
     private final List<Location> enderChestLocations;
     private final int z;
     private Player player;
+    private Location respawnLocation;
+    private int modulesCompleted, taskID, respawnHeight;
 
     public ModuleRow(List<Module> modules, int z) {
         this.z = z;
@@ -57,7 +61,11 @@ public class ModuleRow {
 
     public ModuleRow assignPlayer(Player player) {
         this.player = player;
-        this.player.teleport(this.getModules().get(0).getPlayerSpawnLocation());
+        final Location location = this.getModules().get(0).getPlayerSpawnLocation();
+        this.respawnLocation = location;
+        this.player.teleport(location);
+        this.modulesCompleted = 0;
+        this.respawnHeight = this.getModules().get(0).getModuleBorders()[0].getBlockY();
 
         AtomicInteger i = new AtomicInteger(1);
         this.modules.forEach(module -> {
@@ -65,8 +73,40 @@ public class ModuleRow {
             i.getAndIncrement();
         });
 
+        this.startRespawnScheduler();
+
         return this;
     }
 
+    public void respawn() {
+        player.teleport(this.respawnLocation);
+    }
+
+   public void triggerGoldPlate(Location location) {
+        if(!location.equals(this.modules.get(this.modulesCompleted).getGoldPlateLocation())) return;
+
+        this.modulesCompleted++;
+        player.playSound(player.getLocation(), Sound.LEVEL_UP,1,1);
+        player.sendMessage(JumpRace.getInstance().getPrefix() + "§7You completed §bmodule " + this.modulesCompleted + "§8.");
+
+        if(this.modulesCompleted == 10) {
+            JumpRace.getInstance().getGameManager().reachGoal(player);
+            return;
+        }
+
+        this.respawnLocation = this.modules.get(this.modulesCompleted).getPlayerSpawnLocation();
+       this.respawnHeight = this.getModules().get(this.modulesCompleted).getModuleBorders()[0].getBlockY();
+   }
+
+   private void startRespawnScheduler() {
+        this.taskID = Bukkit.getScheduler().scheduleAsyncRepeatingTask(JumpRace.getInstance(), () -> {
+            if(player.getLocation().getBlockY() < this.respawnHeight)
+                this.respawn();
+        }, 5, 1);
+   }
+
+   private void stopRespawnScheduler() {
+        Bukkit.getScheduler().cancelTask(this.taskID);
+   }
 
 }

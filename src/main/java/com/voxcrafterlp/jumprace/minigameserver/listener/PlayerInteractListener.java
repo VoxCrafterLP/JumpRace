@@ -2,6 +2,7 @@ package com.voxcrafterlp.jumprace.minigameserver.listener;
 
 import com.voxcrafterlp.jumprace.JumpRace;
 import com.voxcrafterlp.jumprace.enums.GameState;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -20,6 +21,12 @@ public class PlayerInteractListener implements Listener {
 
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
+        if(event.getAction() == Action.PHYSICAL) {
+            if(event.getClickedBlock().getType() == Material.GOLD_PLATE)
+                JumpRace.getInstance().getGameManager().getModuleRows().get(event.getPlayer()).triggerGoldPlate(event.getClickedBlock().getLocation());
+            return;
+        }
+
         if(event.getItem() == null) return;
         if(event.getItem().getItemMeta().getDisplayName() == null) return;
 

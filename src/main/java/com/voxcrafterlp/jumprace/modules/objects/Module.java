@@ -40,7 +40,7 @@ public class Module {
     private RelativePosition startPoint, endPoint;
     private RelativePosition border1, border2;
 
-    private Location spawnLocation, startPointLocation, endPointLocation, enderChestLocation;
+    private Location spawnLocation, startPointLocation, endPointLocation, enderChestLocation, goldPlateLocation;
 
     private int particlesTaskID;
     private List<ParticleLine> particleLines;
@@ -96,6 +96,9 @@ public class Module {
         if(JumpRace.getInstance().getJumpRaceConfig().isBuilderServer()) {
             this.recalculateParticles();
             this.spawnParticles();
+        } else  {
+            this.goldPlateLocation =  this.endPointLocation.clone().add(0.0, 1.0, 0.0);
+            this.goldPlateLocation.getBlock().setType(Material.GOLD_PLATE);
         }
     }
 
@@ -165,10 +168,7 @@ public class Module {
         lines.addAll(Arrays.asList("§8===============", "§7Module §b#" + moduleNumber, "§7Name§8: §b" + this.name, "§7Builder(s)§8: §b" + this.builder,
                 "§7Difficulty§8: " + this.moduleDifficulty.getDisplayName(), "§8==============="));
 
-        double d = (0.3 * lines.size());
-        System.out.println(d);
-
-        final Location hologramLocation = this.startPointLocation.clone().add(2.0, 0.7 + d, 0.5); //Hologram offset
+        final Location hologramLocation = this.startPointLocation.clone().add(2.0, 0.7 + (0.3 * lines.size()), 0.5); //Hologram offset
         lines.forEach(line -> this.summonArmorStand(player, hologramLocation.add(0.0, -0.3, 0.0), line));
     }
 
