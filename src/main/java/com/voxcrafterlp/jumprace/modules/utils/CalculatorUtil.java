@@ -27,4 +27,8 @@ public class CalculatorUtil {
         return new Location(Bukkit.getWorld("jumprace"), x, y, z);
     }
 
+    public int calculatePercent(int total, int current) {
+        return current * 100 / total;
+    }
+
 }

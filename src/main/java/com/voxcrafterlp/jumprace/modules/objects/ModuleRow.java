@@ -76,6 +76,7 @@ public class ModuleRow {
 
     public void respawn() {
         player.teleport(this.respawnLocation);
+        player.playSound(player.getLocation(), Sound.NOTE_BASS,1,1);
     }
 
    public void triggerGoldPlate(Location location) {

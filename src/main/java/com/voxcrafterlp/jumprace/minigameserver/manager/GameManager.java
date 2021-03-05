@@ -7,6 +7,7 @@ import com.voxcrafterlp.jumprace.enums.TeamColor;
 import com.voxcrafterlp.jumprace.exceptions.TeamAmountException;
 import com.voxcrafterlp.jumprace.minigameserver.scoreboard.PlayerScoreboard;
 import com.voxcrafterlp.jumprace.modules.objects.ModuleRow;
+import com.voxcrafterlp.jumprace.modules.utils.CalculatorUtil;
 import com.voxcrafterlp.jumprace.objects.ChestLoot;
 import com.voxcrafterlp.jumprace.objects.Countdown;
 import com.voxcrafterlp.jumprace.objects.Team;
@@ -179,20 +180,29 @@ public class GameManager {
         this.jumpingCountdown.setTimeLeft(10);
         Bukkit.broadcastMessage(JumpRace.getInstance().getPrefix() + JumpRace.getInstance().getGameManager().getPlayerNames().get(player) +
                 " §7reached the §bgoal§8.");
-        player.playSound(player.getLocation(), Sound.LEVEL_UP,1,1);
+        player.playSound(player.getLocation(), Sound.ENDERDRAGON_GROWL,1,1);
         player.getInventory().setBoots(new ItemManager(Material.DIAMOND_BOOTS).setUnbreakable(true).build());
     }
 
+    /*
+        https://howtodoinjava.com/java/sort/java-sort-map-by-values/
+     */
     public Map<Player, Integer> getTopScoreboardPlayers() {
-        Map<Integer, Player> progress = new HashMap<>();
-        Map<Player, Integer> map = new HashMap<>();
+        Map<Player, Integer> progress = new HashMap<>();
+        Map<Player, Integer> map = new LinkedHashMap<>();
 
-        Bukkit.getOnlinePlayers().forEach(player -> progress.put(player.getLocation().getBlockX(), player));
+        Bukkit.getOnlinePlayers().forEach(player -> progress.put(player, player.getLocation().getBlockX()));
 
-        SortedSet<Integer> keys = new TreeSet<>(progress.keySet());
-        keys.forEach(key -> {
+        final LinkedHashMap<Player, Integer> sortedProgressMap = new LinkedHashMap<>();
+
+        progress.entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                .forEachOrdered(x -> sortedProgressMap.put(x.getKey(), x.getValue()));
+
+        sortedProgressMap.forEach((player, integer) -> {
             if(map.size() <= 12)
-                map.put(progress.get(key), key);
+                map.put(player, new CalculatorUtil().calculatePercent(JumpRace.getInstance().getModuleManager().getModuleLength(), integer));
         });
 
         return map;

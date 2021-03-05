@@ -28,11 +28,13 @@ public class ModuleManager {
     private final List<Module> loadedModules;
     private final List<Module> selectedModules;
     private final List<ModuleRow> moduleRows;
+    private int moduleLength;
 
     public ModuleManager() {
         this.loadedModules = JumpRace.getInstance().getModuleLoader().getModuleList();
         this.selectedModules = Lists.newCopyOnWriteArrayList();
         this.moduleRows = Lists.newCopyOnWriteArrayList();
+        this.moduleLength = 0;
     }
 
     public void buildModules() {
@@ -63,6 +65,8 @@ public class ModuleManager {
                 Bukkit.getScheduler().cancelTask(taskID.get());
         }, 10, 10));
 
+
+        this.selectedModules.forEach(module -> this.moduleLength = moduleLength + (module.getModuleData().getWidth() - 1));
         Bukkit.getConsoleSender().sendMessage("§aModules built successfully");
     }
 
