@@ -4,13 +4,18 @@ import com.voxcrafterlp.jumprace.JumpRace;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockPistonExtendEvent;
+import org.bukkit.event.block.BlockPistonRetractEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerItemDamageEvent;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -60,6 +65,13 @@ public class Protection implements Listener {
         }
     }
 
+
+    @EventHandler
+    public void onDamage(EntityDamageEvent event) {
+        if(event.getEntityType() != EntityType.PLAYER) return;
+        event.setCancelled(JumpRace.getInstance().getEditorSessions().containsKey((Player) event.getEntity()));
+    }
+
     @EventHandler
     public void onEntityExplode(EntityExplodeEvent event) {
         event.blockList().forEach(block -> {
@@ -74,4 +86,27 @@ public class Protection implements Listener {
         });
     }
 
+    @EventHandler
+    public void onExtend(BlockPistonExtendEvent event) {
+        if(event.getBlocks().stream().filter(block -> block.getType().equals(Material.GOLD_BLOCK)).count() != 0) {
+            JumpRace.getInstance().getEditorSessions().forEach((player, session) -> {
+                if(session.getModule().getSpawnLocation() != null) {
+                    if(event.getBlocks().stream().filter(block -> block.getLocation().equals(session.getModule().getStartPointLocation())).count() != 0)
+                        event.setCancelled(true);
+                }
+            });
+        }
+    }
+
+    @EventHandler
+    public void onRetract(BlockPistonRetractEvent event) {
+        if(event.getBlocks().stream().filter(block -> block.getType().equals(Material.GOLD_BLOCK)).count() != 0) {
+            JumpRace.getInstance().getEditorSessions().forEach((player, session) -> {
+                if(session.getModule().getSpawnLocation() != null) {
+                    if(event.getBlocks().stream().filter(block -> block.getLocation().equals(session.getModule().getStartPointLocation())).count() != 0)
+                        event.setCancelled(true);
+                }
+            });
+        }
+    }
 }

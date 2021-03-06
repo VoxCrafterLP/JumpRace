@@ -209,6 +209,7 @@ public class ModuleEditor {
 
 
     public void clearArea(Location[] borders) {
+        if(borders == null) return;
         for (int x = borders[0].getBlockX(); x < (borders[1].getBlockX() + 1); x++) {
             for (int y = borders[0].getBlockY(); y < (borders[1].getBlockY() + 1); y++) {
                 for (int z = borders[0].getBlockZ(); z < (borders[1].getBlockZ() + 1); z++) {

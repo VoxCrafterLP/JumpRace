@@ -20,6 +20,7 @@ public class AsyncPlayerChatListener implements Listener {
     public void onChat(AsyncPlayerChatEvent event) {
         Player player = event.getPlayer();
         if(ModuleSetup.getActiveSetups().containsKey(player)) {
+            event.setCancelled(true);
             ModuleSetup setup = ModuleSetup.getActiveSetups().get(player);
 
             if(setup.getSetupStep() == 0) {
@@ -48,8 +49,6 @@ public class AsyncPlayerChatListener implements Listener {
                 setup.setBuilder(event.getMessage());
                 setup.nextStep();
             }
-
-            event.setCancelled(true);
         }
     }
 }

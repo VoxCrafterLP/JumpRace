@@ -29,7 +29,7 @@ public class JumpRaceCommand implements CommandExecutor {
         Player player = (Player) commandSender;
 
         if(!player.hasPermission(JumpRace.getInstance().getJumpRaceConfig().getBuilderPermission())) {
-            player.sendMessage(JumpRace.getInstance().getPrefix() + "&7You §care not permitted §7to execute this command!");
+            player.sendMessage(JumpRace.getInstance().getPrefix() + "§7You §care not permitted §7to execute this command!");
             return false;
         }
 

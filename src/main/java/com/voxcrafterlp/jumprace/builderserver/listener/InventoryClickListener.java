@@ -156,7 +156,7 @@ public class InventoryClickListener implements Listener {
                 session.resetToPreviousInventory();
                 Bukkit.getScheduler().cancelTask(session.actionbarTaskID);
                 session.getModule().stopParticles();
-                final Location[] borders = (session.getSettings().getEditorMode() == EditorMode.QUICK) ? session.getModule().getModuleBorders() : session.getEditorSetup().getBorders();
+                final Location[] borders = (session.getSettings().getEditorMode() == EditorMode.QUICK) ? session.getModule().getModuleBorders() : null;
                 session.clearArea(borders);
                 JumpRace.getInstance().getEditorSessions().remove(player);
             }
