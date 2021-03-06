@@ -116,7 +116,7 @@ public class GameManager {
             JumpRace.getInstance().getInventoryManager().updateTeamSelectorInventory();
         }
 
-        if(this.gameState == GameState.JUMPING || this.gameState == GameState.ARENA) {
+        if(this.gameState == GameState.JUMPING || this.gameState == GameState.DEATHMATCH) {
             final Team team = this.getTeamFromPlayer(player);
             if(team != null) {
                 team.getMembers().remove(player);

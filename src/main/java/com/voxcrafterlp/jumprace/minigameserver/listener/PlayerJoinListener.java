@@ -2,7 +2,9 @@ package com.voxcrafterlp.jumprace.minigameserver.listener;
 
 import com.voxcrafterlp.jumprace.JumpRace;
 import com.voxcrafterlp.jumprace.minigameserver.manager.InventoryManager;
+import com.voxcrafterlp.jumprace.minigameserver.scoreboard.PlayerScoreboard;
 import com.voxcrafterlp.jumprace.objects.Countdown;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -33,10 +35,12 @@ public class PlayerJoinListener implements Listener {
                 player.setFoodLevel(20);
                 player.setLevel(Countdown.Type.LOBBY.getDuration());
                 player.setExp(Countdown.Type.LOBBY.getDuration() * ((float) 1 / Countdown.Type.LOBBY.getDuration()));
+                player.getInventory().setArmorContents(null);
 
                 JumpRace.getInstance().getGameManager().handlePlayerJoin();
+                Bukkit.getOnlinePlayers().forEach(players -> new PlayerScoreboard().setScoreboard(players));
                 break;
-            case ARENA:
+            case DEATHMATCH:
             case JUMPING:
 
                 break;

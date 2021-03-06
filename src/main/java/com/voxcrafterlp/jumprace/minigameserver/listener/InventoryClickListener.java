@@ -1,7 +1,9 @@
 package com.voxcrafterlp.jumprace.minigameserver.listener;
 
 import com.voxcrafterlp.jumprace.JumpRace;
+import com.voxcrafterlp.jumprace.minigameserver.scoreboard.PlayerScoreboard;
 import com.voxcrafterlp.jumprace.objects.Team;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -53,6 +55,9 @@ public class InventoryClickListener implements Listener {
             JumpRace.getInstance().getInventoryManager().updateTeamSelectorInventory();
             player.playSound(player.getLocation(), Sound.LEVEL_UP,1,1);
             player.sendMessage(JumpRace.getInstance().getPrefix() + "§7You joined team " + team.getTeamColor().getTeamNameWithColorCode() + "§8.");
+            player.closeInventory();
+
+            Bukkit.getOnlinePlayers().forEach(players -> new PlayerScoreboard().setScoreboard(players));
         }
     }
 

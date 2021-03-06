@@ -45,53 +45,89 @@ public class PlayerScoreboard {
 
         //=====================================//
 
-        if(JumpRace.getInstance().getGameManager().getGameState() == GameState.LOBBY) {
-            objective.getScore(" ").setScore(14);
-        }
+        switch (JumpRace.getInstance().getGameManager().getGameState()) {
+            case LOBBY:
+                objective.getScore(" ").setScore(14);
+                objective.getScore("§7Map§8:").setScore(13);
 
-        if(JumpRace.getInstance().getGameManager().getGameState() == GameState.JUMPING) {
-            objective.getScore(" ").setScore(14);
+                {
+                    Team team = scoreboard.registerNewTeam("x12");
+                    team.setPrefix(" §8➜ ");
+                    team.setSuffix("§b" + JumpRace.getInstance().getLocationManager().getCurrentMapName());
+                    team.addEntry("§b");
+                    objective.getScore("§b").setScore(12);
+                }
 
-            {
-                Team team = scoreboard.registerNewTeam("x13");
-                team.setPrefix("§7Time§8: ");
-                team.setSuffix("§b" + JumpRace.getInstance().getGameManager().getJumpingCountdown().getTimeLeftFormatted());
-                team.addEntry("§b");
-                objective.getScore("§b").setScore(13);
-            }
+                objective.getScore("  ").setScore(11);
+                objective.getScore("§7Teams§8:").setScore(10);
+                objective.getScore(" §8➜ §b" + JumpRace.getInstance().getJumpRaceConfig().getTeamAmount() +
+                        "x" + JumpRace.getInstance().getJumpRaceConfig().getTeamSize()).setScore(9);
+                objective.getScore("   ").setScore(8);
 
-            objective.getScore("  ").setScore(12);
+                break;
+            case JUMPING:
+                objective.getScore(" ").setScore(14);
 
-            this.preparePlayers(JumpRace.getInstance().getGameManager().getTopScoreboardPlayers(), player).forEach((position, list) -> {
-                Team team = scoreboard.registerNewTeam("x" + position);
-                team.setPrefix(list.get(0));
-                team.addEntry(list.get(1));
-                team.setSuffix(list.get(2));
-                objective.getScore(list.get(1)).setScore(position);
-            });
+                {
+                    Team team = scoreboard.registerNewTeam("x13");
+                    team.setPrefix("§7Time§8: ");
+                    team.setSuffix("§b" + JumpRace.getInstance().getGameManager().getJumpingCountdown().getTimeLeftFormatted());
+                    team.addEntry("§b");
+                    objective.getScore("§b").setScore(13);
+                }
+
+                objective.getScore("  ").setScore(12);
+
+                this.preparePlayers(JumpRace.getInstance().getGameManager().getTopScoreboardPlayers(), player).forEach((position, list) -> {
+                    Team team = scoreboard.registerNewTeam("x" + position);
+                    team.setPrefix(list.get(0));
+                    team.addEntry(list.get(1));
+                    team.setSuffix(list.get(2));
+                    objective.getScore(list.get(1)).setScore(position);
+                });
+                break;
         }
 
         //=====================================//
 
+        Bukkit.getOnlinePlayers().forEach(players -> {
+            final com.voxcrafterlp.jumprace.objects.Team team = JumpRace.getInstance().getGameManager().getTeamFromPlayer(players);
+            scoreboard.getTeam(((team != null) ? team.getTeamColor().getDisplayName().toLowerCase() : "000")).addPlayer(players);
+        });
+
+        //=====================================//
 
         player.setScoreboard(scoreboard);
     }
 
     public void updateScoreboard(Player player, Map<Player, Integer> map) {
         if(player.getScoreboard() == null || player.getScoreboard().getObjective(DisplaySlot.SIDEBAR) == null) return;
+        final Scoreboard scoreboard = player.getScoreboard();
 
-        if(JumpRace.getInstance().getGameManager().getGameState() == GameState.JUMPING) {
-            player.getScoreboard().getTeam("x13").setSuffix("§b" + JumpRace.getInstance().getGameManager().getJumpingCountdown().getTimeLeftFormatted());
+        switch (JumpRace.getInstance().getGameManager().getGameState()) {
+            case LOBBY:
+                scoreboard.getTeam("x12").setSuffix("§b" + JumpRace.getInstance().getLocationManager().getCurrentMapName());
+                break;
+            case JUMPING:
+                scoreboard.getTeam("x13").setSuffix("§b" + JumpRace.getInstance().getGameManager().getJumpingCountdown().getTimeLeftFormatted());
 
-            this.preparePlayers(map, player).forEach((position, list) -> {
-                final Team team = player.getScoreboard().getTeam("x" + position);
-                team.setPrefix(list.get(0));
-                team.getEntries().forEach(entry -> player.getScoreboard().resetScores(entry));
-                team.addEntry(list.get(1));
-                team.setSuffix(list.get(2));
+                this.preparePlayers(map, player).forEach((position, list) -> {
+                    final Team team = scoreboard.getTeam("x" + position);
+                    team.setPrefix(list.get(0));
+                    team.getEntries().forEach(scoreboard::resetScores);
+                    team.addEntry(list.get(1));
+                    team.setSuffix(list.get(2));
 
-                player.getScoreboard().getObjective("scoreboard").getScore(list.get(1)).setScore(position);
-            });
+                    scoreboard.getObjective("scoreboard").getScore(list.get(1)).setScore(position);
+                });
+                break;
+            case DEATHMATCH:
+
+                break;
+
+            case ENDING:
+
+                break;
         }
     }
 

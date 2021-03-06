@@ -1,17 +1,20 @@
 package com.voxcrafterlp.jumprace.minigameserver.manager;
 
 import com.google.common.collect.Lists;
+import com.voxcrafterlp.jumprace.minigameserver.scoreboard.PlayerScoreboard;
 import com.voxcrafterlp.jumprace.objects.Map;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Random;
 
 /**
  * This file was created by VoxCrafter_LP!
@@ -25,6 +28,7 @@ public class LocationManager {
 
     private final List<Map> loadedMaps;
     private Location lobbyLocation;
+    private Map selectedMap;
 
     private final File locationFile;
     private final YamlConfiguration configuration;
@@ -61,6 +65,8 @@ public class LocationManager {
 
         if(this.loadedMaps.isEmpty())
             Bukkit.getConsoleSender().sendMessage("§cNo maps found");
+        else
+            this.pickRandomMap();
     }
 
     public void saveData() {
@@ -75,6 +81,26 @@ public class LocationManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void pickRandomMap() {
+        this.setMap(this.loadedMaps.get(new Random().nextInt(this.loadedMaps.size())));
+    }
+
+    public void setMap(String name) {
+        final Map map = this.loadedMaps.stream().filter(maps -> maps.getName().equals(name)).findAny().orElse(null);
+        if(map != null)
+            this.setMap(map);
+    }
+
+    private void setMap(Map map) {
+        this.selectedMap = map;
+        Bukkit.getConsoleSender().sendMessage("§7The map §a" + this.selectedMap.getName() + " §7has been selected");
+        Bukkit.getOnlinePlayers().forEach(players -> new PlayerScoreboard().updateScoreboard(players, null));
+    }
+
+    public String getCurrentMapName() {
+        return ((this.selectedMap == null) ? "§c-" : this.selectedMap.getName());
     }
 
     private List<String> getMapList() {

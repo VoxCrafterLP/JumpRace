@@ -25,7 +25,7 @@ public class PlayerQuitListener implements Listener {
                 event.setQuitMessage(JumpRace.getInstance().getPrefix() + "§a" + player.getName() + " §7left the §bgame§8.");
                 Bukkit.getScheduler().scheduleAsyncDelayedTask(JumpRace.getInstance(), () -> JumpRace.getInstance().getGameManager().handlePlayerQuit(player), 1);
                 break;
-            case ARENA:
+            case DEATHMATCH:
             case JUMPING:
 
                 break;

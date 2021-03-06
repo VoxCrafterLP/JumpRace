@@ -11,7 +11,7 @@ public enum GameState {
 
     LOBBY,
     JUMPING,
-    ARENA,
+    DEATHMATCH,
     ENDING;
 
 }

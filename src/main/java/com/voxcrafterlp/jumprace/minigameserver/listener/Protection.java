@@ -27,7 +27,7 @@ public class Protection implements Listener {
 
     @EventHandler
     public void onChange(FoodLevelChangeEvent event) {
-        if(JumpRace.getInstance().getGameManager().getGameState() != GameState.ARENA)
+        if(JumpRace.getInstance().getGameManager().getGameState() != GameState.DEATHMATCH)
             event.setCancelled(true);
     }
 
@@ -46,7 +46,7 @@ public class Protection implements Listener {
     @EventHandler
     public void onDamage(EntityDamageEvent event) {
         if(event.getEntityType() != EntityType.PLAYER) return;
-        if(JumpRace.getInstance().getGameManager().getGameState() != GameState.ARENA)
+        if(JumpRace.getInstance().getGameManager().getGameState() != GameState.DEATHMATCH)
             event.setCancelled(true);
     }
 
@@ -58,7 +58,7 @@ public class Protection implements Listener {
 
     @EventHandler
     public void onClick(InventoryClickEvent event) {
-        if(JumpRace.getInstance().getGameManager().getGameState() == GameState.JUMPING || JumpRace.getInstance().getGameManager().getGameState() == GameState.ARENA) return;
+        if(JumpRace.getInstance().getGameManager().getGameState() == GameState.JUMPING || JumpRace.getInstance().getGameManager().getGameState() == GameState.DEATHMATCH) return;
         if(event.getWhoClicked().getGameMode() != GameMode.CREATIVE)
             event.setCancelled(true);
     }
