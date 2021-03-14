@@ -1,7 +1,6 @@
 package com.voxcrafterlp.jumprace.minigameserver.manager;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.voxcrafterlp.jumprace.JumpRace;
 import com.voxcrafterlp.jumprace.enums.GameState;
 import com.voxcrafterlp.jumprace.enums.TeamColor;
@@ -11,14 +10,18 @@ import com.voxcrafterlp.jumprace.modules.objects.ModuleRow;
 import com.voxcrafterlp.jumprace.modules.utils.CalculatorUtil;
 import com.voxcrafterlp.jumprace.objects.ChestLoot;
 import com.voxcrafterlp.jumprace.objects.Countdown;
+import com.voxcrafterlp.jumprace.objects.DeathChest;
 import com.voxcrafterlp.jumprace.objects.Team;
 import com.voxcrafterlp.jumprace.utils.ActionBarUtil;
 import com.voxcrafterlp.jumprace.utils.ItemManager;
 import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -42,6 +45,7 @@ public class GameManager {
 
     private final List<Player> playersLeft;
     private final Map<Player, Integer> livesLeft;
+    private final List<DeathChest> deathChests;
 
     public GameManager() {
         this.registeredTeams = Lists.newCopyOnWriteArrayList();
@@ -52,6 +56,7 @@ public class GameManager {
 
         this.playersLeft = Lists.newCopyOnWriteArrayList();
         this.livesLeft = new HashMap<>();
+        this.deathChests = Lists.newCopyOnWriteArrayList();
 
         try {
             this.registerTeams();
@@ -258,9 +263,11 @@ public class GameManager {
         this.deathMatchCountdown.startCountdown();
     }
 
-    public void removeLive(Player player) {
+    public void removeLive(Player player, List<ItemStack> drops) {
         if(this.livesLeft.get(player) == 1) {
             this.setSpectator(player);
+
+            this.deathChests.add(new DeathChest(player, drops));
             return;
         }
 

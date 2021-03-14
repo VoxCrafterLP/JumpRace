@@ -5,6 +5,7 @@ import com.voxcrafterlp.jumprace.JumpRace;
 import com.voxcrafterlp.jumprace.modules.enums.ModuleDifficulty;
 import com.voxcrafterlp.jumprace.modules.enums.ParticleDirection;
 import com.voxcrafterlp.jumprace.modules.utils.ModuleExportUtil;
+import com.voxcrafterlp.jumprace.utils.HologramUtil;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.server.v1_8_R3.EntityArmorStand;
@@ -166,18 +167,7 @@ public class Module {
                 "§7Difficulty§8: " + this.moduleDifficulty.getDisplayName(), "§8==============="));
 
         final Location hologramLocation = this.startPointLocation.clone().add(2.0, 0.7 + (0.3 * lines.size()), 0.5); //Hologram offset
-        lines.forEach(line -> this.summonArmorStand(player, hologramLocation.add(0.0, -0.3, 0.0), line));
-    }
-
-    private void summonArmorStand(Player player, Location location, String text) {
-        final EntityArmorStand armorStand = new EntityArmorStand(((CraftWorld) location.getWorld()).getHandle());
-        armorStand.setLocation(location.getX(), location.getY(), location.getZ(), 0, 0);
-        armorStand.setCustomName(text);
-        armorStand.setCustomNameVisible(true);
-        armorStand.setSmall(true);
-        armorStand.setInvisible(true);
-
-        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(new PacketPlayOutSpawnEntityLiving(armorStand));
+        lines.forEach(line -> new HologramUtil().summonArmorStand(player, hologramLocation.add(0.0, -0.3, 0.0), line));
     }
 
     public Location getPlayerSpawnLocation() {
