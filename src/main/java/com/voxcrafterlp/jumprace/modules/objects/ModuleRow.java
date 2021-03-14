@@ -6,6 +6,7 @@ import com.voxcrafterlp.jumprace.modules.enums.ModuleDifficulty;
 import com.voxcrafterlp.jumprace.modules.utils.CalculatorUtil;
 import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -60,6 +61,9 @@ public class ModuleRow {
         final Location location = this.getModules().get(0).getPlayerSpawnLocation();
         this.respawnLocation = location;
         this.player.teleport(location);
+        this.player.setGameMode(GameMode.ADVENTURE);
+        this.player.setExp(0);
+        this.player.setLevel(0);
         this.modulesCompleted = 0;
         this.respawnHeight = this.getModules().get(0).getModuleBorders()[0].getBlockY();
 
@@ -115,7 +119,7 @@ public class ModuleRow {
         }, 5, 1);
    }
 
-   private void stopRespawnScheduler() {
+   public void stopRespawnScheduler() {
         Bukkit.getScheduler().cancelTask(this.taskID);
    }
 

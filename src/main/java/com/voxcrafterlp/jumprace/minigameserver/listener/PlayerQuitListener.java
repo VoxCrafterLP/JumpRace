@@ -27,7 +27,7 @@ public class PlayerQuitListener implements Listener {
                 break;
             case DEATHMATCH:
             case JUMPING:
-
+                Bukkit.getScheduler().scheduleAsyncDelayedTask(JumpRace.getInstance(), () -> JumpRace.getInstance().getGameManager().handlePlayerQuit(player), 1);
                 break;
         }
     }

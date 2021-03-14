@@ -49,6 +49,7 @@ public class ChestLoot {
         this.addLoot(ModuleDifficulty.EASY, new ItemStack(Material.COOKED_BEEF, 3), 50);
         this.addLoot(ModuleDifficulty.EASY, new ItemStack(Material.FLINT), 20);
         this.addLoot(ModuleDifficulty.EASY, new ItemStack(Material.FEATHER), 20);
+        this.addLoot(ModuleDifficulty.EASY, new ItemStack(Material.WOOD_SWORD), 20);
 
         //=================================================//
 

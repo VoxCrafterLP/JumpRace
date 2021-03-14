@@ -76,9 +76,14 @@ public class Countdown {
                 });
             }
 
-            if(this.type == Type.JUMPING) {
-                final Map<Player, Integer> map = JumpRace.getInstance().getGameManager().getTopScoreboardPlayers();
-                Bukkit.getOnlinePlayers().forEach(player -> new PlayerScoreboard().updateScoreboard(player, map));
+            if(this.type == Type.JUMPING && this.timeLeft < (this.type.getDuration() - 1)) {
+                Bukkit.getOnlinePlayers().forEach(player -> new PlayerScoreboard().
+                        updateScoreboard(player, JumpRace.getInstance().getGameManager().getTopScoreboardPlayers()));
+            }
+
+            if(this.type == Type.DEATHMATCH) {
+                Bukkit.getOnlinePlayers().forEach(player -> new PlayerScoreboard().
+                        updateScoreboard(player, JumpRace.getInstance().getGameManager().getTopArenaPlayers()));
             }
 
             this.timeLeft--;
@@ -115,7 +120,8 @@ public class Countdown {
 
         LOBBY(10),
         ENDING(15),
-        JUMPING(480);
+        JUMPING(15),
+        DEATHMATCH(480);
 
         private final int duration;
 

@@ -1,6 +1,7 @@
 package com.voxcrafterlp.jumprace.minigameserver.manager;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.voxcrafterlp.jumprace.JumpRace;
 import com.voxcrafterlp.jumprace.enums.GameState;
 import com.voxcrafterlp.jumprace.enums.TeamColor;
@@ -34,10 +35,13 @@ public class GameManager {
 
     private final List<Team> registeredTeams;
     private GameState gameState;
-    private final Countdown lobbyCountdown, endingCountdown, jumpingCountdown;
+    private final Countdown lobbyCountdown, endingCountdown, jumpingCountdown, deathMatchCountdown;
     private final Map<Player, String> playerNames;
     private final Map<Player, ModuleRow> moduleRows;
     private final ChestLoot chestLoot;
+
+    private final List<Player> playersLeft;
+    private final Map<Player, Integer> livesLeft;
 
     public GameManager() {
         this.registeredTeams = Lists.newCopyOnWriteArrayList();
@@ -45,6 +49,9 @@ public class GameManager {
         this.playerNames = new HashMap<>();
         this.moduleRows = new HashMap<>();
         this.chestLoot = new ChestLoot();
+
+        this.playersLeft = Lists.newCopyOnWriteArrayList();
+        this.livesLeft = new HashMap<>();
 
         try {
             this.registerTeams();
@@ -55,7 +62,8 @@ public class GameManager {
         this.lobbyCountdown = new Countdown(Countdown.Type.LOBBY, this::startGame);
         this.endingCountdown = new Countdown(Countdown.Type.ENDING, () -> Bukkit.getOnlinePlayers().forEach(player ->
                 player.kickPlayer(JumpRace.getInstance().getPrefix() + "§7The game is §bover§8.")));
-        this.jumpingCountdown = new Countdown(Countdown.Type.JUMPING, () -> {
+        this.jumpingCountdown = new Countdown(Countdown.Type.JUMPING, this::startDeathmatch);
+        this.deathMatchCountdown = new Countdown(Countdown.Type.DEATHMATCH, () -> {
 
         });
 
@@ -82,15 +90,14 @@ public class GameManager {
         Bukkit.getOnlinePlayers().forEach(player -> {
             this.moduleRows.put(player, JumpRace.getInstance().getModuleManager().getModuleRows().get(i.get()).assignPlayer(player));
             JumpRace.getInstance().getInventoryManager().setInventory(player, InventoryManager.Type.JUMPING);
+            this.playersLeft.add(player);
             i.getAndIncrement();
         });
 
         this.jumpingCountdown.startCountdown();
 
         Bukkit.getScheduler().scheduleSyncDelayedTask(JumpRace.getInstance(), () -> {
-            Bukkit.getOnlinePlayers().forEach(player -> {
-                new PlayerScoreboard().setScoreboard(player);
-            });
+            Bukkit.getOnlinePlayers().forEach(player -> new PlayerScoreboard().setScoreboard(player));
         }, 20);
     }
 
@@ -114,6 +121,7 @@ public class GameManager {
             if(team != null) team.getMembers().remove(player);
 
             JumpRace.getInstance().getInventoryManager().updateTeamSelectorInventory();
+            return;
         }
 
         if(this.gameState == GameState.JUMPING || this.gameState == GameState.DEATHMATCH) {
@@ -128,8 +136,9 @@ public class GameManager {
                         players.sendMessage(JumpRace.getInstance().getPrefix() + team.getTeamColor().getColorCode() + " Team " +
                                 team.getTeamColor().getDisplayName() + " §7has got §c" + team.getMembers().size() + " players §7left§8.");
                 });
-                checkTeams();
+                //checkTeams();
             }
+            this.playersLeft.remove(player);
             this.playerNames.remove(player);
         }
     }
@@ -142,6 +151,7 @@ public class GameManager {
     }
 
     private void endGame() {
+
 
     }
 
@@ -177,19 +187,17 @@ public class GameManager {
     }
 
     public void reachGoal(Player player) {
-        this.jumpingCountdown.setTimeLeft(10);
+        if(this.jumpingCountdown.getTimeLeft() > 10)
+            this.jumpingCountdown.setTimeLeft(10);
         Bukkit.broadcastMessage(JumpRace.getInstance().getPrefix() + JumpRace.getInstance().getGameManager().getPlayerNames().get(player) +
                 " §7reached the §bgoal§8.");
         player.playSound(player.getLocation(), Sound.ENDERDRAGON_GROWL,1,1);
         player.getInventory().setBoots(new ItemManager(Material.DIAMOND_BOOTS).setUnbreakable(true).build());
     }
 
-    /*
-        https://howtodoinjava.com/java/sort/java-sort-map-by-values/
-     */
     public Map<Player, Integer> getTopScoreboardPlayers() {
-        Map<Player, Integer> progress = new HashMap<>();
-        Map<Player, Integer> map = new LinkedHashMap<>();
+        final Map<Player, Integer> progress = new HashMap<>();
+        final Map<Player, Integer> map = new LinkedHashMap<>();
 
         Bukkit.getOnlinePlayers().forEach(player -> progress.put(player, player.getLocation().getBlockX()));
 
@@ -206,6 +214,64 @@ public class GameManager {
         });
 
         return map;
+    }
+
+    public Map<Player, Integer> getTopArenaPlayers() {
+        final Map<Player, Integer> map = new LinkedHashMap<>();
+
+        final LinkedHashMap<Player, Integer> sortedLivesMap = new LinkedHashMap<>();
+
+        this.livesLeft.entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                .forEachOrdered(lives -> sortedLivesMap.put(lives.getKey(), lives.getValue()));
+
+        sortedLivesMap.forEach((player, integer) -> {
+            if(map.size() <= 12)
+                map.put(player, integer);
+        });
+
+        return map;
+    }
+
+    private void startDeathmatch() {
+        this.gameState = GameState.DEATHMATCH;
+        final com.voxcrafterlp.jumprace.objects.Map map = JumpRace.getInstance().getLocationManager().getSelectedMap();
+
+        AtomicInteger index = new AtomicInteger(0);
+
+        this.moduleRows.forEach((player, moduleRow) -> {
+            moduleRow.stopRespawnScheduler();
+
+            if(map.getSpawnLocations().size() == index.get())
+                index.set(0);
+
+            this.livesLeft.put(player, 3);
+            player.teleport(map.getSpawnLocations().get(index.get()));
+            index.getAndIncrement();
+        });
+
+        Bukkit.getScheduler().scheduleSyncDelayedTask(JumpRace.getInstance(), () -> {
+            Bukkit.getOnlinePlayers().forEach(player -> new PlayerScoreboard().setScoreboard(player));
+        }, 20);
+
+        this.deathMatchCountdown.startCountdown();
+    }
+
+    public void removeLive(Player player) {
+        if(this.livesLeft.get(player) == 1) {
+            this.setSpectator(player);
+            return;
+        }
+
+        this.livesLeft.replace(player, (this.livesLeft.get(player) - 1));
+    }
+
+    public void setSpectator(Player player) {
+        this.playersLeft.remove(player);
+        this.livesLeft.remove(player);
+
+        //TODO
     }
 
 }

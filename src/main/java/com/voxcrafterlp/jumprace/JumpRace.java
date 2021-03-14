@@ -7,6 +7,7 @@ import com.voxcrafterlp.jumprace.builderserver.listener.editor.PlayerModifyBarri
 import com.voxcrafterlp.jumprace.builderserver.listener.editor.Protection;
 import com.voxcrafterlp.jumprace.config.JumpRaceConfig;
 import com.voxcrafterlp.jumprace.minigameserver.listener.PlayerLoginListener;
+import com.voxcrafterlp.jumprace.minigameserver.listener.deathmatch.PlayerDeathListener;
 import com.voxcrafterlp.jumprace.minigameserver.manager.GameManager;
 import com.voxcrafterlp.jumprace.minigameserver.manager.InventoryManager;
 import com.voxcrafterlp.jumprace.minigameserver.manager.LocationManager;
@@ -114,6 +115,8 @@ public class JumpRace extends JavaPlugin {
         pluginManager.registerEvents(new com.voxcrafterlp.jumprace.minigameserver.listener.Protection(), this);
         pluginManager.registerEvents(new com.voxcrafterlp.jumprace.minigameserver.listener.InventoryClickListener(), this);
         pluginManager.registerEvents(new com.voxcrafterlp.jumprace.minigameserver.listener.PlayerInteractListener(), this);
+
+        pluginManager.registerEvents(new PlayerDeathListener(), this);
 
         if(Bukkit.getWorld("jumprace") == null) {
             Bukkit.getConsoleSender().sendMessage("§aGenerating JumpRace world...");

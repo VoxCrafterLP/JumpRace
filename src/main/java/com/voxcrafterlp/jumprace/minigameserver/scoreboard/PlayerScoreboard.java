@@ -78,7 +78,28 @@ public class PlayerScoreboard {
 
                 objective.getScore("  ").setScore(12);
 
-                this.preparePlayers(JumpRace.getInstance().getGameManager().getTopScoreboardPlayers(), player).forEach((position, list) -> {
+                this.prepareJumpingPlayers(JumpRace.getInstance().getGameManager().getTopScoreboardPlayers(), player).forEach((position, list) -> {
+                    Team team = scoreboard.registerNewTeam("x" + position);
+                    team.setPrefix(list.get(0));
+                    team.addEntry(list.get(1));
+                    team.setSuffix(list.get(2));
+                    objective.getScore(list.get(1)).setScore(position);
+                });
+                break;
+            case DEATHMATCH:
+                objective.getScore(" ").setScore(14);
+
+                {
+                    Team team = scoreboard.registerNewTeam("x13");
+                    team.setPrefix("§7Time§8: ");
+                    team.setSuffix("§b" + JumpRace.getInstance().getGameManager().getDeathMatchCountdown().getTimeLeftFormatted());
+                    team.addEntry("§b");
+                    objective.getScore("§b").setScore(13);
+                }
+
+                objective.getScore("  ").setScore(12);
+
+                this.prepareArenaPlayers(JumpRace.getInstance().getGameManager().getTopArenaPlayers(), player).forEach((position, list) -> {
                     Team team = scoreboard.registerNewTeam("x" + position);
                     team.setPrefix(list.get(0));
                     team.addEntry(list.get(1));
@@ -111,7 +132,25 @@ public class PlayerScoreboard {
             case JUMPING:
                 scoreboard.getTeam("x13").setSuffix("§b" + JumpRace.getInstance().getGameManager().getJumpingCountdown().getTimeLeftFormatted());
 
-                this.preparePlayers(map, player).forEach((position, list) -> {
+                this.prepareJumpingPlayers(map, player).forEach((position, list) -> {
+                    final Team team = scoreboard.getTeam("x" + position);
+
+                    if(team != null) {
+                        team.setPrefix(list.get(0));
+                        team.getEntries().forEach(scoreboard::resetScores);
+                        team.addEntry(list.get(1));
+                        team.setSuffix(list.get(2));
+
+                        scoreboard.getObjective("scoreboard").getScore(list.get(1)).setScore(position);
+                    }
+                });
+
+                this.cleanupScoreboard(scoreboard, JumpRace.getInstance().getGameManager().getPlayersLeft().size());
+                break;
+            case DEATHMATCH:
+                scoreboard.getTeam("x13").setSuffix("§b" + JumpRace.getInstance().getGameManager().getDeathMatchCountdown().getTimeLeftFormatted());
+
+                this.prepareArenaPlayers(map, player).forEach((position, list) -> {
                     final Team team = scoreboard.getTeam("x" + position);
                     team.setPrefix(list.get(0));
                     team.getEntries().forEach(scoreboard::resetScores);
@@ -120,9 +159,8 @@ public class PlayerScoreboard {
 
                     scoreboard.getObjective("scoreboard").getScore(list.get(1)).setScore(position);
                 });
-                break;
-            case DEATHMATCH:
 
+                this.cleanupScoreboard(scoreboard, JumpRace.getInstance().getGameManager().getLivesLeft().size());
                 break;
 
             case ENDING:
@@ -131,10 +169,10 @@ public class PlayerScoreboard {
         }
     }
 
-    private Map<Integer, List<String>> preparePlayers(Map<Player, Integer> players, Player scoreboardPlayer) {
+    private Map<Integer, List<String>> prepareJumpingPlayers(Map<Player, Integer> players, Player scoreboardPlayer) {
         final Map<Integer, List<String>> playersMap = new HashMap<>();
 
-        AtomicInteger i = new AtomicInteger(11);
+        AtomicInteger score = new AtomicInteger(11);
 
         players.forEach((player, percentage) -> {
             final String colorCode = ChatColor.getLastColors(JumpRace.getInstance().getGameManager().getPlayerNames().get(player)) + (player.equals(scoreboardPlayer) ? "§l§n" : "");
@@ -144,17 +182,72 @@ public class PlayerScoreboard {
             list.addAll(Arrays.asList((colorCode + player.getName()).split("(?<=\\G.{16})"))); //Splits the string into to 2 strings with max 16 characters
 
             if(list.size() == 2)
-                list.set(1, (colorCode + list.get(1) + this.getColorCodes()[i.get()]));
+                list.set(1, (colorCode + list.get(1) + this.getColorCodes()[score.get()]));
             else
-                list.add(this.getColorCodes()[i.get()]);
+                list.add(this.getColorCodes()[score.get()]);
 
             list.add(percentageString);
 
-            playersMap.put(i.get(), list);
-            i.getAndDecrement();
+            playersMap.put(score.get(), list);
+            score.getAndDecrement();
         });
 
         return playersMap;
+    }
+
+    private Map<Integer, List<String>> prepareArenaPlayers(Map<Player, Integer> players, Player scoreboardPlayer) {
+        final Map<Integer, List<String>> playersMap = new HashMap<>();
+
+        AtomicInteger score = new AtomicInteger(11);
+
+        players.forEach((player, lives) -> {
+            final String colorCode = ChatColor.getLastColors(JumpRace.getInstance().getGameManager().getPlayerNames().get(player)) + (player.equals(scoreboardPlayer) ? "§l§n" : "");
+            final List<String> list = Lists.newCopyOnWriteArrayList();
+
+            list.add(this.getLivesLeftFormatted(lives));
+            list.addAll(Arrays.asList((colorCode + player.getName()).split("(?<=\\G.{16})"))); //Splits the string into to 2 strings with max 16 characters
+
+            if(list.size() == 3)
+                list.set(2, (colorCode + list.get(2) + this.getColorCodes()[score.get()]));
+            else
+                list.add(this.getColorCodes()[score.get()]);
+
+            playersMap.put(score.get(), list);
+            score.getAndDecrement();
+        });
+
+        return playersMap;
+    }
+
+    private void cleanupScoreboard(Scoreboard scoreboard, int scores) {
+        for(int i = (11 - scores); i>=0; i--) {
+            final Team team = scoreboard.getTeam("x" + i);
+
+            if(team != null) {
+                final String entry = team.getEntries().iterator().next();
+                team.unregister();
+                scoreboard.resetScores(entry);
+            }
+        }
+    }
+
+    private String getLivesLeftFormatted(int lives) {
+        final int maxLives = 3; //Todo config
+        final StringBuilder stringBuilder = new StringBuilder();
+
+        stringBuilder.append("§c");
+
+        for(int i = 0; i<lives; i++)
+            stringBuilder.append("❤");
+
+        stringBuilder.append("§7");
+
+        for(int i = 0; i<(maxLives - lives); i++)
+            stringBuilder.append("❤");
+
+        stringBuilder.append(" ");
+
+        return stringBuilder.toString();
     }
 
     private String[] getColorCodes() {

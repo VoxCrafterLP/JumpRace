@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.WorldCreator;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -27,6 +28,7 @@ public class Map {
     public Map(JSONObject jsonObject) {
         this.name = jsonObject.getString("name");
         this.spawnLocations = Lists.newCopyOnWriteArrayList();
+        this.loadWorld();
         jsonObject.getJSONArray("locations").forEach(location -> this.spawnLocations.add(this.getLocationFromJSONObject((JSONObject) location)));
     }
 
@@ -67,6 +69,10 @@ public class Map {
                 .put("x", location.getX()).put("y", location.getY()).put("z", location.getZ())
                 .put("yaw", location.getYaw()).put("pitch", location.getPitch())));
         return list;
+    }
+
+    private void loadWorld() {
+        Bukkit.createWorld(new WorldCreator(this.name));
     }
 
 }
