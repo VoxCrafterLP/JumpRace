@@ -135,10 +135,10 @@ public class GameManager {
                 team.getMembers().remove(player);
                 Bukkit.getOnlinePlayers().forEach(players -> {
                     if(team.getMembers().size() == 0)
-                        players.sendMessage(JumpRace.getInstance().getPrefix() + team.getTeamColor().getColorCode() + " Team " +
+                        players.sendMessage(JumpRace.getInstance().getPrefix() + team.getTeamColor().getColorCode() + "Team " +
                                 team.getTeamColor().getDisplayName() + " §7has been §4eliminated§8.");
                     else
-                        players.sendMessage(JumpRace.getInstance().getPrefix() + team.getTeamColor().getColorCode() + " Team " +
+                        players.sendMessage(JumpRace.getInstance().getPrefix() + team.getTeamColor().getColorCode() + "Team " +
                                 team.getTeamColor().getDisplayName() + " §7has got §c" + team.getMembers().size() + " players §7left§8.");
                 });
                 //checkTeams();
@@ -156,7 +156,8 @@ public class GameManager {
     }
 
     private void endGame() {
-
+        this.jumpingCountdown.stop();
+        this.deathMatchCountdown.stop();
 
     }
 
@@ -268,6 +269,20 @@ public class GameManager {
             this.setSpectator(player);
 
             this.deathChests.add(new DeathChest(player, drops));
+
+            final Team team = this.getTeamFromPlayer(player);
+            if(team != null) {
+                team.getMembers().remove(player);
+                Bukkit.getOnlinePlayers().forEach(players -> {
+                    if(team.getMembers().size() == 0)
+                        players.sendMessage(JumpRace.getInstance().getPrefix() + team.getTeamColor().getColorCode() + "Team " +
+                                team.getTeamColor().getDisplayName() + " §7has been §4eliminated§8.");
+                    else
+                        players.sendMessage(JumpRace.getInstance().getPrefix() + team.getTeamColor().getColorCode() + "Team " +
+                                team.getTeamColor().getDisplayName() + " §7has got §c" + team.getMembers().size() + " players §7left§8.");
+                });
+                //checkTeams();
+            }
             return;
         }
 

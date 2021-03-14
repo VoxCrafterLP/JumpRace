@@ -103,6 +103,10 @@ public class Countdown {
         if(run) startCountdown();
     }
 
+    public void stop() {
+        Bukkit.getScheduler().cancelTask(this.taskID);
+    }
+
     private void finish() {
         this.running = false;
         this.runnable.run();

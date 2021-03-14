@@ -2,13 +2,16 @@ package com.voxcrafterlp.jumprace.minigameserver.listener.deathmatch;
 
 import com.voxcrafterlp.jumprace.JumpRace;
 import com.voxcrafterlp.jumprace.enums.GameState;
-import com.voxcrafterlp.jumprace.objects.DeathChest;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+
+import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * This file was created by VoxCrafter_LP!
@@ -22,6 +25,7 @@ public class PlayerInteractListener implements Listener {
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
         if(JumpRace.getInstance().getGameManager().getGameState() != GameState.DEATHMATCH) return;
+        if(event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
 
         final Player player = event.getPlayer();
 
@@ -39,10 +43,32 @@ public class PlayerInteractListener implements Listener {
 
         if(event.getItem() == null) return;
         if(event.getItem().getItemMeta() == null) return;
-        if(event.getItem().getItemMeta().getDisplayName() == null) return;
 
         if(event.getItem().getType() == Material.COMPASS) {
+            final List<Entity> nearbyEntities = player.getNearbyEntities(100.0D, 100.0D, 100.0D);
+            final AtomicReference<Player> nearestPlayer = new AtomicReference<>();
 
+            if(nearbyEntities.isEmpty()) {
+                player.sendMessage(JumpRace.getInstance().getPrefix() + "§cNo enemy could be found!");
+                return;
+            }
+
+            nearbyEntities.forEach(entity -> {
+                if(entity instanceof Player) {
+                    final Player target = (Player) entity;
+                    if(nearestPlayer.get() != null) {
+                        if(player.getLocation().distance(target.getLocation()) > nearestPlayer.get().getLocation().distance(target.getLocation()))
+                            nearestPlayer.set(target);
+                    } else
+                        nearestPlayer.set(target);
+                }
+            });
+
+            int distance = Math.round((float) nearestPlayer.get().getLocation().distance(player.getLocation()));
+            player.sendMessage(JumpRace.getInstance().getPrefix() + "§7Tracked player§8: " +
+                    JumpRace.getInstance().getGameManager().getPlayerNames().get(nearestPlayer.get()) +
+                    " §7Blocks away: §3" + distance);
+            player.setCompassTarget(nearestPlayer.get().getLocation());
         }
 
         if(event.getItem().getType() == Material.WORKBENCH) {
