@@ -16,12 +16,11 @@ import com.voxcrafterlp.jumprace.utils.ActionBarUtil;
 import com.voxcrafterlp.jumprace.utils.ItemManager;
 import lombok.Getter;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitScheduler;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -47,6 +46,9 @@ public class GameManager {
     private final Map<Player, Integer> livesLeft;
     private final List<DeathChest> deathChests;
 
+    /**
+     * Initialize countdowns & start lobby actionbar
+     */
     public GameManager() {
         this.registeredTeams = Lists.newCopyOnWriteArrayList();
         this.gameState = GameState.LOBBY;
@@ -75,6 +77,10 @@ public class GameManager {
         this.startLobbyActionBar();
     }
 
+    /**
+     * Create teams with the settings from the config
+     * @throws TeamAmountException If the team amount is above 8.
+     */
     private void registerTeams() throws TeamAmountException {
         final int teamAmount = JumpRace.getInstance().getJumpRaceConfig().getTeamAmount();
 
@@ -85,6 +91,10 @@ public class GameManager {
             this.registeredTeams.add(new Team(TeamColor.values()[i]));
     }
 
+    /**
+     * Load player names, teleport players to the map,
+     * start jumping countdown
+     */
     public void startGame() {
         this.gameState = GameState.JUMPING;
         this.addPlayersToRandomTeams();
@@ -108,17 +118,27 @@ public class GameManager {
         this.registeredTeams.forEach(team -> team.setAlive(team.getMembers().size() > 0));
     }
 
+    /**
+     * Put player colors (team colors) into a {@link Map}
+     */
     private void loadPlayerNames() {
         this.registeredTeams.forEach(team -> team.getMembers().forEach(player ->
                 this.playerNames.put(player, team.getTeamColor().getColorCode() + player.getName())));
     }
 
+    /**
+     * Start countdown if enough players are online
+     */
     public void handlePlayerJoin() {
         if(!this.lobbyCountdown.isRunning() && Bukkit.getOnlinePlayers().size() >= JumpRace.getInstance().getJumpRaceConfig().getPlayersRequiredForStart()  &&
             JumpRace.getInstance().getLocationManager().getLoadedMaps().size() != 0)
             this.lobbyCountdown.startCountdown();
     }
 
+    /**
+     * Check if the lobby countdown should be stopped or the game should end
+     * @param player Player who leaves the server
+     */
     public void handlePlayerQuit(Player player) {
         if(this.gameState == GameState.LOBBY && Bukkit.getOnlinePlayers().size() < JumpRace.getInstance().getJumpRaceConfig().getPlayersRequiredForStart())
             this.lobbyCountdown.reset(false);
@@ -151,6 +171,9 @@ public class GameManager {
         }
     }
 
+    /**
+     * End the game if there are not enough players online
+     */
     private void checkTeams() {
         if((int) this.registeredTeams.stream().filter(team -> team.getMembers().size() >= 1).count() < 2) {
             this.gameState = GameState.ENDING;
@@ -168,6 +191,9 @@ public class GameManager {
         return this.registeredTeams.stream().filter(team -> team.getMembers().contains(player)).findAny().orElse(null);
     }
 
+    /**
+     * Get every player who isn't in a team and add him to a random one
+     */
     private void addPlayersToRandomTeams() {
         Bukkit.getOnlinePlayers().forEach(player -> {
             if(this.getTeamFromPlayer(player) == null) {
@@ -177,6 +203,9 @@ public class GameManager {
         });
     }
 
+    /**
+     * Start a {@link BukkitScheduler}
+     */
     public void startLobbyActionBar() {
         Bukkit.getScheduler().scheduleAsyncRepeatingTask(JumpRace.getInstance(), () -> {
             if(this.gameState == GameState.LOBBY) {
@@ -195,6 +224,10 @@ public class GameManager {
         }, 20, 20);
     }
 
+    /**
+     * Set the time left to 10 seconds
+     * @param player Player who reaches the goal
+     */
     public void reachGoal(Player player) {
         if(this.jumpingCountdown.getTimeLeft() > 10)
             this.jumpingCountdown.setTimeLeft(10);
@@ -204,6 +237,11 @@ public class GameManager {
         player.getInventory().setBoots(new ItemManager(Material.DIAMOND_BOOTS).setUnbreakable(true).build());
     }
 
+    /**
+     * Sort the players by their progress
+     * @return {@link Map} object containing the 12 best players with their progress
+     * with {@link Player} as key and {@link Integer} as value
+     */
     public Map<Player, Integer> getTopScoreboardPlayers() {
         final Map<Player, Integer> progress = new HashMap<>();
         final Map<Player, Integer> map = new LinkedHashMap<>();
@@ -225,6 +263,11 @@ public class GameManager {
         return map;
     }
 
+    /**
+     * Sort the players by their amount of lives
+     * @return {@link Map} object containing the 12 best players with their lives
+     * with {@link Player} as key and {@link Integer} as value
+     */
     public Map<Player, Integer> getTopArenaPlayers() {
         final Map<Player, Integer> map = new LinkedHashMap<>();
 

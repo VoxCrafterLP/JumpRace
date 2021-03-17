@@ -24,6 +24,9 @@ public class InventoryManager {
 
     private final Inventory lobbyInventory, jumpingInventory, endingInventory, teamSelectorInventory, mapSwitcherInventory;
 
+    /**
+     * Create inventories
+     */
     public InventoryManager() {
         this.lobbyInventory = Bukkit.createInventory(null, 36);
         this.jumpingInventory = Bukkit.createInventory(null, 36);
@@ -35,6 +38,9 @@ public class InventoryManager {
         this.buildInventories();
     }
 
+    /**
+     * Fill inventories
+     */
     private void buildInventories() {
         //===============================================//
 
@@ -73,6 +79,11 @@ public class InventoryManager {
         //===============================================//
     }
 
+    /**
+     * Gives the player the items of an inventory
+     * @param player Player to whom the items should be given
+     * @param type {@link Type} object of the inventory
+     */
     public void setInventory(Player player, Type type) {
         switch (type) {
             case LOBBY:
