@@ -34,7 +34,7 @@ public class PlayerDeathListener implements Listener {
         if(event.getEntity().getKiller() != null) {
             event.getEntity().getKiller().addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 140, 1));
             event.setDeathMessage(JumpRace.getInstance().getPrefix() + JumpRace.getInstance().getGameManager().getPlayerNames().get(player) +
-                    " §7has been §ckilled §7by " + JumpRace.getInstance().getGameManager().getPlayerNames().get(player.getKiller()) + "§8.");
+                    " §7has been killed by " + JumpRace.getInstance().getGameManager().getPlayerNames().get(player.getKiller()) + "§8.");
         } else
             event.setDeathMessage(JumpRace.getInstance().getPrefix() + JumpRace.getInstance().getGameManager().getPlayerNames().get(player) + " §7died§8.");
 

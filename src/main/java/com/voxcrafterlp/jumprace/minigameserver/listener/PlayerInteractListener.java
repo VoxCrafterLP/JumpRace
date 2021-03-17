@@ -9,6 +9,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * This file was created by VoxCrafter_LP!
@@ -57,5 +58,76 @@ public class PlayerInteractListener implements Listener {
                         JumpRace.getInstance().getGameManager().getModuleRows().get(player).getCurrentModuleDifficulty());
             }
         }
+
+        if(JumpRace.getInstance().getGameManager().getGameState() == GameState.JUMPING ||
+                JumpRace.getInstance().getGameManager().getGameState() == GameState.DEATHMATCH) {
+
+            if(event.getItem() == null) return;
+            final ItemStack itemStack = event.getItem();
+
+            switch (itemStack.getType()) {
+                case LEATHER_HELMET:
+                case GOLD_HELMET:
+                case CHAINMAIL_HELMET:
+                case IRON_HELMET:
+                case DIAMOND_HELMET:
+                    this.setArmor(player, ArmorType.HELMET);
+                    break;
+                case LEATHER_CHESTPLATE:
+                case GOLD_CHESTPLATE:
+                case CHAINMAIL_CHESTPLATE:
+                case IRON_CHESTPLATE:
+                case DIAMOND_CHESTPLATE:
+                    this.setArmor(player, ArmorType.CHESTPLATE);
+                    break;
+                case LEATHER_LEGGINGS:
+                case GOLD_LEGGINGS:
+                case CHAINMAIL_LEGGINGS:
+                case IRON_LEGGINGS:
+                case DIAMOND_LEGGINGS:
+                    this.setArmor(player, ArmorType.LEGGINGS);
+                    break;
+                case LEATHER_BOOTS:
+                case GOLD_BOOTS:
+                case CHAINMAIL_BOOTS:
+                case IRON_BOOTS:
+                case DIAMOND_BOOTS:
+                    this.setArmor(player, ArmorType.BOOTS);
+                    break;
+            }
+        }
     }
+
+    private void setArmor(Player player, ArmorType armorType) {
+        final ItemStack oldItem = player.getItemInHand();
+
+        switch (armorType) {
+            case HELMET:
+                player.setItemInHand((player.getInventory().getHelmet() == null) ? null : player.getInventory().getHelmet());
+                player.getInventory().setHelmet(oldItem);
+                break;
+            case CHESTPLATE:
+                player.setItemInHand((player.getInventory().getChestplate() == null) ? null : player.getInventory().getChestplate());
+                player.getInventory().setChestplate(oldItem);
+                break;
+            case LEGGINGS:
+                player.setItemInHand((player.getInventory().getLeggings() == null) ? null : player.getInventory().getLeggings());
+                player.getInventory().setLeggings(oldItem);
+                break;
+            case BOOTS:
+                player.setItemInHand((player.getInventory().getBoots() == null) ? null : player.getInventory().getBoots());
+                player.getInventory().setBoots(oldItem);
+                break;
+        }
+    }
+
+    public enum ArmorType {
+
+        HELMET,
+        CHESTPLATE,
+        LEGGINGS,
+        BOOTS;
+
+    }
+
 }
