@@ -70,13 +70,5 @@ public class PlayerInteractListener implements Listener {
                     " §7Blocks away: §3" + distance);
             player.setCompassTarget(nearestPlayer.get().getLocation());
         }
-
-        if(event.getItem().getType() == Material.WORKBENCH) {
-
-        }
-
-        if(event.getItem().getType() == Material.ENCHANTMENT_TABLE) {
-
-        }
     }
 }

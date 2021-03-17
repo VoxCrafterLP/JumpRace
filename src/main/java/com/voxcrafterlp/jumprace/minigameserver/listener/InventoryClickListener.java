@@ -60,5 +60,4 @@ public class InventoryClickListener implements Listener {
             Bukkit.getOnlinePlayers().forEach(players -> new PlayerScoreboard().setScoreboard(players));
         }
     }
-
 }

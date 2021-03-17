@@ -6,6 +6,7 @@ import com.voxcrafterlp.jumprace.builderserver.listener.editor.EditorSetupListen
 import com.voxcrafterlp.jumprace.builderserver.listener.editor.PlayerModifyBarrierListener;
 import com.voxcrafterlp.jumprace.builderserver.listener.editor.Protection;
 import com.voxcrafterlp.jumprace.config.JumpRaceConfig;
+import com.voxcrafterlp.jumprace.minigameserver.listener.EnchantmentListener;
 import com.voxcrafterlp.jumprace.minigameserver.listener.PlayerLoginListener;
 import com.voxcrafterlp.jumprace.minigameserver.listener.deathmatch.EntityDamageByEntityListener;
 import com.voxcrafterlp.jumprace.minigameserver.listener.deathmatch.InstantTNTListener;
@@ -125,6 +126,7 @@ public class JumpRace extends JavaPlugin {
         pluginManager.registerEvents(new com.voxcrafterlp.jumprace.minigameserver.listener.deathmatch.InventoryClickListener(), this);
         pluginManager.registerEvents(new EntityDamageByEntityListener(), this);
         pluginManager.registerEvents(new InstantTNTListener(), this);
+        pluginManager.registerEvents(new EnchantmentListener(), this);
 
         if(Bukkit.getWorld("jumprace") == null) {
             Bukkit.getConsoleSender().sendMessage("§aGenerating JumpRace world...");

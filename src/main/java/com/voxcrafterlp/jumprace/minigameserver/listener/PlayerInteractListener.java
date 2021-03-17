@@ -2,13 +2,18 @@ package com.voxcrafterlp.jumprace.minigameserver.listener;
 
 import com.voxcrafterlp.jumprace.JumpRace;
 import com.voxcrafterlp.jumprace.enums.GameState;
+import com.voxcrafterlp.jumprace.utils.ItemManager;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -94,6 +99,18 @@ public class PlayerInteractListener implements Listener {
                 case DIAMOND_BOOTS:
                     this.setArmor(player, ArmorType.BOOTS);
                     break;
+            }
+
+            if(event.getItem().getType() == Material.WORKBENCH) {
+                player.openWorkbench(null, true);
+                return;
+            }
+
+            if(event.getItem().getType() == Material.ENCHANTMENT_TABLE) {
+                final Location enchantingTableLocation = player.getLocation().getBlock().getLocation().clone().add(0.0, -15.0, 0.0); //Temporary enchanting table
+                enchantingTableLocation.getBlock().setType(Material.ENCHANTMENT_TABLE);
+                player.openEnchanting(enchantingTableLocation, true);
+                return;
             }
         }
     }
