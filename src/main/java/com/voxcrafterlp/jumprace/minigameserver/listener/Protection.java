@@ -34,6 +34,7 @@ public class Protection implements Listener {
 
     @EventHandler
     public void onBreak(BlockBreakEvent event) {
+        if(event.getBlock().getType() == Material.WEB && JumpRace.getInstance().getGameManager().getGameState() == GameState.DEATHMATCH) return;
         if(event.getPlayer().getGameMode() != GameMode.CREATIVE)
             event.setCancelled(true);
     }

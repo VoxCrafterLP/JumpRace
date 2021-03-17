@@ -15,10 +15,7 @@ import com.voxcrafterlp.jumprace.objects.Team;
 import com.voxcrafterlp.jumprace.utils.ActionBarUtil;
 import com.voxcrafterlp.jumprace.utils.ItemManager;
 import lombok.Getter;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitScheduler;
@@ -300,6 +297,7 @@ public class GameManager {
 
             this.livesLeft.put(player, 3);
             player.teleport(map.getSpawnLocations().get(index.get()));
+            player.setGameMode(GameMode.SURVIVAL);
             index.getAndIncrement();
         });
 
