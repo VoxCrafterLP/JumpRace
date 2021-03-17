@@ -86,21 +86,8 @@ public class JumpRace extends JavaPlugin {
         pluginManager.registerEvents(new PlayerInteractListener(), this);
         pluginManager.registerEvents(new EditorSetupListener(), this);
 
-        if(Bukkit.getWorld("jumprace") == null) {
-            Bukkit.getConsoleSender().sendMessage("§aGenerating JumpRace world...");
-            WorldCreator worldCreator = new WorldCreator("jumprace");
-            worldCreator.environment(World.Environment.NORMAL);
-            worldCreator.type(WorldType.FLAT);
-            worldCreator.generatorSettings("0");
-            worldCreator.generateStructures(false);
-            worldCreator.createWorld();
-
-            Bukkit.getWorld("jumprace").setGameRuleValue("doDaylightCycle", "false");
-            Bukkit.getWorld("jumprace").setDifficulty(Difficulty.PEACEFUL);
-        }
-
+        this.loadWorld();
         this.editorSessions = new HashMap<>();
-
         this.loadDefaultModule();
         this.loadModules();
     }
@@ -128,21 +115,8 @@ public class JumpRace extends JavaPlugin {
         pluginManager.registerEvents(new InstantTNTListener(), this);
         pluginManager.registerEvents(new EnchantmentListener(), this);
 
-        if(Bukkit.getWorld("jumprace") == null) {
-            Bukkit.getConsoleSender().sendMessage("§aGenerating JumpRace world...");
-            WorldCreator worldCreator = new WorldCreator("jumprace");
-            worldCreator.environment(World.Environment.NORMAL);
-            worldCreator.type(WorldType.FLAT);
-            worldCreator.generatorSettings("0");
-            worldCreator.generateStructures(false);
-            worldCreator.createWorld();
-
-            Bukkit.getWorld("jumprace").setGameRuleValue("doDaylightCycle", "false");
-            Bukkit.getWorld("jumprace").setDifficulty(Difficulty.PEACEFUL);
-        }
-
+        this.loadWorld();
         this.mapSetups = new HashMap<>();
-
         this.loadModules();
 
         this.gameManager = new GameManager();
@@ -158,7 +132,25 @@ public class JumpRace extends JavaPlugin {
     }
 
     /**
-     * Loads the default config
+     * Load the main world
+     */
+    private void loadWorld() {
+        if(Bukkit.getWorld("jumprace") == null) {
+            Bukkit.getConsoleSender().sendMessage("§aGenerating JumpRace world...");
+            WorldCreator worldCreator = new WorldCreator("jumprace");
+            worldCreator.environment(World.Environment.NORMAL);
+            worldCreator.type(WorldType.FLAT);
+            worldCreator.generatorSettings("0");
+            worldCreator.generateStructures(false);
+            worldCreator.createWorld();
+
+            Bukkit.getWorld("jumprace").setGameRuleValue("doDaylightCycle", "false");
+            Bukkit.getWorld("jumprace").setDifficulty(Difficulty.PEACEFUL);
+        }
+    }
+
+    /**
+     * Load the default config
      */
     private void loadConfig() {
         this.saveDefaultConfig();
@@ -179,6 +171,9 @@ public class JumpRace extends JavaPlugin {
         }
     }
 
+    /**
+     * Export default module to the modules folder
+     */
     private void loadDefaultModule() {
         new File("plugins/JumpRace/modules/").mkdir();
         if(new File("plugins/JumpRace/modules/default").mkdir()) {

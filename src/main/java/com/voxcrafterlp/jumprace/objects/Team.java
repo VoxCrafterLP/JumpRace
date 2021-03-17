@@ -34,6 +34,10 @@ public class Team {
         this.alive = true;
     }
 
+    /**
+     * Build the {@link ItemStack} used for the team selector
+     * @return ItemStack used for the team selector
+     */
     public ItemStack getTeamSelectorItem() {
         final ItemStack boots = new ItemStack(Material.LEATHER_BOOTS);
         final LeatherArmorMeta bootsMeta = (LeatherArmorMeta) boots.getItemMeta();

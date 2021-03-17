@@ -29,6 +29,10 @@ public class SetupListener implements Listener {
                 mapSetup.addSpawnLocation(player.getLocation().clone());
                 player.sendMessage(JumpRace.getInstance().getPrefix() + "§7A §bspawn location §7has been saved §asuccessfully§8.");
                 break;
+            case "endpoint":
+                mapSetup.addEndPointLocation(player.getLocation().clone());
+                player.sendMessage(JumpRace.getInstance().getPrefix() + "§7An §bend point location §7has been saved §asuccessfully§8.");
+                break;
             case "finish":
                 JumpRace.getInstance().getLocationManager().getLoadedMaps().add(mapSetup.finish());
                 JumpRace.getInstance().getLocationManager().saveData();
@@ -36,7 +40,7 @@ public class SetupListener implements Listener {
                 player.sendMessage(JumpRace.getInstance().getPrefix() + "§7The map has been §asaved §7successfully§8.");
                 break;
             default:
-                player.sendMessage(JumpRace.getInstance().getPrefix() + "§7Valid commands are§8: §badd§8, §bfinish");
+                player.sendMessage(JumpRace.getInstance().getPrefix() + "§7Valid commands are§8: §badd§8, §bendpoint§8, §bfinish");
                 break;
         }
 

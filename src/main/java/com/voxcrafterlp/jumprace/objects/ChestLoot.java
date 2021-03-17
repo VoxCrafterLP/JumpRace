@@ -2,6 +2,7 @@ package com.voxcrafterlp.jumprace.objects;
 
 import com.google.common.collect.Lists;
 import com.voxcrafterlp.jumprace.modules.enums.ModuleDifficulty;
+import com.voxcrafterlp.jumprace.utils.ItemManager;
 import lombok.Getter;
 import org.bukkit.Effect;
 import org.bukkit.Location;
@@ -32,10 +33,12 @@ public class ChestLoot {
         this.loadLoot();
     }
 
+    /**
+     * Load loot into a {@link Map} with {@link ModuleDifficulty} as key and
+     * a {@link List} containing {@link ItemStack} objects as value
+     */
     private void loadLoot() {
-        Arrays.stream(ModuleDifficulty.values()).forEach(moduleDifficulty -> {
-            this.registeredLoot.put(moduleDifficulty, Lists.newCopyOnWriteArrayList());
-        });
+        Arrays.stream(ModuleDifficulty.values()).forEach(moduleDifficulty -> this.registeredLoot.put(moduleDifficulty, Lists.newCopyOnWriteArrayList()));
 
         //=================================================//
 
@@ -68,6 +71,8 @@ public class ChestLoot {
         this.addLoot(ModuleDifficulty.NORMAL, new ItemStack(Material.EXP_BOTTLE, 2), 25);
         this.addLoot(ModuleDifficulty.NORMAL, new ItemStack(Material.TNT), 20);
         this.addLoot(ModuleDifficulty.NORMAL, new ItemStack(Material.WEB), 20);
+        this.addLoot(ModuleDifficulty.NORMAL, new ItemStack(Material.BOW), 15);
+        this.addLoot(ModuleDifficulty.NORMAL, new ItemManager(Material.ARROW).setAmount(new Random().nextInt(3) + 1).build(), 20);
 
         //=================================================//
 
@@ -82,6 +87,8 @@ public class ChestLoot {
         this.addLoot(ModuleDifficulty.HARD, new ItemStack(Material.EXP_BOTTLE, 3), 25);
         this.addLoot(ModuleDifficulty.HARD, new ItemStack(Material.TNT), 15);
         this.addLoot(ModuleDifficulty.HARD, new ItemStack(Material.WEB), 15);
+        this.addLoot(ModuleDifficulty.HARD, new ItemStack(Material.BOW), 20);
+        this.addLoot(ModuleDifficulty.HARD, new ItemManager(Material.ARROW).setAmount(new Random().nextInt(4) + 1).build(), 15);
 
         //=================================================//
 
@@ -96,6 +103,8 @@ public class ChestLoot {
         this.addLoot(ModuleDifficulty.VERY_HARD, new ItemStack(Material.EXP_BOTTLE, 4), 25);
         this.addLoot(ModuleDifficulty.VERY_HARD, new ItemStack(Material.TNT), 10);
         this.addLoot(ModuleDifficulty.VERY_HARD, new ItemStack(Material.WEB), 10);
+        this.addLoot(ModuleDifficulty.VERY_HARD, new ItemStack(Material.BOW), 10);
+        this.addLoot(ModuleDifficulty.VERY_HARD, new ItemManager(Material.ARROW).setAmount(new Random().nextInt(5) + 1).build(), 10);
 
         //=================================================//
     }
@@ -105,6 +114,12 @@ public class ChestLoot {
             this.registeredLoot.get(moduleDifficulty).add(itemStack);
     }
 
+    /**
+     * Play chest open animation
+     * @param player Player who opens the chest
+     * @param chestLocation Location of the clicked chest
+     * @param moduleDifficulty Current module difficulty required to select appropriate loot
+     */
     public void openChest(Player player, Location chestLocation, ModuleDifficulty moduleDifficulty) {
         player.playSound(player.getLocation(), Sound.CLICK,3, 2);
         player.playEffect(chestLocation, Effect.EXPLOSION_LARGE, 1);
@@ -113,6 +128,11 @@ public class ChestLoot {
         player.getInventory().addItem(this.getRandomLoot(moduleDifficulty).toArray(new ItemStack[]{}));
     }
 
+    /**
+     * Select random loot based on the {@link ModuleDifficulty}
+     * @param moduleDifficulty Difficulty based on which the loot should be selected
+     * @return List containing the randomly selected loot
+     */
     private List<ItemStack> getRandomLoot(ModuleDifficulty moduleDifficulty) {
         List<ItemStack> lootFromDifficulty = Lists.newCopyOnWriteArrayList();
         List<ItemStack> loot = Lists.newCopyOnWriteArrayList();

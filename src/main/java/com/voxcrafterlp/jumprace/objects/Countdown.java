@@ -7,9 +7,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
-import org.bukkit.entity.Player;
-
-import java.util.Map;
 
 /**
  * This file was created by VoxCrafter_LP!
@@ -33,6 +30,9 @@ public class Countdown {
         this.running = false;
     }
 
+    /**
+     * Start the countdown
+     */
     public void startCountdown() {
         this.running = true;
 
@@ -84,12 +84,25 @@ public class Countdown {
             if(this.type == Type.DEATHMATCH) {
                 Bukkit.getOnlinePlayers().forEach(player -> new PlayerScoreboard().
                         updateScoreboard(player, JumpRace.getInstance().getGameManager().getTopArenaPlayers()));
+
+                if(this.timeLeft == 60) {
+                    Bukkit.getOnlinePlayers().forEach(player -> {
+                        player.sendMessage(JumpRace.getInstance().getPrefix() + "§7There is only §cone minute §7left§8! §7You have §c60 seconds§7 to be the closest one to the §cpoint§8!");
+                        player.playSound(player.getLocation(), Sound.NOTE_BASS,1,1);
+                    });
+
+                    JumpRace.getInstance().getLocationManager().getSelectedMap().spawnEndPoint();
+                }
             }
 
             this.timeLeft--;
         }, 0, 20);
     }
 
+    /**
+     * Reset the countdown
+     * @param run Determines if the countdown should restart immediately
+     */
     public void reset(boolean run) {
         Bukkit.getScheduler().cancelTask(this.taskID);
         this.running = false;
@@ -103,15 +116,25 @@ public class Countdown {
         if(run) startCountdown();
     }
 
+    /**
+     * Stop the countdown
+     */
     public void stop() {
         Bukkit.getScheduler().cancelTask(this.taskID);
     }
 
+    /**
+     * Execute the {@link Runnable}
+     */
     private void finish() {
         this.running = false;
         this.runnable.run();
     }
 
+    /**
+     * Format the time left to be displayed in the {@link org.bukkit.scoreboard.Scoreboard}
+     * @return Formatted time
+     */
     public String getTimeLeftFormatted() {
         final int seconds = this.timeLeft % 60;
         final int minutes = this.timeLeft / 60;
@@ -125,7 +148,7 @@ public class Countdown {
         LOBBY(10),
         ENDING(15),
         JUMPING(15),
-        DEATHMATCH(480);
+        DEATHMATCH(70);
 
         private final int duration;
 

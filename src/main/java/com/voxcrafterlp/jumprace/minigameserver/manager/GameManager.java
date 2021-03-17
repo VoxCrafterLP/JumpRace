@@ -16,6 +16,7 @@ import com.voxcrafterlp.jumprace.utils.ActionBarUtil;
 import com.voxcrafterlp.jumprace.utils.ItemManager;
 import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -24,6 +25,7 @@ import org.bukkit.scheduler.BukkitScheduler;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * This file was created by VoxCrafter_LP!
@@ -70,9 +72,7 @@ public class GameManager {
         this.endingCountdown = new Countdown(Countdown.Type.ENDING, () -> Bukkit.getOnlinePlayers().forEach(player ->
                 player.kickPlayer(JumpRace.getInstance().getPrefix() + "§7The game is §bover§8.")));
         this.jumpingCountdown = new Countdown(Countdown.Type.JUMPING, this::startDeathmatch);
-        this.deathMatchCountdown = new Countdown(Countdown.Type.DEATHMATCH, () -> {
-
-        });
+        this.deathMatchCountdown = new Countdown(Countdown.Type.DEATHMATCH, this::calculateWinner);
 
         this.startLobbyActionBar();
     }
@@ -177,11 +177,11 @@ public class GameManager {
     private void checkTeams() {
         if((int) this.registeredTeams.stream().filter(team -> team.getMembers().size() >= 1).count() < 2) {
             this.gameState = GameState.ENDING;
-            this.endGame();
+            this.endGame(this.registeredTeams.stream().filter(Team::isAlive).findAny().get());
         }
     }
 
-    private void endGame() {
+    private void endGame(Team winningTeam) {
         this.jumpingCountdown.stop();
         this.deathMatchCountdown.stop();
 
@@ -334,6 +334,12 @@ public class GameManager {
         }
 
         this.livesLeft.replace(player, (this.livesLeft.get(player) - 1));
+    }
+
+    public void calculateWinner() {
+        final Location endPointLocation = JumpRace.getInstance().getLocationManager().getSelectedMap().getEndPointLocation();
+        final Player winner = this.playersLeft.stream().min(Comparator.comparing(player -> player.getLocation().distance(endPointLocation))).get();
+        this.endGame(this.getTeamFromPlayer(winner));
     }
 
     public void setSpectator(Player player) {
