@@ -10,5 +10,7 @@ team-amount: 8
 
 players-required-for-start: 2
 
+admin-permission: jumprace.*
 builder-permission: jumprace.builder
 setup-permission: jumprace.setup
+switchMap-permission: jumprace.switchmap

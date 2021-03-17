@@ -1,6 +1,7 @@
 package com.voxcrafterlp.jumprace.minigameserver.manager;
 
 import com.google.common.collect.Lists;
+import com.voxcrafterlp.jumprace.JumpRace;
 import com.voxcrafterlp.jumprace.minigameserver.scoreboard.PlayerScoreboard;
 import com.voxcrafterlp.jumprace.objects.Map;
 import lombok.Getter;
@@ -95,7 +96,7 @@ public class LocationManager {
 
     private void setMap(Map map) {
         this.selectedMap = map;
-        Bukkit.getConsoleSender().sendMessage("§7The map §a" + this.selectedMap.getName() + " §7has been selected");
+        Bukkit.broadcastMessage(JumpRace.getInstance().getPrefix() + "§7The map §b" + this.selectedMap.getName() + " §7has been selected");
         Bukkit.getOnlinePlayers().forEach(players -> new PlayerScoreboard().updateScoreboard(players, null));
     }
 

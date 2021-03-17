@@ -90,7 +90,7 @@ public class GameManager {
         this.addPlayersToRandomTeams();
         this.loadPlayerNames();
 
-        AtomicInteger i = new AtomicInteger(0);
+        final AtomicInteger i = new AtomicInteger(0);
 
         Bukkit.getOnlinePlayers().forEach(player -> {
             this.moduleRows.put(player, JumpRace.getInstance().getModuleManager().getModuleRows().get(i.get()).assignPlayer(player));
@@ -104,6 +104,8 @@ public class GameManager {
         Bukkit.getScheduler().scheduleSyncDelayedTask(JumpRace.getInstance(), () -> {
             Bukkit.getOnlinePlayers().forEach(player -> new PlayerScoreboard().setScoreboard(player));
         }, 20);
+
+        this.registeredTeams.forEach(team -> team.setAlive(team.getMembers().size() > 0));
     }
 
     private void loadPlayerNames() {
@@ -134,10 +136,11 @@ public class GameManager {
             if(team != null) {
                 team.getMembers().remove(player);
                 Bukkit.getOnlinePlayers().forEach(players -> {
-                    if(team.getMembers().size() == 0)
+                    if(team.getMembers().size() == 0) {
                         players.sendMessage(JumpRace.getInstance().getPrefix() + team.getTeamColor().getColorCode() + "Team " +
                                 team.getTeamColor().getDisplayName() + " §7has been §4eliminated§8.");
-                    else
+                        team.setAlive(false);
+                    } else
                         players.sendMessage(JumpRace.getInstance().getPrefix() + team.getTeamColor().getColorCode() + "Team " +
                                 team.getTeamColor().getDisplayName() + " §7has got §c" + team.getMembers().size() + " players §7left§8.");
                 });
@@ -274,10 +277,11 @@ public class GameManager {
             if(team != null) {
                 team.getMembers().remove(player);
                 Bukkit.getOnlinePlayers().forEach(players -> {
-                    if(team.getMembers().size() == 0)
+                    if(team.getMembers().size() == 0) {
                         players.sendMessage(JumpRace.getInstance().getPrefix() + team.getTeamColor().getColorCode() + "Team " +
                                 team.getTeamColor().getDisplayName() + " §7has been §4eliminated§8.");
-                    else
+                        team.setAlive(false);
+                    } else
                         players.sendMessage(JumpRace.getInstance().getPrefix() + team.getTeamColor().getColorCode() + "Team " +
                                 team.getTeamColor().getDisplayName() + " §7has got §c" + team.getMembers().size() + " players §7left§8.");
                 });

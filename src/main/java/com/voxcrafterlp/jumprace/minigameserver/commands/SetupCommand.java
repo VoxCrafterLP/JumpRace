@@ -21,7 +21,8 @@ public class SetupCommand implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender, Command command, String label, String[] args) {
         Player player = (Player) commandSender;
 
-        if(!player.hasPermission(JumpRace.getInstance().getJumpRaceConfig().getSetupPermission())) {
+        if(!player.hasPermission(JumpRace.getInstance().getJumpRaceConfig().getSetupPermission())
+                && !player.hasPermission(JumpRace.getInstance().getJumpRaceConfig().getAdminPermission())) {
             player.sendMessage(JumpRace.getInstance().getPrefix() + "§7You §care not permitted §7to execute this command!");
             return false;
         }

@@ -44,6 +44,13 @@ public class PlayerInteractListener implements Listener {
                 player.kickPlayer(JumpRace.getInstance().getPrefix() + "§7You §bleft §7the game§8.");
                 return;
             }
+            if(event.getItem().getItemMeta().getDisplayName().equals("§bMap switcher")) {
+                player.openInventory(JumpRace.getInstance().getInventoryManager().getMapSwitcherInventory());
+                player.playSound(player.getLocation(), Sound.CHEST_OPEN,1,1);
+                return;
+            }
+
+            return;
         }
 
         if(JumpRace.getInstance().getGameManager().getGameState() == GameState.JUMPING) {

@@ -148,8 +148,8 @@ public class JumpRace extends JavaPlugin {
         this.gameManager = new GameManager();
         this.moduleManager = new ModuleManager();
         this.moduleManager.buildModules();
-        this.inventoryManager = new InventoryManager();
         this.locationManager = new LocationManager();
+        this.inventoryManager = new InventoryManager();
 
         if(this.locationManager.getLobbyLocation() != null) {
             Bukkit.getWorld(this.locationManager.getLobbyLocation().getWorld().getName()).setGameRuleValue("doDaylightCycle", "false");

@@ -4,6 +4,7 @@ import com.voxcrafterlp.jumprace.JumpRace;
 import com.voxcrafterlp.jumprace.minigameserver.scoreboard.PlayerScoreboard;
 import com.voxcrafterlp.jumprace.objects.Team;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -28,11 +29,12 @@ public class InventoryClickListener implements Listener {
         if(event.getCurrentItem().getItemMeta() == null) return;
         if(event.getCurrentItem().getItemMeta().getDisplayName() == null) return;
 
+        final Player player = (Player) event.getWhoClicked();
+
         if(event.getInventory().getName().equalsIgnoreCase(JumpRace.getInstance().getInventoryManager().getTeamSelectorInventory().getName())) {
             event.setCancelled(true);
             if(event.getCurrentItem().getType() != Material.LEATHER_BOOTS) return;
 
-            final Player player = (Player) event.getWhoClicked();
             final Team team = JumpRace.getInstance().getGameManager().getRegisteredTeams().get((event.getSlot() - 9));
 
             if(team.getMembers().contains(player)) {
@@ -58,6 +60,19 @@ public class InventoryClickListener implements Listener {
             player.closeInventory();
 
             Bukkit.getOnlinePlayers().forEach(players -> new PlayerScoreboard().setScoreboard(players));
+            return;
+        }
+
+        if(event.getInventory().getName().equalsIgnoreCase(JumpRace.getInstance().getInventoryManager().getMapSwitcherInventory().getName())) {
+            event.setCancelled(true);
+
+            if(event.getSlot() == 53)
+                JumpRace.getInstance().getLocationManager().pickRandomMap();
+            else
+                JumpRace.getInstance().getLocationManager().setMap(ChatColor.stripColor(event.getCurrentItem().getItemMeta().getDisplayName()));
+
+            player.playSound(player.getLocation(), Sound.LEVEL_UP,1,1);
+            player.closeInventory();
         }
     }
 }

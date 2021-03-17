@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.voxcrafterlp.jumprace.JumpRace;
 import com.voxcrafterlp.jumprace.enums.TeamColor;
 import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -20,15 +21,17 @@ import java.util.List;
  * Project: JumpRace
  */
 
-@Getter
+@Getter @Setter
 public class Team {
 
     private final TeamColor teamColor;
     private final List<Player> members;
+    private boolean alive;
 
     public Team(TeamColor teamColor) {
         this.teamColor = teamColor;
         this.members = Lists.newCopyOnWriteArrayList();
+        this.alive = true;
     }
 
     public ItemStack getTeamSelectorItem() {
