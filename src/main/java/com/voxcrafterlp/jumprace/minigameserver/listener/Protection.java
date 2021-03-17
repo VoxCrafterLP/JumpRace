@@ -15,6 +15,7 @@ import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * This file was created by VoxCrafter_LP!
@@ -39,6 +40,12 @@ public class Protection implements Listener {
 
     @EventHandler
     public void onPlace(BlockPlaceEvent event) {
+        if(JumpRace.getInstance().getGameManager().getGameState() == GameState.DEATHMATCH) {
+            final ItemStack itemInHand = event.getItemInHand();
+            if(itemInHand != null)
+                if(itemInHand.getType() == Material.WEB || itemInHand.getType() == Material.TNT) return;
+        }
+
         if(event.getPlayer().getGameMode() != GameMode.CREATIVE)
             event.setCancelled(true);
     }

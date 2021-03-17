@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType;
 
 /**
  * This file was created by VoxCrafter_LP!
@@ -30,7 +31,7 @@ public class InventoryClickListener implements Listener {
             event.setCancelled(true);
 
             JumpRace.getInstance().getGameManager().getDeathChests().forEach(deathChest -> {
-                if(deathChest.getInventory().equals(event.getInventory()))
+                if(deathChest.getInventory().equals(event.getClickedInventory()))
                     deathChest.takeItem(player, event.getCurrentItem());
             });
         }

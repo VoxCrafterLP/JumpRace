@@ -3,6 +3,7 @@ package com.voxcrafterlp.jumprace.minigameserver.listener.deathmatch;
 import com.voxcrafterlp.jumprace.JumpRace;
 import com.voxcrafterlp.jumprace.enums.GameState;
 import net.minecraft.server.v1_8_R3.PacketPlayInClientCommand;
+import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -30,15 +31,13 @@ public class PlayerDeathListener implements Listener {
         event.setKeepInventory(true);
         event.setDroppedExp(0);
 
-        if(event.getEntity().getKiller() != null)
+        if(event.getEntity().getKiller() != null) {
             event.getEntity().getKiller().addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 140, 1));
+            event.setDeathMessage(JumpRace.getInstance().getPrefix() + JumpRace.getInstance().getGameManager().getPlayerNames().get(player) +
+                    " §7has been §ckilled §7by " + JumpRace.getInstance().getGameManager().getPlayerNames().get(player.getKiller()) + "§8.");
+        } else
+            event.setDeathMessage(JumpRace.getInstance().getPrefix() + JumpRace.getInstance().getGameManager().getPlayerNames().get(player) + " §7died§8.");
 
         ((CraftPlayer) event.getEntity()).getHandle().playerConnection.a(new PacketPlayInClientCommand(PacketPlayInClientCommand.EnumClientCommand.PERFORM_RESPAWN));
-
-        event.setDeathMessage(JumpRace.getInstance().getPrefix() + ((event.getEntity().getKiller() == null) ?
-                JumpRace.getInstance().getGameManager().getPlayerNames().get(player) + " §7died§8." :
-                JumpRace.getInstance().getGameManager().getPlayerNames().get(player) + " §7has been §ckilled §7by " +
-                JumpRace.getInstance().getGameManager().getPlayerNames().get(player.getKiller()) + "§8."));
     }
-
 }

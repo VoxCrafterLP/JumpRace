@@ -50,6 +50,8 @@ public class ChestLoot {
         this.addLoot(ModuleDifficulty.EASY, new ItemStack(Material.FLINT), 20);
         this.addLoot(ModuleDifficulty.EASY, new ItemStack(Material.FEATHER), 20);
         this.addLoot(ModuleDifficulty.EASY, new ItemStack(Material.WOOD_SWORD), 20);
+        this.addLoot(ModuleDifficulty.EASY, new ItemStack(Material.TNT), 15);
+        this.addLoot(ModuleDifficulty.EASY, new ItemStack(Material.WEB), 15);
 
         //=================================================//
 
@@ -64,6 +66,8 @@ public class ChestLoot {
         this.addLoot(ModuleDifficulty.NORMAL, new ItemStack(Material.FEATHER), 15);
         this.addLoot(ModuleDifficulty.NORMAL, new ItemStack(Material.FLINT), 15);
         this.addLoot(ModuleDifficulty.NORMAL, new ItemStack(Material.EXP_BOTTLE, 2), 25);
+        this.addLoot(ModuleDifficulty.NORMAL, new ItemStack(Material.TNT), 20);
+        this.addLoot(ModuleDifficulty.NORMAL, new ItemStack(Material.WEB), 20);
 
         //=================================================//
 
@@ -76,6 +80,8 @@ public class ChestLoot {
         this.addLoot(ModuleDifficulty.HARD, new ItemStack(Material.ENCHANTMENT_TABLE), 20);
         this.addLoot(ModuleDifficulty.HARD, new ItemStack(Material.WORKBENCH), 30);
         this.addLoot(ModuleDifficulty.HARD, new ItemStack(Material.EXP_BOTTLE, 3), 25);
+        this.addLoot(ModuleDifficulty.HARD, new ItemStack(Material.TNT), 15);
+        this.addLoot(ModuleDifficulty.HARD, new ItemStack(Material.WEB), 15);
 
         //=================================================//
 
@@ -88,6 +94,8 @@ public class ChestLoot {
         this.addLoot(ModuleDifficulty.VERY_HARD, new ItemStack(Material.ENCHANTMENT_TABLE), 20);
         this.addLoot(ModuleDifficulty.VERY_HARD, new ItemStack(Material.WORKBENCH), 30);
         this.addLoot(ModuleDifficulty.VERY_HARD, new ItemStack(Material.EXP_BOTTLE, 4), 25);
+        this.addLoot(ModuleDifficulty.VERY_HARD, new ItemStack(Material.TNT), 10);
+        this.addLoot(ModuleDifficulty.VERY_HARD, new ItemStack(Material.WEB), 10);
 
         //=================================================//
     }
