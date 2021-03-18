@@ -2,7 +2,6 @@ package com.voxcrafterlp.jumprace.minigameserver.scoreboard;
 
 import com.google.common.collect.Lists;
 import com.voxcrafterlp.jumprace.JumpRace;
-import com.voxcrafterlp.jumprace.enums.GameState;
 import com.voxcrafterlp.jumprace.enums.TeamColor;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -12,7 +11,6 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -38,10 +36,14 @@ public class PlayerScoreboard {
 
         //=====================================//
 
-        scoreboard.registerNewTeam("000").setPrefix("§aPlayer §8▌ §7");
+        scoreboard.registerNewTeam("009").setPrefix("§aPlayer §8▌ §7");
 
         Arrays.stream(TeamColor.values()).forEach(teamColor ->
                 scoreboard.registerNewTeam(teamColor.getDisplayName().toLowerCase()).setPrefix(teamColor.getTeamNameWithColorCode() + " §8▌ §7"));
+
+        final Team spectator = scoreboard.registerNewTeam("000spectator");
+        spectator.setPrefix("§c✘ §8▌ §7");
+        spectator.setCanSeeFriendlyInvisibles(true);
 
         //=====================================//
 
@@ -112,8 +114,12 @@ public class PlayerScoreboard {
         //=====================================//
 
         Bukkit.getOnlinePlayers().forEach(players -> {
-            final com.voxcrafterlp.jumprace.objects.Team team = JumpRace.getInstance().getGameManager().getTeamFromPlayer(players);
-            scoreboard.getTeam(((team != null) ? team.getTeamColor().getDisplayName().toLowerCase() : "000")).addPlayer(players);
+            if(JumpRace.getInstance().getGameManager().getSpectatorManager().isSpectator(players))
+                spectator.addPlayer(players);
+            else {
+                final com.voxcrafterlp.jumprace.objects.Team team = JumpRace.getInstance().getGameManager().getTeamFromPlayer(players);
+                scoreboard.getTeam(((team != null) ? team.getTeamColor().getDisplayName().toLowerCase() : "009")).addPlayer(players);
+            }
         });
 
         //=====================================//
@@ -172,7 +178,7 @@ public class PlayerScoreboard {
     private Map<Integer, List<String>> prepareJumpingPlayers(Map<Player, Integer> players, Player scoreboardPlayer) {
         final Map<Integer, List<String>> playersMap = new HashMap<>();
 
-        AtomicInteger score = new AtomicInteger(11);
+        final AtomicInteger score = new AtomicInteger(11);
 
         players.forEach((player, percentage) -> {
             final String colorCode = ChatColor.getLastColors(JumpRace.getInstance().getGameManager().getPlayerNames().get(player)) + (player.equals(scoreboardPlayer) ? "§l§n" : "");
@@ -198,7 +204,7 @@ public class PlayerScoreboard {
     private Map<Integer, List<String>> prepareArenaPlayers(Map<Player, Integer> players, Player scoreboardPlayer) {
         final Map<Integer, List<String>> playersMap = new HashMap<>();
 
-        AtomicInteger score = new AtomicInteger(11);
+        final AtomicInteger score = new AtomicInteger(11);
 
         players.forEach((player, lives) -> {
             final String colorCode = ChatColor.getLastColors(JumpRace.getInstance().getGameManager().getPlayerNames().get(player)) + (player.equals(scoreboardPlayer) ? "§l§n" : "");
@@ -232,7 +238,7 @@ public class PlayerScoreboard {
     }
 
     private String getLivesLeftFormatted(int lives) {
-        final int maxLives = 3; //Todo config
+        final int maxLives = JumpRace.getInstance().getJumpRaceConfig().getMaxLives();
         final StringBuilder stringBuilder = new StringBuilder();
 
         stringBuilder.append("§c");

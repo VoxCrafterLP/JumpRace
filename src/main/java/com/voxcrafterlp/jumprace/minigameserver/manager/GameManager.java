@@ -16,13 +16,14 @@ import com.voxcrafterlp.jumprace.utils.ActionBarUtil;
 import com.voxcrafterlp.jumprace.utils.ItemManager;
 import lombok.Getter;
 import org.bukkit.*;
+import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.scheduler.BukkitScheduler;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * This file was created by VoxCrafter_LP!
@@ -40,8 +41,10 @@ public class GameManager {
     private final Map<Player, String> playerNames;
     private final Map<Player, ModuleRow> moduleRows;
     private final ChestLoot chestLoot;
-
+    private int fireworkTaskID;
     private final List<Player> playersLeft;
+    private final SpectatorManager spectatorManager;
+
     private final Map<Player, Integer> livesLeft;
     private final List<DeathChest> deathChests;
 
@@ -54,8 +57,9 @@ public class GameManager {
         this.playerNames = new HashMap<>();
         this.moduleRows = new HashMap<>();
         this.chestLoot = new ChestLoot();
-
         this.playersLeft = Lists.newCopyOnWriteArrayList();
+        this.spectatorManager = new SpectatorManager();
+
         this.livesLeft = new HashMap<>();
         this.deathChests = Lists.newCopyOnWriteArrayList();
 
@@ -66,12 +70,15 @@ public class GameManager {
         }
 
         this.lobbyCountdown = new Countdown(Countdown.Type.LOBBY, this::startGame);
-        this.endingCountdown = new Countdown(Countdown.Type.ENDING, () -> Bukkit.getOnlinePlayers().forEach(player ->
-                player.kickPlayer(JumpRace.getInstance().getPrefix() + "§7The game is §bover§8.")));
+        this.endingCountdown = new Countdown(Countdown.Type.ENDING, () -> {
+            Bukkit.getOnlinePlayers().forEach(player ->
+                    player.kickPlayer(JumpRace.getInstance().getPrefix() + "§7The game is §bover§8."));
+            Bukkit.getScheduler().scheduleAsyncDelayedTask(JumpRace.getInstance(), Bukkit::shutdown, 5);
+        });
         this.jumpingCountdown = new Countdown(Countdown.Type.JUMPING, this::startDeathmatch);
         this.deathMatchCountdown = new Countdown(Countdown.Type.DEATHMATCH, this::calculateWinner);
 
-        this.startLobbyActionBar();
+        this.startActionBar();
     }
 
     /**
@@ -165,6 +172,7 @@ public class GameManager {
             }
             this.playersLeft.remove(player);
             this.playerNames.remove(player);
+            this.spectatorManager.removeSpectator(player);
         }
     }
 
@@ -172,16 +180,42 @@ public class GameManager {
      * End the game if there are not enough players online
      */
     private void checkTeams() {
-        if((int) this.registeredTeams.stream().filter(team -> team.getMembers().size() >= 1).count() < 2) {
-            this.gameState = GameState.ENDING;
+        if((int) this.registeredTeams.stream().filter(team -> team.getMembers().size() >= 1).count() < 2)
             this.endGame(this.registeredTeams.stream().filter(Team::isAlive).findAny().get());
-        }
     }
 
     private void endGame(Team winningTeam) {
         this.jumpingCountdown.stop();
         this.deathMatchCountdown.stop();
+        this.gameState = GameState.ENDING;
 
+        Bukkit.getOnlinePlayers().forEach(player -> {
+            player.teleport(JumpRace.getInstance().getLocationManager().getLobbyLocation());
+            player.sendMessage(JumpRace.getInstance().getPrefix() + winningTeam.getTeamColor().getColorCode() +
+                    "Team " + winningTeam.getTeamColor().getDisplayName() + " §7won the §bgame§8!");
+        });
+
+        this.firework();
+    }
+
+    private void firework() {
+        final AtomicInteger spanwed = new AtomicInteger(0);
+        final Location fireworkLocation = JumpRace.getInstance().getLocationManager().getLobbyLocation();
+
+        this.fireworkTaskID = Bukkit.getScheduler().scheduleAsyncRepeatingTask(JumpRace.getInstance(), () -> {
+            if(spanwed.get() == 5) {
+                Bukkit.getScheduler().cancelTask(this.fireworkTaskID);
+                return;
+            }
+
+            final Firework firework =  fireworkLocation.getWorld().spawn(fireworkLocation, Firework.class);
+            final FireworkMeta fireworkMeta = firework.getFireworkMeta();
+
+            fireworkMeta.addEffect(FireworkEffect.builder().flicker(true).withFlicker().withColor(Color.GREEN).build());
+            fireworkMeta.setPower(2);
+
+            spanwed.getAndIncrement();
+        }, 5, 10);
     }
 
     public Team getTeamFromPlayer(Player player) {
@@ -203,7 +237,7 @@ public class GameManager {
     /**
      * Start a {@link BukkitScheduler}
      */
-    public void startLobbyActionBar() {
+    public void startActionBar() {
         Bukkit.getScheduler().scheduleAsyncRepeatingTask(JumpRace.getInstance(), () -> {
             if(this.gameState == GameState.LOBBY) {
                 if(!this.lobbyCountdown.isRunning()) {
@@ -217,6 +251,11 @@ public class GameManager {
                             ((playerLeft == 1) ? "§7Waiting for §bone §7more player§8..." : "§7Waiting for §b" + playerLeft + " §7more players§8...")));
                 } else
                     Bukkit.getOnlinePlayers().forEach(player -> new ActionBarUtil().sendActionbar(player, "§cTeaming forbidden"));
+            } else {
+                Bukkit.getScheduler().scheduleAsyncRepeatingTask(JumpRace.getInstance(), () -> this.registeredTeams.forEach(team -> team.getMembers().forEach(player ->
+                        new ActionBarUtil().sendActionbar(player, team.getTeamColor().getColorCode() + "Team " + team.getTeamColor().getDisplayName()))), 5, 200);
+
+                this.spectatorManager.getSpectators().forEach(player -> new ActionBarUtil().sendActionbar(player, "§7Spectator"));
             }
         }, 20, 20);
     }
@@ -243,7 +282,7 @@ public class GameManager {
         final Map<Player, Integer> progress = new HashMap<>();
         final Map<Player, Integer> map = new LinkedHashMap<>();
 
-        Bukkit.getOnlinePlayers().forEach(player -> progress.put(player, player.getLocation().getBlockX()));
+        this.playersLeft.forEach(player -> progress.put(player, player.getLocation().getBlockX()));
 
         final LinkedHashMap<Player, Integer> sortedProgressMap = new LinkedHashMap<>();
 
@@ -287,7 +326,7 @@ public class GameManager {
         this.gameState = GameState.DEATHMATCH;
         final com.voxcrafterlp.jumprace.objects.Map map = JumpRace.getInstance().getLocationManager().getSelectedMap();
 
-        AtomicInteger index = new AtomicInteger(0);
+        final AtomicInteger index = new AtomicInteger(0);
 
         this.moduleRows.forEach((player, moduleRow) -> {
             moduleRow.stopRespawnScheduler();
@@ -306,11 +345,13 @@ public class GameManager {
         }, 20);
 
         this.deathMatchCountdown.startCountdown();
+
+        this.getSpectatorManager().getSpectators().forEach(player -> player.teleport(JumpRace.getInstance().getLocationManager().getSelectedMap().getRandomSpawnLocation()));
     }
 
     public void removeLive(Player player, List<ItemStack> drops) {
         if(this.livesLeft.get(player) == 1) {
-            this.setSpectator(player);
+            this.spectatorManager.setSpectating(player);
 
             this.deathChests.add(new DeathChest(player, drops));
 
@@ -338,13 +379,6 @@ public class GameManager {
         final Location endPointLocation = JumpRace.getInstance().getLocationManager().getSelectedMap().getEndPointLocation();
         final Player winner = this.playersLeft.stream().min(Comparator.comparing(player -> player.getLocation().distance(endPointLocation))).get();
         this.endGame(this.getTeamFromPlayer(winner));
-    }
-
-    public void setSpectator(Player player) {
-        this.playersLeft.remove(player);
-        this.livesLeft.remove(player);
-
-        //TODO
     }
 
 }

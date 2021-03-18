@@ -42,7 +42,8 @@ public class PlayerJoinListener implements Listener {
                 break;
             case DEATHMATCH:
             case JUMPING:
-
+                JumpRace.getInstance().getGameManager().getSpectatorManager().setSpectating(player);
+                event.setJoinMessage(null);
                 break;
         }
     }

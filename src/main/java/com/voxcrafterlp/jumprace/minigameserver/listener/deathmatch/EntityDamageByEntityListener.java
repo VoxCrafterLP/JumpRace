@@ -27,6 +27,12 @@ public class EntityDamageByEntityListener implements Listener {
 
         final Player player = (Player) event.getEntity();
         final Player damager = ((event.getDamager().getType() == EntityType.PLAYER) ? (Player) event.getDamager() : (Player) ((Arrow) event.getDamager()).getShooter());
+
+        if(JumpRace.getInstance().getGameManager().getSpectatorManager().isSpectator(damager)) {
+            event.setCancelled(true);
+            return;
+        }
+
         final Team team = JumpRace.getInstance().getGameManager().getTeamFromPlayer(player);
 
         if(team == null) {

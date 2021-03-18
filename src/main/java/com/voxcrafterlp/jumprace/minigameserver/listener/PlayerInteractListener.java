@@ -53,24 +53,6 @@ public class PlayerInteractListener implements Listener {
             return;
         }
 
-        if(JumpRace.getInstance().getGameManager().getGameState() == GameState.JUMPING) {
-            if(event.getAction() == Action.PHYSICAL) {
-                if(event.getClickedBlock().getType() == Material.GOLD_PLATE)
-                    JumpRace.getInstance().getGameManager().getModuleRows().get(event.getPlayer()).triggerGoldPlate(event.getClickedBlock().getLocation());
-                return;
-            }
-
-            if(event.getClickedBlock() == null) return;
-
-            if(event.getClickedBlock().getType() == Material.ENDER_CHEST) {
-                event.setCancelled(true);
-                event.getPlayer().closeInventory();
-
-                JumpRace.getInstance().getGameManager().getChestLoot().openChest(player, event.getClickedBlock().getLocation(),
-                        JumpRace.getInstance().getGameManager().getModuleRows().get(player).getCurrentModuleDifficulty());
-            }
-        }
-
         if(JumpRace.getInstance().getGameManager().getGameState() == GameState.JUMPING ||
                 JumpRace.getInstance().getGameManager().getGameState() == GameState.DEATHMATCH) {
 
@@ -118,6 +100,39 @@ public class PlayerInteractListener implements Listener {
                 enchantingTableLocation.getBlock().setType(Material.ENCHANTMENT_TABLE);
                 player.openEnchanting(enchantingTableLocation, true);
                 return;
+            }
+
+            if(event.getItem().getItemMeta().getDisplayName().equals("§cLeave")) {
+                player.kickPlayer(JumpRace.getInstance().getPrefix() + "§7You §bleft §7the game§8.");
+                return;
+            }
+
+            if(event.getItem().getItemMeta().getDisplayName().equals("§bTeleport")) {
+                //TODO teleporter
+                return;
+            }
+        }
+
+        if(JumpRace.getInstance().getGameManager().getGameState() == GameState.JUMPING) {
+            if(JumpRace.getInstance().getGameManager().getSpectatorManager().isSpectator(event.getPlayer())) {
+                event.setCancelled(true);
+                return;
+            }
+
+            if(event.getAction() == Action.PHYSICAL) {
+                if(event.getClickedBlock().getType() == Material.GOLD_PLATE)
+                    JumpRace.getInstance().getGameManager().getModuleRows().get(event.getPlayer()).triggerGoldPlate(event.getClickedBlock().getLocation());
+                return;
+            }
+
+            if(event.getClickedBlock() == null) return;
+
+            if(event.getClickedBlock().getType() == Material.ENDER_CHEST) {
+                event.setCancelled(true);
+                event.getPlayer().closeInventory();
+
+                JumpRace.getInstance().getGameManager().getChestLoot().openChest(player, event.getClickedBlock().getLocation(),
+                        JumpRace.getInstance().getGameManager().getModuleRows().get(player).getCurrentModuleDifficulty());
             }
         }
     }

@@ -19,7 +19,7 @@ public class JumpRaceConfig {
     private final YamlConfiguration configuration;
 
     private final boolean builderServer;
-    private final int moduleSpawnHeight, teamSize, teamAmount, playersRequiredForStart;
+    private final int moduleSpawnHeight, teamSize, teamAmount, playersRequiredForStart, maxLives;
 
     private final String adminPermission, builderPermission, setupPermission, mapSwitchPermission;
 
@@ -32,8 +32,9 @@ public class JumpRaceConfig {
 
         this.teamSize = this.configuration.getInt("team-size");
         this.teamAmount = this.configuration.getInt("team-amount");
-
         this.playersRequiredForStart = this.configuration.getInt("players-required-for-start");
+
+        this.maxLives = this.configuration.getInt("max-lives");
 
         this.adminPermission = this.configuration.getString("admin-permission");
         this.builderPermission = this.configuration.getString("builder-permission");

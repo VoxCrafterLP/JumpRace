@@ -1,6 +1,7 @@
 package com.voxcrafterlp.jumprace.objects;
 
 import com.google.common.collect.Lists;
+import com.voxcrafterlp.jumprace.JumpRace;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -53,7 +54,7 @@ public class Map {
             final Location location = this.spawnLocations.get(new Random().nextInt(this.spawnLocations.size()));
             AtomicBoolean isLocationSafe = new AtomicBoolean(true);
 
-            Bukkit.getOnlinePlayers().forEach(player -> {
+            JumpRace.getInstance().getGameManager().getPlayersLeft().forEach(player -> {
                 if(player.getLocation().distance(location) < 10)
                     isLocationSafe.set(false);
             });

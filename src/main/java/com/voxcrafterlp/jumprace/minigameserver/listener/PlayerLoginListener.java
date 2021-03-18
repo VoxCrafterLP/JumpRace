@@ -17,9 +17,7 @@ public class PlayerLoginListener implements Listener {
 
     @EventHandler
     public void onLogin(PlayerLoginEvent event) {
-        if(JumpRace.getInstance().getGameManager().getGameState() != GameState.LOBBY) {
-            event.disallow(PlayerLoginEvent.Result.KICK_OTHER, JumpRace.getInstance().getPrefix() + "§7The game has §calready §7started§8!");
-        }
+        if(JumpRace.getInstance().getGameManager().getGameState() == GameState.ENDING)
+            event.disallow(PlayerLoginEvent.Result.KICK_OTHER, JumpRace.getInstance().getPrefix() + "§7You §ccan't §7join this game right now§8!");
     }
-
 }
