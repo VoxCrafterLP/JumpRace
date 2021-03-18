@@ -8,6 +8,7 @@ import com.voxcrafterlp.jumprace.builderserver.listener.editor.Protection;
 import com.voxcrafterlp.jumprace.config.JumpRaceConfig;
 import com.voxcrafterlp.jumprace.minigameserver.listener.EnchantmentListener;
 import com.voxcrafterlp.jumprace.minigameserver.listener.PlayerLoginListener;
+import com.voxcrafterlp.jumprace.minigameserver.listener.PlayerMoveListener;
 import com.voxcrafterlp.jumprace.minigameserver.listener.deathmatch.EntityDamageByEntityListener;
 import com.voxcrafterlp.jumprace.minigameserver.listener.deathmatch.InstantTNTListener;
 import com.voxcrafterlp.jumprace.minigameserver.listener.deathmatch.PlayerDeathListener;
@@ -106,6 +107,7 @@ public class JumpRace extends JavaPlugin {
         pluginManager.registerEvents(new com.voxcrafterlp.jumprace.minigameserver.listener.Protection(), this);
         pluginManager.registerEvents(new com.voxcrafterlp.jumprace.minigameserver.listener.InventoryClickListener(), this);
         pluginManager.registerEvents(new com.voxcrafterlp.jumprace.minigameserver.listener.PlayerInteractListener(), this);
+        pluginManager.registerEvents(new PlayerMoveListener(), this);
 
         pluginManager.registerEvents(new PlayerDeathListener(), this);
         pluginManager.registerEvents(new PlayerRespawnListener(), this);

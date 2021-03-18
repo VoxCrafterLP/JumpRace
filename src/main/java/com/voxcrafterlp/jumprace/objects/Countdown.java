@@ -81,6 +81,47 @@ public class Countdown {
                         updateScoreboard(player, JumpRace.getInstance().getGameManager().getTopScoreboardPlayers()));
             }
 
+            if(this.type == Type.JUMPING) {
+                switch (this.timeLeft) {
+                    case 10:
+                        Bukkit.getOnlinePlayers().forEach(player -> {
+                            new TitleUtil().sendTitle(player, "§c10", 10, 30, 10);
+                            player.playSound(player.getLocation(), Sound.NOTE_BASS_GUITAR,1,1);
+                        });
+                        break;
+                    case 5:
+                        Bukkit.getOnlinePlayers().forEach(player -> {
+                            new TitleUtil().sendTitle(player, "§45", 10, 30, 10);
+                            player.playSound(player.getLocation(), Sound.NOTE_BASS_GUITAR,1,1);
+                        });
+                        break;
+                    case 4:
+                        Bukkit.getOnlinePlayers().forEach(player -> {
+                            new TitleUtil().sendTitle(player, "§c4", 10, 30, 10);
+                            player.playSound(player.getLocation(), Sound.NOTE_BASS_GUITAR,1,1);
+                        });
+                        break;
+                    case 3:
+                        Bukkit.getOnlinePlayers().forEach(player -> {
+                            new TitleUtil().sendTitle(player, "§63", 10, 30, 10);
+                            player.playSound(player.getLocation(), Sound.NOTE_BASS_GUITAR,1,1);
+                        });
+                        break;
+                    case 2:
+                        Bukkit.getOnlinePlayers().forEach(player -> {
+                            new TitleUtil().sendTitle(player, "§e2", 10, 30, 10);
+                            player.playSound(player.getLocation(), Sound.NOTE_BASS_GUITAR,1,1);
+                        });
+                        break;
+                    case 1:
+                        Bukkit.getOnlinePlayers().forEach(player -> {
+                            new TitleUtil().sendTitle(player, "§a1", 10, 30, 10);
+                            player.playSound(player.getLocation(), Sound.NOTE_BASS_GUITAR,1,1);
+                        });
+                        break;
+                }
+            }
+
             if(this.type == Type.DEATHMATCH) {
                 Bukkit.getOnlinePlayers().forEach(player -> new PlayerScoreboard().
                         updateScoreboard(player, JumpRace.getInstance().getGameManager().getTopArenaPlayers()));
@@ -93,6 +134,35 @@ public class Countdown {
 
                     JumpRace.getInstance().getLocationManager().getSelectedMap().spawnEndPoint();
                 }
+            }
+
+            if(this.type == Type.PRE_JUMPING || this.type == Type.PRE_DEATHMATCH) {
+
+                switch (this.timeLeft) {
+                    case 5:
+                        Bukkit.getOnlinePlayers().forEach(player -> new TitleUtil().sendTitle(player, "§45", 10, 30, 10));
+                        break;
+                    case 4:
+                        Bukkit.getOnlinePlayers().forEach(player -> new TitleUtil().sendTitle(player, "§c4", 10, 30, 10));
+                        break;
+                    case 3:
+                        Bukkit.getOnlinePlayers().forEach(player -> new TitleUtil().sendTitle(player, "§63", 10, 30, 10));
+                        break;
+                    case 2:
+                        Bukkit.getOnlinePlayers().forEach(player -> new TitleUtil().sendTitle(player, "§e2", 10, 30, 10));
+                        break;
+                    case 1:
+                        Bukkit.getOnlinePlayers().forEach(player -> new TitleUtil().sendTitle(player, "§a1", 10, 30, 10));
+                        break;
+                }
+
+                Bukkit.getOnlinePlayers().forEach(player -> {
+                    player.playSound(player.getLocation(), Sound.NOTE_BASS_GUITAR,1,1);
+                    if(this.type == Type.PRE_JUMPING) {
+                        player.setLevel(this.timeLeft);
+                        player.setExp(this.timeLeft * ((float) 1 / this.type.getDuration()));
+                    }
+                });
             }
 
             this.timeLeft--;
@@ -148,7 +218,9 @@ public class Countdown {
         LOBBY(10),
         ENDING(15),
         JUMPING(480),
-        DEATHMATCH(480);
+        PRE_JUMPING(5),
+        DEATHMATCH(480),
+        PRE_DEATHMATCH(5);
 
         private final int duration;
 

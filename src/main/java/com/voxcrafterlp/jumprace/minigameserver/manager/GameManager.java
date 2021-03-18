@@ -37,7 +37,7 @@ public class GameManager {
 
     private final List<Team> registeredTeams;
     private GameState gameState;
-    private final Countdown lobbyCountdown, endingCountdown, jumpingCountdown, deathMatchCountdown;
+    private final Countdown lobbyCountdown, endingCountdown, preJumpingCountdown, jumpingCountdown, preDeathMatchCountdown, deathMatchCountdown;
     private final Map<Player, String> playerNames;
     private final Map<Player, ModuleRow> moduleRows;
     private final ChestLoot chestLoot;
@@ -78,6 +78,9 @@ public class GameManager {
         this.jumpingCountdown = new Countdown(Countdown.Type.JUMPING, this::startDeathmatch);
         this.deathMatchCountdown = new Countdown(Countdown.Type.DEATHMATCH, this::calculateWinner);
 
+        this.preJumpingCountdown = new Countdown(Countdown.Type.PRE_JUMPING, this.jumpingCountdown::startCountdown);
+        this.preDeathMatchCountdown = new Countdown(Countdown.Type.PRE_DEATHMATCH, this.deathMatchCountdown::startCountdown);
+
         this.startActionBar();
     }
 
@@ -113,7 +116,7 @@ public class GameManager {
             i.getAndIncrement();
         });
 
-        this.jumpingCountdown.startCountdown();
+        this.preJumpingCountdown.startCountdown();
 
         Bukkit.getScheduler().scheduleSyncDelayedTask(JumpRace.getInstance(), () -> {
             Bukkit.getOnlinePlayers().forEach(player -> new PlayerScoreboard().setScoreboard(player));
@@ -347,7 +350,7 @@ public class GameManager {
             Bukkit.getOnlinePlayers().forEach(player -> new PlayerScoreboard().setScoreboard(player));
         }, 20);
 
-        this.deathMatchCountdown.startCountdown();
+        this.preDeathMatchCountdown.startCountdown();
 
         this.getSpectatorManager().getSpectators().forEach(player -> player.teleport(JumpRace.getInstance().getLocationManager().getSelectedMap().getRandomSpawnLocation()));
     }
