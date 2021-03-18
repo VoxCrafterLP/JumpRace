@@ -1,5 +1,6 @@
 package com.voxcrafterlp.jumprace.minigameserver.listener;
 
+import com.google.common.collect.Lists;
 import com.voxcrafterlp.jumprace.JumpRace;
 import com.voxcrafterlp.jumprace.enums.GameState;
 import com.voxcrafterlp.jumprace.utils.ItemManager;
@@ -15,6 +16,8 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.List;
 
 /**
  * This file was created by VoxCrafter_LP!
@@ -51,6 +54,27 @@ public class PlayerInteractListener implements Listener {
             }
 
             return;
+        }
+
+        if(JumpRace.getInstance().getGameManager().getGameState() == GameState.JUMPING) {
+            if(!JumpRace.getInstance().getGameManager().getSpectatorManager().isSpectator(event.getPlayer())) {
+                if(event.getAction() == Action.PHYSICAL) {
+                    if(event.getClickedBlock().getType() == Material.GOLD_PLATE)
+                        JumpRace.getInstance().getGameManager().getModuleRows().get(event.getPlayer()).triggerGoldPlate(event.getClickedBlock().getLocation());
+                    return;
+                }
+
+                if(event.getClickedBlock() == null) return;
+
+                if(event.getClickedBlock().getType() == Material.ENDER_CHEST) {
+                    event.setCancelled(true);
+                    event.getPlayer().closeInventory();
+
+                    JumpRace.getInstance().getGameManager().getChestLoot().openChest(player, event.getClickedBlock().getLocation(),
+                            JumpRace.getInstance().getGameManager().getModuleRows().get(player).getCurrentModuleDifficulty());
+                }
+            } else
+                event.setCancelled(true);
         }
 
         if(JumpRace.getInstance().getGameManager().getGameState() == GameState.JUMPING ||
@@ -102,37 +126,27 @@ public class PlayerInteractListener implements Listener {
                 return;
             }
 
+            if(event.getItem().getItemMeta().getDisplayName() == null) return;
+
             if(event.getItem().getItemMeta().getDisplayName().equals("§cLeave")) {
                 player.kickPlayer(JumpRace.getInstance().getPrefix() + "§7You §bleft §7the game§8.");
                 return;
             }
 
             if(event.getItem().getItemMeta().getDisplayName().equals("§bTeleport")) {
-                //TODO teleporter
-                return;
-            }
-        }
+                final List<Player> players = JumpRace.getInstance().getGameManager().getPlayersLeft();
 
-        if(JumpRace.getInstance().getGameManager().getGameState() == GameState.JUMPING) {
-            if(JumpRace.getInstance().getGameManager().getSpectatorManager().isSpectator(event.getPlayer())) {
-                event.setCancelled(true);
-                return;
-            }
+                final int inventorySize = (int) ((Math.ceil(players.size() / 9.0)) * 9);
 
-            if(event.getAction() == Action.PHYSICAL) {
-                if(event.getClickedBlock().getType() == Material.GOLD_PLATE)
-                    JumpRace.getInstance().getGameManager().getModuleRows().get(event.getPlayer()).triggerGoldPlate(event.getClickedBlock().getLocation());
-                return;
-            }
+                Inventory inventory = Bukkit.createInventory(null, inventorySize, "§bTeleport");
+                for(int i = 0; i<players.size(); i++)
+                    inventory.setItem(i, new ItemManager(Material.SKULL_ITEM, 3)
+                            .setDisplayName(JumpRace.getInstance().getGameManager().getPlayerNames().get(players.get(i)))
+                            .addLore("§8§m--------------------", " ", "§7Click here to", "§7teleport to this player", " ", "§8§m--------------------")
+                            .setHeadOwnerAndBuild(players.get(i).getName()));
 
-            if(event.getClickedBlock() == null) return;
-
-            if(event.getClickedBlock().getType() == Material.ENDER_CHEST) {
-                event.setCancelled(true);
-                event.getPlayer().closeInventory();
-
-                JumpRace.getInstance().getGameManager().getChestLoot().openChest(player, event.getClickedBlock().getLocation(),
-                        JumpRace.getInstance().getGameManager().getModuleRows().get(player).getCurrentModuleDifficulty());
+                player.openInventory(inventory);
+                player.playSound(player.getLocation(), Sound.CHEST_OPEN,1,1);
             }
         }
     }

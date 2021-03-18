@@ -74,5 +74,18 @@ public class InventoryClickListener implements Listener {
             player.playSound(player.getLocation(), Sound.LEVEL_UP,1,1);
             player.closeInventory();
         }
+
+        if(event.getInventory().getName().equalsIgnoreCase("§bTeleport")) {
+            final Player target = Bukkit.getPlayer(ChatColor.stripColor(event.getCurrentItem().getItemMeta().getDisplayName()));
+            if(target == null) {
+                player.closeInventory();
+                player.sendMessage(JumpRace.getInstance().getPrefix() + "§7This player §ccouldn't §7be found§8!");
+                return;
+            }
+            player.closeInventory();
+            player.teleport(target.getLocation());
+            player.playSound(player.getLocation(), Sound.WOOD_CLICK,10,10);
+            return;
+        }
     }
 }

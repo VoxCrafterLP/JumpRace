@@ -147,7 +147,7 @@ public class Countdown {
 
         LOBBY(10),
         ENDING(15),
-        JUMPING(20),
+        JUMPING(480),
         DEATHMATCH(480);
 
         private final int duration;

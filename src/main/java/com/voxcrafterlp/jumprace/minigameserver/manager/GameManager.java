@@ -193,6 +193,9 @@ public class GameManager {
             player.teleport(JumpRace.getInstance().getLocationManager().getLobbyLocation());
             player.sendMessage(JumpRace.getInstance().getPrefix() + winningTeam.getTeamColor().getColorCode() +
                     "Team " + winningTeam.getTeamColor().getDisplayName() + " §7won the §bgame§8!");
+            JumpRace.getInstance().getInventoryManager().setInventory(player, InventoryManager.Type.LOBBY);
+            player.setLevel(0);
+            player.setExp(0);
         });
 
         this.firework();
@@ -202,7 +205,7 @@ public class GameManager {
         final AtomicInteger spanwed = new AtomicInteger(0);
         final Location fireworkLocation = JumpRace.getInstance().getLocationManager().getLobbyLocation();
 
-        this.fireworkTaskID = Bukkit.getScheduler().scheduleAsyncRepeatingTask(JumpRace.getInstance(), () -> {
+        this.fireworkTaskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(JumpRace.getInstance(), () -> {
             if(spanwed.get() == 5) {
                 Bukkit.getScheduler().cancelTask(this.fireworkTaskID);
                 return;

@@ -29,6 +29,11 @@ public class PlayerInteractListener implements Listener {
 
         final Player player = event.getPlayer();
 
+        if(JumpRace.getInstance().getGameManager().getSpectatorManager().isSpectator(player)) {
+            event.setCancelled(true);
+            return;
+        }
+
         if(event.getClickedBlock() != null) {
             if(event.getClickedBlock().getType() == Material.ENDER_CHEST) {
                 JumpRace.getInstance().getGameManager().getDeathChests().forEach(deathChest -> {
@@ -63,6 +68,11 @@ public class PlayerInteractListener implements Listener {
                         nearestPlayer.set(target);
                 }
             });
+
+            if(nearestPlayer.get().isEmpty()) {
+                player.sendMessage(JumpRace.getInstance().getPrefix() + "§cNo enemy could be found!");
+                return;
+            }
 
             int distance = Math.round((float) nearestPlayer.get().getLocation().distance(player.getLocation()));
             player.sendMessage(JumpRace.getInstance().getPrefix() + "§7Tracked player§8: " +
