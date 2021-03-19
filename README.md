@@ -1,7 +1,7 @@
 # JumpRace
 This is a spigot based jumpandrun minigame. It's almost like the gamemode 'JumpLeague' on the gommehd.net server but with a few changes. The plugin contains its own building system, which can be used to build your own modules.
 
-**Important**! It is highly recommended to use this plugin in a cloud-system based environment. 
+**Important**! It is highly recommended to use this plugin in a cloud-system based environment like [CloudNET](https://www.spigotmc.org/resources/cloudnet-v3-the-cloud-network-environment-technology.42059/). 
 
 ## Features
 
@@ -16,7 +16,7 @@ This is a spigot based jumpandrun minigame. It's almost like the gamemode 'JumpL
 
 ## Installation
 
-**Important**! This plugin only requires a properly set up spigot server, but it's recommended to use the latest build of the 1.8.8
+This plugin only requires a properly set up spigot server, but it's recommended to use the latest build of the 1.8.8
 You can learn here how to use the [latest build](https://www.spigotmc.org/wiki/buildtools/#1-8-8).
 
 1. Download the latest JAR file from the [releases tab](https://github.com/VoxCrafterLP/JumpRace/releases).
@@ -66,6 +66,16 @@ public class Example implements Listener {
 
 }
 ```
+
+## Languages
+
+At the moment these languages are available:
+```
+- en_US (American English) (default)
+- de_DE (German)
+```
+
+If you want to add you own language file, you have to convert your translations to java entities. You can simply do that by pasting your file [here](https://itpro.cz/juniconv/).
 
 
 ## Bugreports
