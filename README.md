@@ -16,7 +16,7 @@ This is a spigot based jumpandrun minigame. It's almost like the gamemode 'JumpL
 
 ## Installation
 
-This plugin only requires a properly set up spigot server, but it's recommended to use the latest build of the 1.8.8
+This plugin only requires a properly set up spigot server, but it's recommended to use the latest build of the 1.8.8.
 You can learn here how to use the [latest build](https://www.spigotmc.org/wiki/buildtools/#1-8-8).
 
 1. Download the latest JAR file from the [releases tab](https://github.com/VoxCrafterLP/JumpRace/releases).
@@ -31,12 +31,10 @@ You can learn here how to use the [latest build](https://www.spigotmc.org/wiki/b
 ### Events
 
 **Available events**:
-```
 - ModuleFailEvent
 - PlayerCompleteModuleEvent
 - PlayerReachGoalEvent
 - TeamWinEvent
-  ```
   
 **Example**
 ```java
@@ -73,12 +71,20 @@ At the moment these languages are available:
 ```
 - en_US (American English) (default)
 - de_DE (German)
+- de_CH (Swiss German)
 ```
 
-If you want to add you own language file, you can copy an existing translation file from the `/plugins/JumpRace/languages` folder and translate it. To enable the translation, you have to switch the language file in the config.
+If you want to add your own language file, you can copy an existing translation file from the `/plugins/JumpRace/languages` folder and translate it. 
+**Important! You have to encode the translation file in ISO-8859-1.**
+To enable the translation, you have to switch the language file in the config.
 
 
-## Bugreports
+## Contributers
+
+- [MakeItGame](https://www.youtube.com/channel/UCk8ROONMzJ3wlZ66vyyffJg) (German translation)
+- [Lezurex](https://github.com/Lezurex) (Swiss German translation)
+
+## Bugreports and features
 
 If you found a bug or you want to request a feature, feel free to [create an issue](https://github.com/VoxCrafterLP/JumpRace/issues/new).
 
