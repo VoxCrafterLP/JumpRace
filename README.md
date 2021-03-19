@@ -75,8 +75,15 @@ At the moment these languages are available:
 - de_DE (German)
 ```
 
-If you want to add you own language file, you can copy an existing translation file from the `/plugins/JumpRace/languages` folder and translate it. To enable the translation, you have to switch the language file in the config.
+If you want to add you own language file, you can copy an existing translation file from the `/plugins/JumpRace/languages` folder and translate it. 
+**Important! You have to encode the translation file in ISO-8859-1.**
+To enable the translation, you have to switch the language file in the config.
 
+
+## Contributers
+
+- [MakeItGame](https://www.youtube.com/channel/UCk8ROONMzJ3wlZ66vyyffJg) (German translation)
+- [Lezurex](https://github.com/Lezurex) (Swiss German translation)
 
 ## Bugreports
 
