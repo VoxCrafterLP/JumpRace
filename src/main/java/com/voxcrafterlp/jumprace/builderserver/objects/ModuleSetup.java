@@ -57,9 +57,9 @@ public class ModuleSetup {
                     inventory.setItem(i, new ItemManager(Material.STAINED_GLASS_PANE,15).setNoName().build());
 
                 inventory.setItem(10, new ItemManager(Material.WOOL,5).setDisplayName(ModuleDifficulty.EASY.getDisplayName()).build());
-                inventory.setItem(12, new ItemManager(Material.WOOL,1).setDisplayName(ModuleDifficulty.EASY.getDisplayName()).build());
-                inventory.setItem(14, new ItemManager(Material.WOOL,14).setDisplayName(ModuleDifficulty.EASY.getDisplayName()).build());
-                inventory.setItem(16, new ItemManager(Material.WOOL,15).setDisplayName(ModuleDifficulty.EASY.getDisplayName()).build());
+                inventory.setItem(12, new ItemManager(Material.WOOL,1).setDisplayName(ModuleDifficulty.NORMAL.getDisplayName()).build());
+                inventory.setItem(14, new ItemManager(Material.WOOL,14).setDisplayName(ModuleDifficulty.HARD.getDisplayName()).build());
+                inventory.setItem(16, new ItemManager(Material.WOOL,15).setDisplayName(ModuleDifficulty.VERY_HARD.getDisplayName()).build());
 
                 player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("module-setup-choose-difficulty"));
                 player.openInventory(inventory);

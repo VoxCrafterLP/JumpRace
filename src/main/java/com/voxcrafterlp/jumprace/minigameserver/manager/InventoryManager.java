@@ -32,8 +32,8 @@ public class InventoryManager {
         this.jumpingInventory = Bukkit.createInventory(null, 36);
         this.endingInventory = Bukkit.createInventory(null, 36);
 
-        this.mapSwitcherInventory = Bukkit.createInventory(null, 54, "§bChoose a map");
-        this.teamSelectorInventory = Bukkit.createInventory(null, 27, "§bChoose your team");
+        this.mapSwitcherInventory = Bukkit.createInventory(null, 54, JumpRace.getInstance().getLanguageLoader().getTranslationByKey("inventory-mapswitcher-name"));
+        this.teamSelectorInventory = Bukkit.createInventory(null, 27, JumpRace.getInstance().getLanguageLoader().getTranslationByKey("inventory-teamselector-name"));
 
         this.buildInventories();
     }

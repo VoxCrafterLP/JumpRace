@@ -80,8 +80,14 @@ public class GameManager {
         this.jumpingCountdown = new Countdown(Countdown.Type.JUMPING, this::startDeathmatch);
         this.deathMatchCountdown = new Countdown(Countdown.Type.DEATHMATCH, this::calculateWinner);
 
-        this.preJumpingCountdown = new Countdown(Countdown.Type.PRE_JUMPING, this.jumpingCountdown::startCountdown);
-        this.preDeathMatchCountdown = new Countdown(Countdown.Type.PRE_DEATHMATCH, this.deathMatchCountdown::startCountdown);
+        this.preJumpingCountdown = new Countdown(Countdown.Type.PRE_JUMPING, () -> {
+            this.jumpingCountdown.startCountdown();
+            Bukkit.getOnlinePlayers().forEach(player -> player.playSound(player.getLocation(), Sound.NOTE_BASS_GUITAR, 1, 4));
+        });
+        this.preDeathMatchCountdown = new Countdown(Countdown.Type.PRE_DEATHMATCH, () -> {
+            this.deathMatchCountdown.startCountdown();
+            Bukkit.getOnlinePlayers().forEach(player -> player.playSound(player.getLocation(), Sound.NOTE_BASS_GUITAR, 1, 4));
+        });
 
         this.startActionBar();
     }
@@ -188,20 +194,25 @@ public class GameManager {
     }
 
     private void endGame(Team winningTeam) {
+        this.preJumpingCountdown.stop();
         this.jumpingCountdown.stop();
+        this.preDeathMatchCountdown.stop();
         this.deathMatchCountdown.stop();
+
         this.gameState = GameState.ENDING;
+        this.moduleRows.forEach((player, moduleRow) -> moduleRow.stopRespawnScheduler());
 
         Bukkit.getOnlinePlayers().forEach(player -> {
             player.teleport(JumpRace.getInstance().getLocationManager().getLobbyLocation());
             player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("message-team-won", winningTeam.getTeamColor().getColorCode(), winningTeam.getTeamColor().getDisplayName()));
-            JumpRace.getInstance().getInventoryManager().setInventory(player, InventoryManager.Type.LOBBY);
+            JumpRace.getInstance().getInventoryManager().setInventory(player, InventoryManager.Type.ENDING);
             player.setLevel(0);
             player.setExp(0);
         });
 
         this.firework();
         Bukkit.getPluginManager().callEvent(new TeamWinEvent(winningTeam));
+        this.endingCountdown.startCountdown();
     }
 
     private void firework() {

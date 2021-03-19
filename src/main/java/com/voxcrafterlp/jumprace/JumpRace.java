@@ -121,6 +121,7 @@ public class JumpRace extends JavaPlugin {
 
         this.loadWorld();
         this.mapSetups = new HashMap<>();
+        this.loadDefaultModule();
         this.loadModules();
 
         this.gameManager = new GameManager();

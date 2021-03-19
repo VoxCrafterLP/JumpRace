@@ -37,6 +37,7 @@ public class Countdown {
         this.running = true;
 
         this.taskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(JumpRace.getInstance(), () -> {
+
             if(this.type == Type.PRE_JUMPING || this.type == Type.PRE_DEATHMATCH) {
 
                 switch (this.timeLeft) {
@@ -65,7 +66,6 @@ public class Countdown {
                     }
                 });
             }
-
 
             if(this.timeLeft == 0) {
                 this.finish();

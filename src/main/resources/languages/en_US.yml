@@ -118,8 +118,8 @@ message-endpoint-appeared: "&7There is only &cone minute &7left&8! &7You have &c
 
 message-countdown-lobby-seconds: "&7The game &bstarts &7in &b{0} seconds&8."
 message-countdown-lobby-second: "&7The game &bstarts &7in &b{0} second&8."
-message-countdown-end-seconds: "&7The game &cends &7in &b{0} seconds&8."
-message-countdown-end-second: "&7The game &cends &7in &b{0} second&8."
+message-countdown-end-seconds: "&7The game &cends &7in &c{0} seconds&8."
+message-countdown-end-second: "&7The game &cends &7in &c{0} second&8."
 
 actionbar-no-map: "&cNo map has been set up!"
 actionbar-teaming-forbidden: "&cTeaming forbidden"
