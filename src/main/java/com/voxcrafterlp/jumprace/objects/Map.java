@@ -55,8 +55,10 @@ public class Map {
             AtomicBoolean isLocationSafe = new AtomicBoolean(true);
 
             JumpRace.getInstance().getGameManager().getPlayersLeft().forEach(player -> {
-                if(player.getLocation().distance(location) < 10)
-                    isLocationSafe.set(false);
+                if(player.getLocation().getWorld().equals(location.getWorld())) {
+                    if(player.getLocation().distance(location) < 10)
+                        isLocationSafe.set(false);
+                }
             });
 
             if(isLocationSafe.get())

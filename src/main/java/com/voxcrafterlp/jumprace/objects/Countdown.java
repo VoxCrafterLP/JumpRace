@@ -214,7 +214,7 @@ public class Countdown {
     @Getter
     public enum Type {
 
-        LOBBY(10),
+        LOBBY(60),
         ENDING(15),
         JUMPING(480),
         PRE_JUMPING(5),

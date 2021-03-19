@@ -21,7 +21,7 @@ public class JumpRaceConfig {
     private final boolean builderServer;
     private final int moduleSpawnHeight, teamSize, teamAmount, playersRequiredForStart, maxLives;
 
-    private final String adminPermission, builderPermission, setupPermission, mapSwitchPermission;
+    private final String adminPermission, builderPermission, setupPermission, mapSwitchPermission, startPermission;
     private final String languageFile;
 
     public JumpRaceConfig() {
@@ -41,6 +41,7 @@ public class JumpRaceConfig {
         this.builderPermission = this.configuration.getString("builder-permission");
         this.setupPermission = this.configuration.getString("setup-permission");
         this.mapSwitchPermission = this.configuration.getString("switchMap-permission");
+        this.startPermission = this.configuration.getString("startgame-permission");
 
         this.languageFile = this.configuration.getString("language-file");
     }

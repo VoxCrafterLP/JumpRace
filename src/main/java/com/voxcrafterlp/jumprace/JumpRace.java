@@ -7,6 +7,7 @@ import com.voxcrafterlp.jumprace.builderserver.listener.editor.PlayerModifyBarri
 import com.voxcrafterlp.jumprace.builderserver.listener.editor.Protection;
 import com.voxcrafterlp.jumprace.config.JumpRaceConfig;
 import com.voxcrafterlp.jumprace.config.LanguageLoader;
+import com.voxcrafterlp.jumprace.minigameserver.commands.StartCommand;
 import com.voxcrafterlp.jumprace.minigameserver.listener.EnchantmentListener;
 import com.voxcrafterlp.jumprace.minigameserver.listener.PlayerLoginListener;
 import com.voxcrafterlp.jumprace.minigameserver.listener.PlayerMoveListener;
@@ -74,10 +75,10 @@ public class JumpRace extends JavaPlugin {
     private void builderServerStartup() {
         Bukkit.getConsoleSender().sendMessage("§7Starting server as a §abuilder §7server.");
 
-        getCommand("jumprace").setExecutor(new JumpRaceCommand());
-        getCommand("jr").setExecutor(new JumpRaceCommand());
+        this.getCommand("jumprace").setExecutor(new JumpRaceCommand());
+        this.getCommand("jr").setExecutor(new JumpRaceCommand());
 
-        PluginManager pluginManager = Bukkit.getPluginManager();
+        final PluginManager pluginManager = Bukkit.getPluginManager();
         pluginManager.registerEvents(new PlayerJoinListener(), this);
         pluginManager.registerEvents(new PlayerQuitListener(), this);
         pluginManager.registerEvents(new AsyncPlayerChatListener(), this);
@@ -99,9 +100,10 @@ public class JumpRace extends JavaPlugin {
         Bukkit.getConsoleSender().sendMessage("§7Starting server as a §aminigame §7server.");
         Bukkit.getConsoleSender().sendMessage(" ");
 
-        getCommand("setup").setExecutor(new SetupCommand());
+        this.getCommand("setup").setExecutor(new SetupCommand());
+        this.getCommand("start").setExecutor(new StartCommand());
 
-        PluginManager pluginManager = Bukkit.getPluginManager();
+        final PluginManager pluginManager = Bukkit.getPluginManager();
         pluginManager.registerEvents(new com.voxcrafterlp.jumprace.minigameserver.listener.PlayerJoinListener(), this);
         pluginManager.registerEvents(new com.voxcrafterlp.jumprace.minigameserver.listener.PlayerQuitListener(), this);
         pluginManager.registerEvents(new SetupListener(), this);

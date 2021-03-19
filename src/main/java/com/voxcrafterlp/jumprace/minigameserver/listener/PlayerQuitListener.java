@@ -22,7 +22,7 @@ public class PlayerQuitListener implements Listener {
 
         switch (JumpRace.getInstance().getGameManager().getGameState()) {
             case LOBBY:
-                event.setQuitMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("minigameserver-player-quit-messag", player.getName()));
+                event.setQuitMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("minigameserver-player-quit-message", player.getName()));
                 Bukkit.getScheduler().scheduleAsyncDelayedTask(JumpRace.getInstance(), () -> JumpRace.getInstance().getGameManager().handlePlayerQuit(player), 1);
                 break;
             case DEATHMATCH:

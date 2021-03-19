@@ -8,7 +8,7 @@ module-spawn-height: 100
 team-size: 1
 # Determines the amount of teams that should be registered (Range: 2-8)
 team-amount: 8
-# Determines how many are required to start the game
+# Determines how many players are required to start the game
 players-required-for-start: 2
 
 # Max amount of lives in the deathmatch (Range: 1-10) (default: 3)
@@ -18,6 +18,7 @@ admin-permission: jumprace.*
 builder-permission: jumprace.builder
 setup-permission: jumprace.setup
 switchMap-permission: jumprace.switchmap
+startgame-permission: jumprace.startgame
 
 # To change the language, please provide an existing language file in the 'languages' folder (default: en_US)
 language-file: en_US

@@ -1,5 +1,5 @@
 name: JumpRace
-version: 1.0.0
+version: 1.0.1
 author: VoxCrafter_LP
 main: com.voxcrafterlp.jumprace.JumpRace
 
@@ -10,3 +10,5 @@ commands:
     description: Main command for the builderserver
   setup:
     description: Setup command for the maps
+  start:
+    description: Skip the lobby countdown
