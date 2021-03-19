@@ -85,7 +85,7 @@ public class InventoryClickListener implements Listener {
             }
         }
 
-        if(event.getInventory().getName().equals("§cSettings")) {
+        if(event.getInventory().getName().equals(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("settings-inventory-name"))) {
             event.setCancelled(true);
 
             if(event.getCurrentItem().getType() == Material.REDSTONE_COMPARATOR) {
