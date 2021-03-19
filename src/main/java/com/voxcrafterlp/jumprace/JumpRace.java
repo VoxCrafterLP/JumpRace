@@ -173,6 +173,7 @@ public class JumpRace extends JavaPlugin {
 
         this.saveResource("languages/en_US.yml", false);
         this.saveResource("languages/de_DE.yml", false);
+        this.saveResource("languages/de_CH.yml", false);
 
         this.languageLoader = new LanguageLoader("plugins/JumpRace/languages/" + this.jumpRaceConfig.getLanguageFile() + ".yml");
     }
