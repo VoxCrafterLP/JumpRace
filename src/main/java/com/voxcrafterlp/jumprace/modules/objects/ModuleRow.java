@@ -2,6 +2,7 @@ package com.voxcrafterlp.jumprace.modules.objects;
 
 import com.google.common.collect.Lists;
 import com.voxcrafterlp.jumprace.JumpRace;
+import com.voxcrafterlp.jumprace.api.events.ModuleFailEvent;
 import com.voxcrafterlp.jumprace.modules.enums.ModuleDifficulty;
 import com.voxcrafterlp.jumprace.modules.utils.CalculatorUtil;
 import lombok.Getter;
@@ -67,7 +68,7 @@ public class ModuleRow {
         this.modulesCompleted = 0;
         this.respawnHeight = this.getModules().get(0).getModuleBorders()[0].getBlockY();
 
-        AtomicInteger i = new AtomicInteger(1);
+        final AtomicInteger i = new AtomicInteger(1);
         this.modules.forEach(module -> {
             module.spawnHologram(player, i.get());
             i.getAndIncrement();
@@ -81,10 +82,11 @@ public class ModuleRow {
     public void respawn() {
         player.teleport(this.respawnLocation);
         player.playSound(player.getLocation(), Sound.NOTE_BASS,1,1);
+        Bukkit.getPluginManager().callEvent(new ModuleFailEvent(this.player, this.modules.get(this.modulesCompleted), this.respawnLocation));
     }
 
    public void triggerGoldPlate(Location location) {
-       if(this.modulesCompleted == 10) return;
+        if(this.modulesCompleted == 10) return;
 
         if(!location.equals(this.modules.get(this.modulesCompleted).getGoldPlateLocation())) return;
 
@@ -92,13 +94,13 @@ public class ModuleRow {
         player.playSound(player.getLocation(), Sound.LEVEL_UP,1,1);
         player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("message-module-complete", String.valueOf(this.modulesCompleted)));
 
-       if(this.modulesCompleted == 10) {
-           JumpRace.getInstance().getGameManager().reachGoal(player);
-           return;
-       }
+        if(this.modulesCompleted == 10) {
+            JumpRace.getInstance().getGameManager().reachGoal(player);
+            return;
+        }
 
         this.respawnLocation = this.modules.get(this.modulesCompleted).getPlayerSpawnLocation();
-       this.respawnHeight = this.getModules().get(this.modulesCompleted).getModuleBorders()[0].getBlockY();
+        this.respawnHeight = this.getModules().get(this.modulesCompleted).getModuleBorders()[0].getBlockY();
    }
 
    public ModuleDifficulty getCurrentModuleDifficulty() {

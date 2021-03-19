@@ -2,6 +2,8 @@ package com.voxcrafterlp.jumprace.minigameserver.manager;
 
 import com.google.common.collect.Lists;
 import com.voxcrafterlp.jumprace.JumpRace;
+import com.voxcrafterlp.jumprace.api.events.PlayerReachGoalEvent;
+import com.voxcrafterlp.jumprace.api.events.TeamWinEvent;
 import com.voxcrafterlp.jumprace.enums.GameState;
 import com.voxcrafterlp.jumprace.enums.TeamColor;
 import com.voxcrafterlp.jumprace.exceptions.TeamAmountException;
@@ -199,6 +201,7 @@ public class GameManager {
         });
 
         this.firework();
+        Bukkit.getPluginManager().callEvent(new TeamWinEvent(winningTeam));
     }
 
     private void firework() {
@@ -273,6 +276,8 @@ public class GameManager {
         Bukkit.broadcastMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("message-goal-reached",JumpRace.getInstance().getGameManager().getPlayerNames().get(player)));
         player.playSound(player.getLocation(), Sound.ENDERDRAGON_GROWL,1,1);
         player.getInventory().setBoots(new ItemManager(Material.DIAMOND_BOOTS).setUnbreakable(true).build());
+
+        Bukkit.getPluginManager().callEvent(new PlayerReachGoalEvent(player));
     }
 
     /**
