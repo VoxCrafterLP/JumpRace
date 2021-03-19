@@ -1,7 +1,7 @@
 # Determines if the current server should be a builder-server.
-# On a builder-server, you cannot play the actual minigame but only build and edit the modules.
+# On a builder-server, you cannot play the actual minigame but only build and edit the modules. (default: false)
 builder-server: false
-# Determines the height on which the modules should spawn at
+# Determines the height on which the modules should spawn at (default: 100)
 module-spawn-height: 100
 
 # Determines how many players each team should contain
@@ -11,7 +11,7 @@ team-amount: 8
 # Determines how many are required to start the game
 players-required-for-start: 2
 
-# Max amount of lives in the deathmatch (Range: 1-10)
+# Max amount of lives in the deathmatch (Range: 1-10) (default: 3)
 max-lives: 3
 
 admin-permission: jumprace.*
