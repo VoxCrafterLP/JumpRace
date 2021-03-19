@@ -37,6 +37,36 @@ public class Countdown {
         this.running = true;
 
         this.taskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(JumpRace.getInstance(), () -> {
+            if(this.type == Type.PRE_JUMPING || this.type == Type.PRE_DEATHMATCH) {
+
+                switch (this.timeLeft) {
+                    case 5:
+                        Bukkit.getOnlinePlayers().forEach(player -> new TitleUtil().sendTitle(player, "§45", 10, 30, 10));
+                        break;
+                    case 4:
+                        Bukkit.getOnlinePlayers().forEach(player -> new TitleUtil().sendTitle(player, "§c4", 10, 30, 10));
+                        break;
+                    case 3:
+                        Bukkit.getOnlinePlayers().forEach(player -> new TitleUtil().sendTitle(player, "§63", 10, 30, 10));
+                        break;
+                    case 2:
+                        Bukkit.getOnlinePlayers().forEach(player -> new TitleUtil().sendTitle(player, "§e2", 10, 30, 10));
+                        break;
+                    case 1:
+                        Bukkit.getOnlinePlayers().forEach(player -> new TitleUtil().sendTitle(player, "§a1", 0, 20, 5));
+                        break;
+                }
+
+                Bukkit.getOnlinePlayers().forEach(player -> {
+                    player.playSound(player.getLocation(), Sound.NOTE_BASS_GUITAR,1,1);
+                    if(this.type == Type.PRE_JUMPING) {
+                        player.setLevel(this.timeLeft);
+                        player.setExp(this.timeLeft * ((float) 1 / this.type.getDuration()));
+                    }
+                });
+            }
+
+
             if(this.timeLeft == 0) {
                 this.finish();
                 Bukkit.getScheduler().cancelTask(this.taskID);
@@ -132,35 +162,6 @@ public class Countdown {
 
                     JumpRace.getInstance().getLocationManager().getSelectedMap().spawnEndPoint();
                 }
-            }
-
-            if(this.type == Type.PRE_JUMPING || this.type == Type.PRE_DEATHMATCH) {
-
-                switch (this.timeLeft) {
-                    case 5:
-                        Bukkit.getOnlinePlayers().forEach(player -> new TitleUtil().sendTitle(player, "§45", 10, 30, 10));
-                        break;
-                    case 4:
-                        Bukkit.getOnlinePlayers().forEach(player -> new TitleUtil().sendTitle(player, "§c4", 10, 30, 10));
-                        break;
-                    case 3:
-                        Bukkit.getOnlinePlayers().forEach(player -> new TitleUtil().sendTitle(player, "§63", 10, 30, 10));
-                        break;
-                    case 2:
-                        Bukkit.getOnlinePlayers().forEach(player -> new TitleUtil().sendTitle(player, "§e2", 10, 30, 10));
-                        break;
-                    case 1:
-                        Bukkit.getOnlinePlayers().forEach(player -> new TitleUtil().sendTitle(player, "§a1", 10, 30, 10));
-                        break;
-                }
-
-                Bukkit.getOnlinePlayers().forEach(player -> {
-                    player.playSound(player.getLocation(), Sound.NOTE_BASS_GUITAR,1,1);
-                    if(this.type == Type.PRE_JUMPING) {
-                        player.setLevel(this.timeLeft);
-                        player.setExp(this.timeLeft * ((float) 1 / this.type.getDuration()));
-                    }
-                });
             }
 
             this.timeLeft--;

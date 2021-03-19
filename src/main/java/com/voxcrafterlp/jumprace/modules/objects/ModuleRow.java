@@ -3,6 +3,7 @@ package com.voxcrafterlp.jumprace.modules.objects;
 import com.google.common.collect.Lists;
 import com.voxcrafterlp.jumprace.JumpRace;
 import com.voxcrafterlp.jumprace.api.events.ModuleFailEvent;
+import com.voxcrafterlp.jumprace.api.events.PlayerCompleteModuleEvent;
 import com.voxcrafterlp.jumprace.modules.enums.ModuleDifficulty;
 import com.voxcrafterlp.jumprace.modules.utils.CalculatorUtil;
 import lombok.Getter;
@@ -83,10 +84,11 @@ public class ModuleRow {
 
    public void triggerGoldPlate(Location location) {
         if(this.modulesCompleted == 10) return;
-
         if(!location.equals(this.modules.get(this.modulesCompleted).getGoldPlateLocation())) return;
 
-        this.modulesCompleted++;
+       Bukkit.getPluginManager().callEvent(new PlayerCompleteModuleEvent(player, this.modules.get(this.modulesCompleted)));
+
+       this.modulesCompleted++;
         player.playSound(player.getLocation(), Sound.LEVEL_UP,1,1);
         player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("message-module-complete", String.valueOf(this.modulesCompleted)));
 

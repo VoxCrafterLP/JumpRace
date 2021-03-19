@@ -171,7 +171,7 @@ public class GameManager {
                     } else
                         player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("message-team-players-left", team.getTeamColor().getColorCode(), team.getTeamColor().getDisplayName(), String.valueOf(team.getMembers().size())));
                 });
-                //checkTeams();
+                this.checkTeams();
             }
             this.playersLeft.remove(player);
             this.playerNames.remove(player);
@@ -372,7 +372,7 @@ public class GameManager {
                     } else
                         player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("message-team-players-left", team.getTeamColor().getColorCode(), team.getTeamColor().getDisplayName(), String.valueOf(team.getMembers().size())));
                 });
-                //checkTeams();
+                this.checkTeams();
             }
             return;
         }
