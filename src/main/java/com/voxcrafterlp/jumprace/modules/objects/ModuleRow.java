@@ -68,12 +68,8 @@ public class ModuleRow {
         this.modulesCompleted = 0;
         this.respawnHeight = this.getModules().get(0).getModuleBorders()[0].getBlockY();
 
-        final AtomicInteger i = new AtomicInteger(1);
-        this.modules.forEach(module -> {
-            module.spawnHologram(player, i.get());
-            i.getAndIncrement();
-        });
-
+        this.modules.get(0).spawnHologram(player, 1);
+        this.modules.get(1).spawnHologram(player, 2);
         this.startRespawnScheduler();
 
         return this;
@@ -93,6 +89,10 @@ public class ModuleRow {
         this.modulesCompleted++;
         player.playSound(player.getLocation(), Sound.LEVEL_UP,1,1);
         player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("message-module-complete", String.valueOf(this.modulesCompleted)));
+
+        final int nextModule = this.modulesCompleted + 1;
+        if(nextModule < 10)
+            this.modules.get(nextModule).spawnHologram(player, this.modulesCompleted + 2);
 
         if(this.modulesCompleted == 10) {
             JumpRace.getInstance().getGameManager().reachGoal(player);

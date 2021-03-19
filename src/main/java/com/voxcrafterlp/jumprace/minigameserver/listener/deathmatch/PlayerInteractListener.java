@@ -44,6 +44,10 @@ public class PlayerInteractListener implements Listener {
                     }
                 });
             }
+            if(event.getClickedBlock().getType() == Material.BEACON) {
+                event.setCancelled(true);
+                return;
+            }
         }
 
         if(event.getItem() == null) return;
