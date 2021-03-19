@@ -75,7 +75,7 @@ At the moment these languages are available:
 - de_DE (German)
 ```
 
-If you want to add you own language file, you have to convert your translations to java entities. You can simply do that by pasting your file [here](https://itpro.cz/juniconv/).
+If you want to add you own language file, you can copy an existing translation file from the `/plugins/JumpRace/languages` folder and translate it. To enable the translation, you have to switch the language file in the config.
 
 
 ## Bugreports
