@@ -38,16 +38,16 @@ public class PlayerInteractListener implements Listener {
 
             if(event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
 
-            if(event.getItem().getItemMeta().getDisplayName().equals("§bTeam Selector")) {
+            if(event.getItem().getItemMeta().getDisplayName().equals(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("hotbar-item-teamselector-name"))) {
                 player.openInventory(JumpRace.getInstance().getInventoryManager().getTeamSelectorInventory());
                 player.playSound(player.getLocation(), Sound.CHEST_OPEN,1,1);
                 return;
             }
-            if(event.getItem().getItemMeta().getDisplayName().equals("§cLeave")) {
-                player.kickPlayer(JumpRace.getInstance().getPrefix() + "§7You §bleft §7the game§8.");
+            if(event.getItem().getItemMeta().getDisplayName().equals(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("hotbar-item-leave-name"))) {
+                player.kickPlayer(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("message-left"));
                 return;
             }
-            if(event.getItem().getItemMeta().getDisplayName().equals("§bMap switcher")) {
+            if(event.getItem().getItemMeta().getDisplayName().equals(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("hotbar-item-mapswitcher-name"))) {
                 player.openInventory(JumpRace.getInstance().getInventoryManager().getMapSwitcherInventory());
                 player.playSound(player.getLocation(), Sound.CHEST_OPEN,1,1);
                 return;
@@ -83,35 +83,37 @@ public class PlayerInteractListener implements Listener {
             if(event.getItem() == null) return;
             final ItemStack itemStack = event.getItem();
 
-            switch (itemStack.getType()) {
-                case LEATHER_HELMET:
-                case GOLD_HELMET:
-                case CHAINMAIL_HELMET:
-                case IRON_HELMET:
-                case DIAMOND_HELMET:
-                    this.setArmor(player, ArmorType.HELMET);
-                    break;
-                case LEATHER_CHESTPLATE:
-                case GOLD_CHESTPLATE:
-                case CHAINMAIL_CHESTPLATE:
-                case IRON_CHESTPLATE:
-                case DIAMOND_CHESTPLATE:
-                    this.setArmor(player, ArmorType.CHESTPLATE);
-                    break;
-                case LEATHER_LEGGINGS:
-                case GOLD_LEGGINGS:
-                case CHAINMAIL_LEGGINGS:
-                case IRON_LEGGINGS:
-                case DIAMOND_LEGGINGS:
-                    this.setArmor(player, ArmorType.LEGGINGS);
-                    break;
-                case LEATHER_BOOTS:
-                case GOLD_BOOTS:
-                case CHAINMAIL_BOOTS:
-                case IRON_BOOTS:
-                case DIAMOND_BOOTS:
-                    this.setArmor(player, ArmorType.BOOTS);
-                    break;
+            if(event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                switch (itemStack.getType()) {
+                    case LEATHER_HELMET:
+                    case GOLD_HELMET:
+                    case CHAINMAIL_HELMET:
+                    case IRON_HELMET:
+                    case DIAMOND_HELMET:
+                        this.setArmor(player, ArmorType.HELMET);
+                        break;
+                    case LEATHER_CHESTPLATE:
+                    case GOLD_CHESTPLATE:
+                    case CHAINMAIL_CHESTPLATE:
+                    case IRON_CHESTPLATE:
+                    case DIAMOND_CHESTPLATE:
+                        this.setArmor(player, ArmorType.CHESTPLATE);
+                        break;
+                    case LEATHER_LEGGINGS:
+                    case GOLD_LEGGINGS:
+                    case CHAINMAIL_LEGGINGS:
+                    case IRON_LEGGINGS:
+                    case DIAMOND_LEGGINGS:
+                        this.setArmor(player, ArmorType.LEGGINGS);
+                        break;
+                    case LEATHER_BOOTS:
+                    case GOLD_BOOTS:
+                    case CHAINMAIL_BOOTS:
+                    case IRON_BOOTS:
+                    case DIAMOND_BOOTS:
+                        this.setArmor(player, ArmorType.BOOTS);
+                        break;
+                }
             }
 
             if(event.getItem().getType() == Material.WORKBENCH) {
@@ -128,21 +130,21 @@ public class PlayerInteractListener implements Listener {
 
             if(event.getItem().getItemMeta().getDisplayName() == null) return;
 
-            if(event.getItem().getItemMeta().getDisplayName().equals("§cLeave")) {
-                player.kickPlayer(JumpRace.getInstance().getPrefix() + "§7You §bleft §7the game§8.");
+            if(event.getItem().getItemMeta().getDisplayName().equals(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("hotbar-item-leave-name"))) {
+                player.kickPlayer(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("message-left"));
                 return;
             }
 
-            if(event.getItem().getItemMeta().getDisplayName().equals("§bTeleport")) {
+            if(event.getItem().getItemMeta().getDisplayName().equals(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("hotbar-item-spectator-teleport-name"))) {
                 final List<Player> players = JumpRace.getInstance().getGameManager().getPlayersLeft();
 
                 final int inventorySize = (int) ((Math.ceil(players.size() / 9.0)) * 9);
 
-                Inventory inventory = Bukkit.createInventory(null, inventorySize, "§bTeleport");
+                final Inventory inventory = Bukkit.createInventory(null, inventorySize, JumpRace.getInstance().getLanguageLoader().getTranslationByKey("inventory-spectator-teleport-name"));
                 for(int i = 0; i<players.size(); i++)
                     inventory.setItem(i, new ItemManager(Material.SKULL_ITEM, 3)
                             .setDisplayName(JumpRace.getInstance().getGameManager().getPlayerNames().get(players.get(i)))
-                            .addLore("§8§m--------------------", " ", "§7Click here to", "§7teleport to this player", " ", "§8§m--------------------")
+                            .addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("spectator-teleport-item-player-description"))
                             .setHeadOwnerAndBuild(players.get(i).getName()));
 
                 player.openInventory(inventory);

@@ -1,5 +1,6 @@
 package com.voxcrafterlp.jumprace.modules.enums;
 
+import com.voxcrafterlp.jumprace.JumpRace;
 import lombok.Getter;
 
 /**
@@ -12,10 +13,10 @@ import lombok.Getter;
 @Getter
 public enum ModuleDifficulty {
 
-    EASY("EASY", "§aEasy"),
-    NORMAL("NORMAL", "§6Normal"),
-    HARD("HARD", "§cHard"),
-    VERY_HARD("VERY_HARD", "§4Very hard");
+    EASY("EASY", JumpRace.getInstance().getLanguageLoader().getTranslationByKey("module-difficulty-easy")),
+    NORMAL("NORMAL", JumpRace.getInstance().getLanguageLoader().getTranslationByKey("module-difficulty-normal")),
+    HARD("HARD", JumpRace.getInstance().getLanguageLoader().getTranslationByKey("module-difficulty-hard")),
+    VERY_HARD("VERY_HARD", JumpRace.getInstance().getLanguageLoader().getTranslationByKey("module-difficulty-veryhard"));
 
     private final String configName;
     private final String displayName;

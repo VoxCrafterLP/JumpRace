@@ -41,7 +41,7 @@ public class SpectatorManager {
         JumpRace.getInstance().getGameManager().getPlayersLeft().remove(player);
         JumpRace.getInstance().getGameManager().getLivesLeft().remove(player);
 
-        player.sendMessage(JumpRace.getInstance().getPrefix() + "§7You are now a §bspectator§8.");
+        player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("message-spectator"));
 
         player.setGameMode(GameMode.SURVIVAL);
         player.setAllowFlight(true);
@@ -62,8 +62,8 @@ public class SpectatorManager {
         player.getInventory().setArmorContents(null);
         player.setFireTicks(0);
         player.spigot().setCollidesWithEntities(false);
-        player.getInventory().setItem(0, new ItemManager(Material.COMPASS).setDisplayName("§bTeleport").addLore("§8§m--------------------", " ", "§7Click here to teleport", "§7to another player", " ", "§8§m--------------------").build());
-        player.getInventory().setItem(8, new ItemManager(Material.MAGMA_CREAM).setDisplayName("§cLeave").addLore("§8§m------------------", " ", "§7Right click to leave", "§7the game", " ", "§8§m------------------").build());
+        player.getInventory().setItem(0, new ItemManager(Material.COMPASS).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("hotbar-item-spectator-teleport-name")).addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("hotbar-item-spectator-teleport-description")).build());
+        player.getInventory().setItem(8, new ItemManager(Material.MAGMA_CREAM).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("hotbar-item-leave-name")).addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("hotbar-item-leave-description")).build());
 
         this.teleport(player);
     }

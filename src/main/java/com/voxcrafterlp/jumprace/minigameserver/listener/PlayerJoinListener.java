@@ -25,7 +25,7 @@ public class PlayerJoinListener implements Listener {
 
         switch (JumpRace.getInstance().getGameManager().getGameState()) {
             case LOBBY:
-                event.setJoinMessage(JumpRace.getInstance().getPrefix() + "§a" + player.getName() + " §7joined the §bgame§8.");
+                event.setJoinMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("minigameserver-player-join-message", player.getName()));
                 if(JumpRace.getInstance().getLocationManager().getLobbyLocation() != null)
                     player.teleport(JumpRace.getInstance().getLocationManager().getLobbyLocation());
 

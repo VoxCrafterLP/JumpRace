@@ -36,13 +36,13 @@ public class PlayerScoreboard {
 
         //=====================================//
 
-        scoreboard.registerNewTeam("009").setPrefix("§aPlayer §8▌ §7");
+        scoreboard.registerNewTeam("009").setPrefix(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("scoreboard-player"));
 
         Arrays.stream(TeamColor.values()).forEach(teamColor ->
-                scoreboard.registerNewTeam(teamColor.getDisplayName().toLowerCase()).setPrefix(teamColor.getTeamNameWithColorCode() + " §8▌ §7"));
+                scoreboard.registerNewTeam(teamColor.getDisplayName().toLowerCase()).setPrefix(teamColor.getTeamNameWithColorCode() + JumpRace.getInstance().getLanguageLoader().getTranslationByKey("scoreboard-team")));
 
         final Team spectator = scoreboard.registerNewTeam("000spectator");
-        spectator.setPrefix("§c✘ §8▌ §7");
+        spectator.setPrefix(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("scoreboard-spectator"));
         spectator.setCanSeeFriendlyInvisibles(true);
 
         //=====================================//
@@ -50,7 +50,7 @@ public class PlayerScoreboard {
         switch (JumpRace.getInstance().getGameManager().getGameState()) {
             case LOBBY:
                 objective.getScore(" ").setScore(14);
-                objective.getScore("§7Map§8:").setScore(13);
+                objective.getScore(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("scoreboard-map")).setScore(13);
 
                 {
                     Team team = scoreboard.registerNewTeam("x12");
@@ -61,7 +61,7 @@ public class PlayerScoreboard {
                 }
 
                 objective.getScore("  ").setScore(11);
-                objective.getScore("§7Teams§8:").setScore(10);
+                objective.getScore(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("scoreboard-teams")).setScore(10);
                 objective.getScore(" §8➜ §b" + JumpRace.getInstance().getJumpRaceConfig().getTeamAmount() +
                         "x" + JumpRace.getInstance().getJumpRaceConfig().getTeamSize()).setScore(9);
                 objective.getScore("   ").setScore(8);
@@ -72,7 +72,7 @@ public class PlayerScoreboard {
 
                 {
                     Team team = scoreboard.registerNewTeam("x13");
-                    team.setPrefix("§7Time§8: ");
+                    team.setPrefix(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("scoreboard-time"));
                     team.setSuffix("§b" + JumpRace.getInstance().getGameManager().getJumpingCountdown().getTimeLeftFormatted());
                     team.addEntry("§b");
                     objective.getScore("§b").setScore(13);
@@ -93,7 +93,7 @@ public class PlayerScoreboard {
 
                 {
                     Team team = scoreboard.registerNewTeam("x13");
-                    team.setPrefix("§7Time§8: ");
+                    team.setPrefix(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("scoreboard-time"));
                     team.setSuffix("§b" + JumpRace.getInstance().getGameManager().getDeathMatchCountdown().getTimeLeftFormatted());
                     team.addEntry("§b");
                     objective.getScore("§b").setScore(13);

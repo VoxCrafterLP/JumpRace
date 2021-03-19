@@ -1,5 +1,6 @@
 package com.voxcrafterlp.jumprace.modules.utils;
 
+import com.voxcrafterlp.jumprace.JumpRace;
 import com.voxcrafterlp.jumprace.modules.enums.EditorMode;
 import com.voxcrafterlp.jumprace.utils.ItemManager;
 import lombok.Getter;
@@ -35,20 +36,20 @@ public class ModuleEditorSettings {
     }
 
     private void buildInventory() {
-        this.settingsInventory = Bukkit.createInventory(null, 27, "§cSettings");
+        this.settingsInventory = Bukkit.createInventory(null, 27, JumpRace.getInstance().getLanguageLoader().getTranslationByKey("settings-inventory-name"));
 
         for(int i = 0; i<27; i++)
             this.settingsInventory.setItem(i, new ItemManager(Material.STAINED_GLASS_PANE, 15).setNoName().build());
 
-        this.settingsInventory.setItem(10, new ItemManager(Material.NAME_TAG).setDisplayName("§cRename module").addLore("§8§m------------------", " ", "§7Here you can rename", "§7the module", " ", "§8§m------------------").build());
-        this.settingsInventory.setItem(12, new ItemManager(Material.ANVIL).setDisplayName("§cChange difficulty").addLore("§8§m------------------", " ", "§7Here you can change the", "§7difficulty of the module", " ", "§8§m------------------").build());
-        this.settingsInventory.setItem(14, new ItemManager((this.editorMode == EditorMode.PERFORMANCE) ? Material.DIODE : Material.REDSTONE_COMPARATOR).setDisplayName((this.editorMode == EditorMode.PERFORMANCE) ? "§aQuick editor" : "§cPerformance editor").addLore("§8§m------------------", " ", "§7Here you can change", "§7the editor mode", " ", "§8§m------------------").build());
-        this.settingsInventory.setItem(16, new ItemManager(Material.SKULL_ITEM, 3).setDisplayName("§2Save").addLore("§8§m------------------", " ", "§7Here you can save the", "§7module and exit the editor", " ", "§8§m------------------").setHeadValueAndBuild("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2UyYTUzMGY0MjcyNmZhN2EzMWVmYWI4ZTQzZGFkZWUxODg5MzdjZjgyNGFmODhlYThlNGM5M2E0OWM1NzI5NCJ9fX0="));
-        this.settingsInventory.setItem(26, new ItemManager(Material.BARRIER).setDisplayName("§4Cancel").addLore("§8§m------------------", " ", "§7Clicking here will close the", "§7editor without saving", " ", "§8§m------------------").build());
+        this.settingsInventory.setItem(10, new ItemManager(Material.NAME_TAG).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("settings-item-rename-name")).addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("settings-item-rename-description")).build());
+        this.settingsInventory.setItem(12, new ItemManager(Material.ANVIL).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("settings-item-change-difficulty-name")).addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("settings-item-change-difficulty-description")).build());
+        this.settingsInventory.setItem(14, new ItemManager((this.editorMode == EditorMode.PERFORMANCE) ? Material.DIODE : Material.REDSTONE_COMPARATOR).setDisplayName((this.editorMode == EditorMode.PERFORMANCE) ? JumpRace.getInstance().getLanguageLoader().getTranslationByKey("settings-item-quick-editor") : JumpRace.getInstance().getLanguageLoader().getTranslationByKey("settings-item-performance-editor")).addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("settings-item-editor-description")).build());
+        this.settingsInventory.setItem(16, new ItemManager(Material.SKULL_ITEM, 3).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("settings-item-save-name")).addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("settings-item-save-description")).setHeadValueAndBuild("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2UyYTUzMGY0MjcyNmZhN2EzMWVmYWI4ZTQzZGFkZWUxODg5MzdjZjgyNGFmODhlYThlNGM5M2E0OWM1NzI5NCJ9fX0="));
+        this.settingsInventory.setItem(26, new ItemManager(Material.BARRIER).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("settings-item-cancel-name")).addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("settings-item-cancel-description")).build());
     }
 
     public void updateInventory() {
-        this.settingsInventory.setItem(14, new ItemManager((this.editorMode == EditorMode.PERFORMANCE) ? Material.DIODE : Material.REDSTONE_COMPARATOR).setDisplayName((this.editorMode == EditorMode.PERFORMANCE) ? "§aQuick editor" : "§cPerformance editor").addLore("§8§m------------------", " ", "§7Here you can change", "§7the editor mode", " ", "§8§m------------------").build());
+        this.settingsInventory.setItem(14, new ItemManager((this.editorMode == EditorMode.PERFORMANCE) ? Material.DIODE : Material.REDSTONE_COMPARATOR).setDisplayName((this.editorMode == EditorMode.PERFORMANCE) ? JumpRace.getInstance().getLanguageLoader().getTranslationByKey("settings-item-quick-editor") : JumpRace.getInstance().getLanguageLoader().getTranslationByKey("settings-item-performance-editor")).addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("settings-item-editor-description")).build());
     }
 
     public void openInventory() {

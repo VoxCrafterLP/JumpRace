@@ -18,7 +18,8 @@ public class AsyncPlayerChatListener implements Listener {
 
     @EventHandler
     public void onChat(AsyncPlayerChatEvent event) {
-        Player player = event.getPlayer();
+        final Player player = event.getPlayer();
+
         if(ModuleSetup.getActiveSetups().containsKey(player)) {
             event.setCancelled(true);
             ModuleSetup setup = ModuleSetup.getActiveSetups().get(player);
@@ -26,25 +27,25 @@ public class AsyncPlayerChatListener implements Listener {
             if(setup.getSetupStep() == 0) {
                 String[] input = event.getMessage().split(" ");
                 if(input.length > 1) {
-                    player.sendMessage(JumpRace.getInstance().getPrefix() + "§cInvalid name!");
+                    player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("invalid-module-name"));
                     return;
                 }
                 if(input[0].length() > 14) {
-                    player.sendMessage(JumpRace.getInstance().getPrefix() + "§cThe name is too long!");
+                    player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("module-name-too-long"));
                     return;
                 }
                 if(input[0].equalsIgnoreCase("default")) {
-                    player.sendMessage(JumpRace.getInstance().getPrefix() + "§cInvalid name");
+                    player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("invalid-module-name"));
                     return;
                 }
 
-                player.sendMessage(JumpRace.getInstance().getPrefix() + "§7Module name has been set to: §a" + input[0]);
+                player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("set-module-name-success", input[0]));
 
                 setup.setName(input[0]);
                 setup.nextStep();
             } else
             if(setup.getSetupStep() == 1) {
-                player.sendMessage(JumpRace.getInstance().getPrefix() + "§7Module builder(s) has/have been set to: §a" + event.getMessage());
+                player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("set-module-builders-success", event.getMessage()));
 
                 setup.setBuilder(event.getMessage());
                 setup.nextStep();

@@ -51,20 +51,20 @@ public class EditorSetup {
         switch (this.step) {
             case 0:
                 this.player.getInventory().clear();
-                this.player.getInventory().setItem(0, new ItemManager(Material.DIAMOND_AXE).setDisplayName("§bSelection tool").build());
-                this.player.sendMessage(JumpRace.getInstance().getPrefix() + "§7Please hit now the §blower left corner §7of the module with the §baxe§8.");
+                this.player.getInventory().setItem(0, new ItemManager(Material.DIAMOND_AXE).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("selection-tool-name")).build());
+                this.player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("editor-setup-instructions-1"));
                 break;
             case 1:
-                this.player.getInventory().setItem(0, new ItemManager(Material.DIAMOND_AXE).setDisplayName("§bSelection tool").build());
-                this.player.sendMessage(JumpRace.getInstance().getPrefix() + "§7Please hit now the §bupper right corner §7of the module with the §baxe§8.");
+                this.player.getInventory().setItem(0, new ItemManager(Material.DIAMOND_AXE).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("selection-tool-name")).build());
+                this.player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("editor-setup-instructions-2"));
                 break;
             case 2:
-                this.player.getInventory().setItem(0, new ItemManager(Material.DIAMOND_AXE).setDisplayName("§bSelection tool").build());
-                this.player.sendMessage(JumpRace.getInstance().getPrefix() + "§7Please hit now the §bstart point §7of the module§8.");
+                this.player.getInventory().setItem(0, new ItemManager(Material.DIAMOND_AXE).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("selection-tool-name")).build());
+                this.player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("editor-setup-instructions-3"));
                 break;
             case 3:
-                this.player.getInventory().setItem(0, new ItemManager(Material.DIAMOND_AXE).setDisplayName("§bSelection tool").build());
-                this.player.sendMessage(JumpRace.getInstance().getPrefix() + "§7Please hit now the §bend point §7of the module§8.");
+                this.player.getInventory().setItem(0, new ItemManager(Material.DIAMOND_AXE).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("selection-tool-name")).build());
+                this.player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("editor-setup-instructions-4"));
                 break;
         }
     }

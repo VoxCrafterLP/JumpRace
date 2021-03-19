@@ -6,6 +6,7 @@ import com.voxcrafterlp.jumprace.builderserver.listener.editor.EditorSetupListen
 import com.voxcrafterlp.jumprace.builderserver.listener.editor.PlayerModifyBarrierListener;
 import com.voxcrafterlp.jumprace.builderserver.listener.editor.Protection;
 import com.voxcrafterlp.jumprace.config.JumpRaceConfig;
+import com.voxcrafterlp.jumprace.config.LanguageLoader;
 import com.voxcrafterlp.jumprace.minigameserver.listener.EnchantmentListener;
 import com.voxcrafterlp.jumprace.minigameserver.listener.PlayerLoginListener;
 import com.voxcrafterlp.jumprace.minigameserver.listener.PlayerMoveListener;
@@ -45,6 +46,7 @@ public class JumpRace extends JavaPlugin {
 
     private JumpRaceConfig jumpRaceConfig;
     private ModuleLoader moduleLoader;
+    private LanguageLoader languageLoader;
 
     private HashMap<Player, ModuleEditor> editorSessions;
     private HashMap<Player, MapSetup> mapSetups;
@@ -159,6 +161,18 @@ public class JumpRace extends JavaPlugin {
         this.getConfig().options().copyDefaults(true);
 
         this.jumpRaceConfig = new JumpRaceConfig();
+        this.loadLanguages();
+    }
+
+    /**
+     * Load the default languages into the languages folder
+     */
+    private void loadLanguages() {
+        new File("plugins/JumpRace/languages/").mkdir();
+
+        this.saveResource("languages/en_US.yml", false);
+
+        this.languageLoader = new LanguageLoader("plugins/JumpRace/languages/" + this.jumpRaceConfig.getLanguageFile() + ".yml");
     }
 
     private void loadModules() {
@@ -184,8 +198,12 @@ public class JumpRace extends JavaPlugin {
         }
     }
 
-    public String getPrefix() { return "§8[§bJumpRace§8] "; }
+    public String getPrefix() {
+        return this.languageLoader.getTranslationByKey("prefix");
+    }
 
-    public static JumpRace getInstance() { return instance; }
+    public static JumpRace getInstance() {
+        return instance;
+    }
 
 }

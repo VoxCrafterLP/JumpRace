@@ -16,7 +16,7 @@ public class PlayerJoinListener implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
-        event.setJoinMessage(JumpRace.getInstance().getPrefix() + "§a" +  event.getPlayer().getName() + " §7joined the game§8.");
+        event.setJoinMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("builderserver-player-join-message", event.getPlayer().getName()));
     }
 
 }

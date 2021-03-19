@@ -1,5 +1,6 @@
 package com.voxcrafterlp.jumprace.enums;
 
+import com.voxcrafterlp.jumprace.JumpRace;
 import lombok.Getter;
 import org.bukkit.Color;
 
@@ -13,14 +14,14 @@ import org.bukkit.Color;
 @Getter
 public enum TeamColor {
 
-    RED("Red", "§c", Color.RED),
-    BLUE("Blue", "§9", Color.BLUE),
-    YELLOW("Yellow", "§e", Color.YELLOW),
-    GREEN("Green", "§a", Color.LIME),
-    PINK("Pink", "§d", Color.fromRGB(247, 17, 228)),
-    DARK_GREEN("DGreen", "§2", Color.OLIVE),
-    LIGHT_BLUE("LBlue", "§b", Color.AQUA),
-    ORANGE("Orange", "§6", Color.ORANGE);
+    RED(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("team-name-red"), "§c", Color.RED),
+    BLUE(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("team-name-blue"), "§9", Color.BLUE),
+    YELLOW(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("team-name-yellow"), "§e", Color.YELLOW),
+    GREEN(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("team-name-green"), "§a", Color.LIME),
+    PINK(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("team-name-pink"), "§d", Color.fromRGB(247, 17, 228)),
+    DARK_GREEN(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("team-name-darkgreen"), "§2", Color.OLIVE),
+    LIGHT_BLUE(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("team-name-lightblue"), "§b", Color.AQUA),
+    ORANGE(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("team-name-orange"), "§6", Color.ORANGE);
 
     private final String displayName;
     private final String colorCode;

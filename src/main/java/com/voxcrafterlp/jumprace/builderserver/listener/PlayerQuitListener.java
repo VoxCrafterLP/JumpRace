@@ -16,7 +16,7 @@ public class PlayerQuitListener implements Listener {
 
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
-        event.setQuitMessage(JumpRace.getInstance().getPrefix() + "§a" +  event.getPlayer().getName() + " §7left the game§8.");
+        event.setQuitMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("builderserver-player-quit-message", event.getPlayer().getName()));
     }
 
 }

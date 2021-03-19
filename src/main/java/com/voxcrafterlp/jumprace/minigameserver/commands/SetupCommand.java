@@ -23,7 +23,7 @@ public class SetupCommand implements CommandExecutor {
 
         if(!player.hasPermission(JumpRace.getInstance().getJumpRaceConfig().getSetupPermission())
                 && !player.hasPermission(JumpRace.getInstance().getJumpRaceConfig().getAdminPermission())) {
-            player.sendMessage(JumpRace.getInstance().getPrefix() + "§7You §care not permitted §7to execute this command!");
+            player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("no-permission"));
             return false;
         }
 
@@ -35,7 +35,7 @@ public class SetupCommand implements CommandExecutor {
                         JumpRace.getInstance().getLocationManager().saveData();
 
                         player.playSound(player.getLocation(), Sound.LEVEL_UP, 1,1);
-                        player.sendMessage(JumpRace.getInstance().getPrefix() + "§7The location has been §asaved §7successfully§8.");
+                        player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("setup-lobby-success"));
                         break;
                     default:
                         this.listCommands(player);
@@ -61,9 +61,9 @@ public class SetupCommand implements CommandExecutor {
     }
 
     private void listCommands(Player player) {
-        player.sendMessage("§8===================================");
-        player.sendMessage(JumpRace.getInstance().getPrefix() + "§b/setup lobby§8: §7Set the lobby location");
-        player.sendMessage(JumpRace.getInstance().getPrefix() + "§b/setup map <map>§8: §7Setup a pvp map");
-        player.sendMessage("§8===================================");
+        player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("setup-help-1"));
+        player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("setup-help-2"));
+        player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("setup-help-3"));
+        player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("setup-help-4"));
     }
 }

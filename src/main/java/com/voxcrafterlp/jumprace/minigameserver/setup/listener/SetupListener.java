@@ -27,20 +27,20 @@ public class SetupListener implements Listener {
         switch (event.getMessage().toLowerCase()) {
             case "add":
                 mapSetup.addSpawnLocation(player.getLocation().clone());
-                player.sendMessage(JumpRace.getInstance().getPrefix() + "§7A §bspawn location §7has been saved §asuccessfully§8.");
+                player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("setup-map-add-success"));
                 break;
             case "endpoint":
                 mapSetup.addEndPointLocation(player.getLocation().clone());
-                player.sendMessage(JumpRace.getInstance().getPrefix() + "§7An §bend point location §7has been saved §asuccessfully§8.");
+                player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("setup-map-endpoint-success"));
                 break;
             case "finish":
                 JumpRace.getInstance().getLocationManager().getLoadedMaps().add(mapSetup.finish());
                 JumpRace.getInstance().getLocationManager().saveData();
                 JumpRace.getInstance().getLocationManager().loadData();
-                player.sendMessage(JumpRace.getInstance().getPrefix() + "§7The map has been §asaved §7successfully§8.");
+                player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("setup-map-finish-success"));
                 break;
             default:
-                player.sendMessage(JumpRace.getInstance().getPrefix() + "§7Valid commands are§8: §badd§8, §bendpoint§8, §bfinish");
+                player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("setup-map-commands"));
                 break;
         }
 

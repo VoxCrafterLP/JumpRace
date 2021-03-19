@@ -56,15 +56,13 @@ public class Countdown {
                     case 3:
                     case 2:
                         Bukkit.getOnlinePlayers().forEach(player -> {
-                            player.sendMessage(JumpRace.getInstance().getPrefix() + "§7The game " + ((this.type == Type.LOBBY) ? "§bstarts" : "§cends") +
-                                    " §7in " + ((this.type == Type.LOBBY) ? "§b" : "§c") + this.timeLeft +" seconds§8.");
+                            player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("message-countdown-" + ((this.type == Type.LOBBY) ? "lobby" : "end") + "-seconds", String.valueOf(this.timeLeft)));
                             player.playSound(player.getLocation(), Sound.NOTE_BASS, 10, 10);
                         });
                         break;
                     case 1:
                         Bukkit.getOnlinePlayers().forEach(player -> {
-                            player.sendMessage(JumpRace.getInstance().getPrefix() + "§7The game " + ((this.type == Type.LOBBY) ? "§bstarts" : "§cends") +
-                                    " §7in " + ((this.type == Type.LOBBY) ? "§b" : "§c") + this.timeLeft +" second§8.");
+                            player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("message-countdown-" + ((this.type == Type.LOBBY) ? "lobby" : "end") + "-second", String.valueOf(this.timeLeft)));
                             player.playSound(player.getLocation(), Sound.NOTE_BASS, 10, 10);
                         });
                         break;
@@ -128,7 +126,7 @@ public class Countdown {
 
                 if(this.timeLeft == 60) {
                     Bukkit.getOnlinePlayers().forEach(player -> {
-                        player.sendMessage(JumpRace.getInstance().getPrefix() + "§7There is only §cone minute §7left§8! §7You have §c60 seconds§7 to be the closest one to the §cpoint§8!");
+                        player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("message-endpoint-appeared"));
                         player.playSound(player.getLocation(), Sound.NOTE_BASS,1,1);
                     });
 

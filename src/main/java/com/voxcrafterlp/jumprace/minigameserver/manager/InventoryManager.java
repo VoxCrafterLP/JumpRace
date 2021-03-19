@@ -44,8 +44,8 @@ public class InventoryManager {
     private void buildInventories() {
         //===============================================//
 
-        this.lobbyInventory.setItem(0, new ItemManager(Material.BED).setDisplayName("§bTeam Selector").addLore("§8§m------------------", " ", "§7Right click to select", "§7a team", " ", "§8§m------------------").build());
-        this.lobbyInventory.setItem(8, new ItemManager(Material.MAGMA_CREAM).setDisplayName("§cLeave").addLore("§8§m------------------", " ", "§7Right click to leave", "§7the game", " ", "§8§m------------------").build());
+        this.lobbyInventory.setItem(0, new ItemManager(Material.BED).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("hotbar-item-teamselector-name")).addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("hotbar-item-teamselector-description")).build());
+        this.lobbyInventory.setItem(8, new ItemManager(Material.MAGMA_CREAM).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("hotbar-item-leave-name")).addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("hotbar-item-leave-description")).build());
 
         //===============================================//
 
@@ -54,7 +54,7 @@ public class InventoryManager {
 
         //===============================================//
 
-        this.endingInventory.setItem(8, new ItemManager(Material.MAGMA_CREAM).setDisplayName("§cLeave").addLore("§8§m------------------", " ", "§7Right click to leave", "§7the game", " ", "§8§m------------------").build());
+        this.endingInventory.setItem(8, new ItemManager(Material.MAGMA_CREAM).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("hotbar-item-leave-name")).addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("hotbar-item-leave-description")).build());
 
         //===============================================//
 
@@ -70,11 +70,11 @@ public class InventoryManager {
         final List<Map> loadedMaps = JumpRace.getInstance().getLocationManager().getLoadedMaps();
         for(int i = 0; i<loadedMaps.size(); i++) {
             if(i < 53)
-                this.mapSwitcherInventory.setItem(i, new ItemManager(Material.SKULL_ITEM,3).setDisplayName("§b" + loadedMaps.get(i).getName()).addLore("§8§m------------------", " ", "§7Click to select", "§7this map", " ", "§8§m------------------").setHeadValueAndBuild("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOThkYWExZTNlZDk0ZmYzZTMzZTFkNGM2ZTQzZjAyNGM0N2Q3OGE1N2JhNGQzOGU3NWU3YzkyNjQxMDYifX19"));
+                this.mapSwitcherInventory.setItem(i, new ItemManager(Material.SKULL_ITEM,3).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("mapswitcher-item-map-name", loadedMaps.get(i).getName())).addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("mapswitcher-item-map-description")).setHeadValueAndBuild("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOThkYWExZTNlZDk0ZmYzZTMzZTFkNGM2ZTQzZjAyNGM0N2Q3OGE1N2JhNGQzOGU3NWU3YzkyNjQxMDYifX19"));
         }
 
         if(loadedMaps.size() != 0)
-            this.mapSwitcherInventory.setItem(53, new ItemManager(Material.SKULL_ITEM,3).setDisplayName("§3Random map").addLore("§8§m------------------", " ", "§7Click to select", "§7a random map", " ", "§8§m------------------").setHeadValueAndBuild("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGU0MzU2NTI4MzU1OTJiNDZhMjQxNDhiNGNhNzQyYTRiZGY4ZjY3OGQ3ZDcwYTM4NzkyNzM4Yjg1Y2QzMyJ9fX0="));
+            this.mapSwitcherInventory.setItem(53, new ItemManager(Material.SKULL_ITEM,3).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("mapswitcher-item-randommap-name")).addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("mapswitcher-item-randommap-description")).setHeadValueAndBuild("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGU0MzU2NTI4MzU1OTJiNDZhMjQxNDhiNGNhNzQyYTRiZGY4ZjY3OGQ3ZDcwYTM4NzkyNzM4Yjg1Y2QzMyJ9fX0="));
 
         //===============================================//
     }
@@ -92,7 +92,7 @@ public class InventoryManager {
 
                 if(player.hasPermission(JumpRace.getInstance().getJumpRaceConfig().getMapSwitchPermission())
                         || player.hasPermission(JumpRace.getInstance().getJumpRaceConfig().getAdminPermission()))
-                    player.getInventory().setItem(7, new ItemManager(Material.NETHER_STAR).setDisplayName("§bMap switcher").addLore("§8§m------------------", " ", "§7Right click to switch", "§7the map", " ", "§8§m------------------").build());
+                    player.getInventory().setItem(7, new ItemManager(Material.NETHER_STAR).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("hotbar-item-mapswitcher-name")).addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("hotbar-item-mapswitcher-description")).build());
                 break;
             case JUMPING:
                 player.getInventory().clear();

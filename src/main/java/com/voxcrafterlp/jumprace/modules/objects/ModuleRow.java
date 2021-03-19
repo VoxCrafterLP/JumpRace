@@ -90,7 +90,7 @@ public class ModuleRow {
 
         this.modulesCompleted++;
         player.playSound(player.getLocation(), Sound.LEVEL_UP,1,1);
-        player.sendMessage(JumpRace.getInstance().getPrefix() + "§7You completed §bmodule " + this.modulesCompleted + "§8.");
+        player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("message-module-complete", String.valueOf(this.modulesCompleted)));
 
        if(this.modulesCompleted == 10) {
            JumpRace.getInstance().getGameManager().reachGoal(player);

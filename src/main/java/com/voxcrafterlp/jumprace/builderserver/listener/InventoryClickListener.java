@@ -37,7 +37,7 @@ public class InventoryClickListener implements Listener {
         if(event.getCurrentItem().getItemMeta() == null) return;
         if(event.getCurrentItem().getItemMeta().getDisplayName() == null) return;
 
-        if(event.getInventory().getName().equals("§cModule difficulty")) {
+        if(event.getInventory().getName().equals(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("module-difficulty-inventory-name"))) {
             if(ModuleSetup.getActiveSetups().containsKey(player)) {
                 ModuleSetup setup = ModuleSetup.getActiveSetups().get(player);
 
@@ -45,7 +45,7 @@ public class InventoryClickListener implements Listener {
 
                 switch (event.getSlot()) {
                     case 10:
-                        player.sendMessage(JumpRace.getInstance().getPrefix() + "§7You set the module difficulty to §aEASY§7.");
+                        player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("set-module-difficulty-success", ModuleDifficulty.EASY.getDisplayName().toUpperCase()));
                         setup.setModuleDifficulty(ModuleDifficulty.EASY);
                         setup.nextStep();
 
@@ -53,7 +53,7 @@ public class InventoryClickListener implements Listener {
                         player.closeInventory();
                         break;
                     case 12:
-                        player.sendMessage(JumpRace.getInstance().getPrefix() + "§7You set the module difficulty to §6NORMAL§7.");
+                        player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("set-module-difficulty-success", ModuleDifficulty.NORMAL.getDisplayName().toUpperCase()));
                         setup.setModuleDifficulty(ModuleDifficulty.NORMAL);
                         setup.nextStep();
 
@@ -61,7 +61,7 @@ public class InventoryClickListener implements Listener {
                         player.closeInventory();
                         break;
                     case 14:
-                        player.sendMessage(JumpRace.getInstance().getPrefix() + "§7You set the module difficulty to §cHARD§7.");
+                        player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("set-module-difficulty-success", ModuleDifficulty.HARD.getDisplayName().toUpperCase()));
                         setup.setModuleDifficulty(ModuleDifficulty.HARD);
                         setup.nextStep();
 
@@ -69,7 +69,7 @@ public class InventoryClickListener implements Listener {
                         player.closeInventory();
                         break;
                     case 16:
-                        player.sendMessage(JumpRace.getInstance().getPrefix() + "§7You set the module difficulty to §4VERY HARD§7.");
+                        player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("set-module-difficulty-success", ModuleDifficulty.VERY_HARD.getDisplayName().toUpperCase()));
                         setup.setModuleDifficulty(ModuleDifficulty.VERY_HARD);
                         setup.nextStep();
 
@@ -95,11 +95,11 @@ public class InventoryClickListener implements Listener {
                 session.getModule().stopParticles();
 
                 player.playSound(player.getLocation(), Sound.LEVEL_UP, 1, 1);
-                player.sendMessage(JumpRace.getInstance().getPrefix() + "§7You changed the editor mode to §c" + session.getSettings().getEditorMode().name() + "§8.");
+                player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("set-editor-mode-success", session.getSettings().getEditorMode().name()));
                 return;
             }
             if(event.getCurrentItem().getType() == Material.DIODE) {
-                player.sendMessage(JumpRace.getInstance().getPrefix() + "§7You §ccan't §7switch to the quick editor§8!");
+                player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("error-switch-to-quick-editor"));
                 player.playSound(player.getLocation(), Sound.NOTE_BASS_DRUM, 2, 2);
                 return;
             }
@@ -109,13 +109,13 @@ public class InventoryClickListener implements Listener {
                 new AnvilGUI.Builder()
                         .onComplete((user, input) -> {
                             if(input.equalsIgnoreCase("default")) {
-                                player.sendMessage(JumpRace.getInstance().getPrefix() + "§cInvalid name");
+                                player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("invalid-module-name"));
                                 player.playSound(player.getLocation(), Sound.NOTE_BASS_DRUM, 2, 2);
                                 return AnvilGUI.Response.text("");
                             }
 
                             session.getModule().setName(input);
-                            user.sendMessage(JumpRace.getInstance().getPrefix() + "§7You changed the name to§8: §a" + input + "§8.");
+                            user.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("set-module-name-success", input));
                             user.playSound(player.getLocation(), Sound.LEVEL_UP,1,1);
                             return AnvilGUI.Response.close();
                         })
@@ -127,17 +127,17 @@ public class InventoryClickListener implements Listener {
                 return;
             }
             if(event.getCurrentItem().getType() == Material.ANVIL) {
-                Inventory inventory = Bukkit.createInventory(null, 27, "§cNew module difficulty");
+                Inventory inventory = Bukkit.createInventory(null, 27, JumpRace.getInstance().getLanguageLoader().getTranslationByKey("change-module-difficulty-inventory-name"));
 
                 for(int i = 0; i<27; i++)
                     inventory.setItem(i, new ItemManager(Material.STAINED_GLASS_PANE,15).setNoName().build());
 
-                inventory.setItem(10, new ItemManager(Material.WOOL,5).setDisplayName("§aEasy").build());
-                inventory.setItem(12, new ItemManager(Material.WOOL,1).setDisplayName("§6Normal").build());
-                inventory.setItem(14, new ItemManager(Material.WOOL,14).setDisplayName("§cHard").build());
-                inventory.setItem(16, new ItemManager(Material.WOOL,15).setDisplayName("§4Very hard").build());
+                inventory.setItem(10, new ItemManager(Material.WOOL,5).setDisplayName(ModuleDifficulty.EASY.getDisplayName()).build());
+                inventory.setItem(12, new ItemManager(Material.WOOL,1).setDisplayName(ModuleDifficulty.NORMAL.getDisplayName()).build());
+                inventory.setItem(14, new ItemManager(Material.WOOL,14).setDisplayName(ModuleDifficulty.HARD.getDisplayName()).build());
+                inventory.setItem(16, new ItemManager(Material.WOOL,15).setDisplayName(ModuleDifficulty.VERY_HARD.getDisplayName()).build());
 
-                player.sendMessage(JumpRace.getInstance().getPrefix() + "§7Please choose the new §bdifficulty §7of the §bmodule§8.");
+                player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("message-select-new-module-difficulty"));
                 player.openInventory(inventory);
                 player.playSound(player.getLocation(), Sound.WOOD_CLICK, 2, 2);
                 return;
@@ -162,7 +162,7 @@ public class InventoryClickListener implements Listener {
             }
         }
 
-        if(event.getInventory().getName().equals("§cNew module difficulty")) {
+        if(event.getInventory().getName().equals(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("change-module-difficulty-inventory-name"))) {
             event.setCancelled(true);
             final ModuleEditor session = JumpRace.getInstance().getEditorSessions().get(player);
 
@@ -179,7 +179,7 @@ public class InventoryClickListener implements Listener {
 
     private void changeModuleDifficulty(Player player, ModuleEditor session, ModuleDifficulty moduleDifficulty) {
         session.getModule().setModuleDifficulty(moduleDifficulty);
-        player.sendMessage(JumpRace.getInstance().getPrefix() + "§7You §asuccessfully §7changed the module difficulty to§8: " + moduleDifficulty.getDisplayName());
+        player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("set-module-difficulty-success", moduleDifficulty.getDisplayName()).toUpperCase());
         player.playSound(player.getLocation(), Sound.LEVEL_UP,1,1);
         session.getSettings().openInventory();
     }

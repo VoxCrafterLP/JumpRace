@@ -30,7 +30,7 @@ public class JumpRaceCommand implements CommandExecutor {
 
         if(!player.hasPermission(JumpRace.getInstance().getJumpRaceConfig().getBuilderPermission())
                 && !player.hasPermission(JumpRace.getInstance().getJumpRaceConfig().getAdminPermission())) {
-            player.sendMessage(JumpRace.getInstance().getPrefix() + "§7You §care not permitted §7to execute this command!");
+            player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("no-permissions"));
             return false;
         }
 
@@ -44,11 +44,11 @@ public class JumpRaceCommand implements CommandExecutor {
                         final List<Module> modules = JumpRace.getInstance().getModuleLoader().getModuleList();
 
                         if(modules.isEmpty()) {
-                            player.sendMessage(JumpRace.getInstance().getPrefix() + "§7§cNo modules §7could be found§8!");
+                            player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("no-modules-found"));
                             return false;
                         }
 
-                        player.sendMessage(JumpRace.getInstance().getPrefix() + "§7The following modules are §bloaded§8:");
+                        player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("command-jumprace-list"));
                         modules.forEach(module -> player.sendMessage(JumpRace.getInstance().getPrefix() + "§8- §b" + module.getName()));
                         break;
                     default:
@@ -72,17 +72,17 @@ public class JumpRaceCommand implements CommandExecutor {
                         }
 
                         if(!found) {
-                            player.sendMessage(JumpRace.getInstance().getPrefix() + "§cInvalid module!");
+                            player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("invalid-module"));
                             return false;
                         }
 
                         if(JumpRace.getInstance().getEditorSessions().containsKey(player)) {
-                            player.sendMessage(JumpRace.getInstance().getPrefix() + "§7You are §calready editing §7a module§8.");
+                            player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("already-editing"));
                             return false;
                         }
 
                         if(!player.getWorld().getName().equalsIgnoreCase("jumprace")) {
-                            player.sendMessage(JumpRace.getInstance().getPrefix() + "§aTeleporting to JumpRace world...");
+                            player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("teleport"));
                             player.teleport(new Location(Bukkit.getWorld("jumprace"), 0, 100, 0));
                         }
 
@@ -103,10 +103,10 @@ public class JumpRaceCommand implements CommandExecutor {
 
     private void listCommands(Player player) {
         player.sendMessage("§8===================================");
-        player.sendMessage(JumpRace.getInstance().getPrefix() + "§b/jumprace§8: §7Shows this window");
-        player.sendMessage(JumpRace.getInstance().getPrefix() + "§b/jumprace newmodule§8: §7Create a new module");
-        player.sendMessage(JumpRace.getInstance().getPrefix() + "§b/jumprace list§8: §7Shows a list of all modules");
-        player.sendMessage(JumpRace.getInstance().getPrefix() + "§b/jumprace edit <module>§8: §7Edit a module");
+        player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("command-jumprace-help-1"));
+        player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("command-jumprace-help-2"));
+        player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("command-jumprace-help-3"));
+        player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("command-jumprace-help-4"));
         player.sendMessage("§8===================================");
     }
 

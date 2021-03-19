@@ -34,7 +34,7 @@ public class Protection implements Listener {
 
             if(drop.getItemMeta() == null) return;
             if(drop.getItemMeta().getDisplayName() == null) return;
-            if(drop.getItemMeta().getDisplayName().equals("§cSettings"))
+            if(drop.getItemMeta().getDisplayName().equals(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("settings-item-name")))
                 event.setCancelled(true);
         }
     }
@@ -47,7 +47,7 @@ public class Protection implements Listener {
 
             if(drop.getItemMeta() == null) return;
             if(drop.getItemMeta().getDisplayName() == null) return;
-            if(drop.getItemMeta().getDisplayName().equals("§cSettings"))
+            if(drop.getItemMeta().getDisplayName().equals(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("settings-item-name")))
                 event.setCancelled(true);
         }
     }
@@ -60,7 +60,7 @@ public class Protection implements Listener {
 
             if(item.getItemMeta() == null) return;
             if(item.getItemMeta().getDisplayName() == null) return;
-            if(item.getItemMeta().getDisplayName().equals("§cSettings"))
+            if(item.getItemMeta().getDisplayName().equals(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("settings-item-name")))
                 event.setCancelled(true);
         }
     }

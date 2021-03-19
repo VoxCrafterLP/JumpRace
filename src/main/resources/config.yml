@@ -18,3 +18,6 @@ admin-permission: jumprace.*
 builder-permission: jumprace.builder
 setup-permission: jumprace.setup
 switchMap-permission: jumprace.switchmap
+
+# To change the language, please provide an existing language file in the 'languages' folder (default: en_US)
+language-file: en_US

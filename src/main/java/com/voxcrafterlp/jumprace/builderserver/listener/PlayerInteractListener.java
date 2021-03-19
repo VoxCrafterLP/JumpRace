@@ -24,7 +24,7 @@ public class PlayerInteractListener implements Listener {
         if(event.getItem().getItemMeta().getDisplayName() == null) return;
         if(!JumpRace.getInstance().getEditorSessions().containsKey(player)) return;
 
-        if(event.getItem().getItemMeta().getDisplayName().equals("§cSettings"))
+        if(event.getItem().getItemMeta().getDisplayName().equals(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("settings-item-name")))
             JumpRace.getInstance().getEditorSessions().get(player).getSettings().openInventory();
     }
 }

@@ -39,13 +39,13 @@ public class InventoryClickListener implements Listener {
 
             if(team.getMembers().contains(player)) {
                 player.playSound(player.getLocation(), Sound.NOTE_BASS,2,2);
-                player.sendMessage(JumpRace.getInstance().getPrefix() + "§7You are §calready §7in this team§8!");
+                player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("message-already-in-team"));
                 return;
             }
 
             if(team.isFull()) {
                 player.playSound(player.getLocation(), Sound.NOTE_BASS,2,2);
-                player.sendMessage(JumpRace.getInstance().getPrefix() + "§7This team is §cfull§8!");
+                player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("message-team-full"));
                 return;
             }
 
@@ -56,7 +56,7 @@ public class InventoryClickListener implements Listener {
             team.getMembers().add(player);
             JumpRace.getInstance().getInventoryManager().updateTeamSelectorInventory();
             player.playSound(player.getLocation(), Sound.LEVEL_UP,1,1);
-            player.sendMessage(JumpRace.getInstance().getPrefix() + "§7You joined team " + team.getTeamColor().getTeamNameWithColorCode() + "§8.");
+            player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("message-join-team-success", team.getTeamColor().getTeamNameWithColorCode()));
             player.closeInventory();
 
             Bukkit.getOnlinePlayers().forEach(players -> new PlayerScoreboard().setScoreboard(players));
@@ -75,11 +75,11 @@ public class InventoryClickListener implements Listener {
             player.closeInventory();
         }
 
-        if(event.getInventory().getName().equalsIgnoreCase("§bTeleport")) {
+        if(event.getInventory().getName().equalsIgnoreCase(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("inventory-spectator-teleport-name"))) {
             final Player target = Bukkit.getPlayer(ChatColor.stripColor(event.getCurrentItem().getItemMeta().getDisplayName()));
             if(target == null) {
                 player.closeInventory();
-                player.sendMessage(JumpRace.getInstance().getPrefix() + "§7This player §ccouldn't §7be found§8!");
+                player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("player-not-found"));
                 return;
             }
             player.closeInventory();

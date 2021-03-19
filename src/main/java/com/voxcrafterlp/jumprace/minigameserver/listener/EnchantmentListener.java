@@ -2,7 +2,6 @@ package com.voxcrafterlp.jumprace.minigameserver.listener;
 
 import com.voxcrafterlp.jumprace.JumpRace;
 import com.voxcrafterlp.jumprace.utils.ItemManager;
-import net.minecraft.server.v1_8_R3.ContainerEnchantTable;
 import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
 import org.bukkit.Location;
@@ -11,7 +10,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.enchantment.EnchantItemEvent;
-import org.bukkit.event.enchantment.PrepareItemEnchantEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
@@ -67,12 +65,4 @@ public class EnchantmentListener implements Listener {
             player.setLevel(player.getLevel() + event.whichButton() + 1);
         }, 2);
     }
-
-    @EventHandler
-    public void onPrepare(PrepareItemEnchantEvent event){
-        event.getExpLevelCostsOffered()[0] = 1;
-        event.getExpLevelCostsOffered()[1] = 2;
-        event.getExpLevelCostsOffered()[2] = 3;
-    }
-
 }

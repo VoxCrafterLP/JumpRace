@@ -29,34 +29,34 @@ public class EditorSetupListener implements Listener {
             switch(session.getEditorSetup().getStep()) {
                 case 0:
                     if(player.getItemInHand() == null) return;
-                    if(event.getPlayer().getItemInHand().equals(new ItemManager(Material.DIAMOND_AXE).setDisplayName("§bSelection tool").build())) {
+                    if(event.getPlayer().getItemInHand().equals(new ItemManager(Material.DIAMOND_AXE).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("selection-tool-name")).build())) {
                         session.getEditorSetup().getBorders()[0] = event.getBlock().getLocation();
-                        player.sendMessage(JumpRace.getInstance().getPrefix() + "§7The §blower left corner §7has been set §asuccessfully§8.");
+                        player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("editor-setup-succuss-1"));
                         session.getEditorSetup().nextStep();
                         event.setCancelled(true);
                     }
                     break;
                 case 1:
                     if(player.getItemInHand() == null) return;
-                    if(event.getPlayer().getItemInHand().equals(new ItemManager(Material.DIAMOND_AXE).setDisplayName("§bSelection tool").build())) {
+                    if(event.getPlayer().getItemInHand().equals(new ItemManager(Material.DIAMOND_AXE).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("selection-tool-name")).build())) {
                         session.getEditorSetup().getBorders()[1] = event.getBlock().getLocation();
-                        player.sendMessage(JumpRace.getInstance().getPrefix() + "§7The §bupper right corner §7has been set §asuccessfully§8.");
+                        player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("editor-setup-succuss-2"));
                         session.getEditorSetup().nextStep();
                         event.setCancelled(true);
                     }
                     break;
                 case 2:
-                    if(event.getPlayer().getItemInHand().equals(new ItemManager(Material.DIAMOND_AXE).setDisplayName("§bSelection tool").build())) {
+                    if(event.getPlayer().getItemInHand().equals(new ItemManager(Material.DIAMOND_AXE).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("selection-tool-name")).build())) {
                         session.getModule().setStartPointLocation(event.getBlock().getLocation());
-                        player.sendMessage(JumpRace.getInstance().getPrefix() + "§7The §bstart point location §7has been set §asuccessfully§8.");
+                        player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("editor-setup-succuss-3"));
                         session.getEditorSetup().nextStep();
                         event.setCancelled(true);
                     }
                     break;
                 case 3:
-                    if(event.getPlayer().getItemInHand().equals(new ItemManager(Material.DIAMOND_AXE).setDisplayName("§bSelection tool").build())) {
+                    if(event.getPlayer().getItemInHand().equals(new ItemManager(Material.DIAMOND_AXE).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("selection-tool-name")).build())) {
                         session.getModule().setEndPointLocation(event.getBlock().getLocation());
-                        player.sendMessage(JumpRace.getInstance().getPrefix() + "§7The §bend point location §7has been set §asuccessfully§8.");
+                        player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("editor-setup-succuss-4"));
                         session.getEditorSetup().nextStep();
                         event.setCancelled(true);
                     }

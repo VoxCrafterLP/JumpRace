@@ -54,7 +54,7 @@ public class PlayerInteractListener implements Listener {
             final AtomicReference<Player> nearestPlayer = new AtomicReference<>();
 
             if(nearbyEntities.isEmpty()) {
-                player.sendMessage(JumpRace.getInstance().getPrefix() + "§cNo enemy could be found!");
+                player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("message-tracker-no-player-found"));
                 return;
             }
 
@@ -70,14 +70,12 @@ public class PlayerInteractListener implements Listener {
             });
 
             if(nearestPlayer.get().isEmpty()) {
-                player.sendMessage(JumpRace.getInstance().getPrefix() + "§cNo enemy could be found!");
+                player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("message-tracker-no-player-found"));
                 return;
             }
 
             int distance = Math.round((float) nearestPlayer.get().getLocation().distance(player.getLocation()));
-            player.sendMessage(JumpRace.getInstance().getPrefix() + "§7Tracked player§8: " +
-                    JumpRace.getInstance().getGameManager().getPlayerNames().get(nearestPlayer.get()) +
-                    " §7Blocks away: §3" + distance);
+            player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("message-tracker-track", JumpRace.getInstance().getGameManager().getPlayerNames().get(nearestPlayer.get()), String.valueOf(distance)));
             player.setCompassTarget(nearestPlayer.get().getLocation());
         }
     }

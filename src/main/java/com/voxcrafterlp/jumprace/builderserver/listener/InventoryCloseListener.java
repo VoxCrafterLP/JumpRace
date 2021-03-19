@@ -31,7 +31,7 @@ public class InventoryCloseListener implements Listener {
 
         if(event.getInventory().getName() == null) return;
 
-        if(event.getInventory().getName().equals("§cSettings")) {
+        if(event.getInventory().getName().equals(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("settings-inventory-name"))) {
             player.playSound(player.getLocation(), Sound.CHEST_CLOSE, 1, 1);
         }
     }

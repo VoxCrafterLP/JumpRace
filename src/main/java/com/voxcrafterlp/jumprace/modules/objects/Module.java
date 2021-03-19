@@ -163,8 +163,12 @@ public class Module {
     public void spawnHologram(Player player, int moduleNumber) {
         final List<String> lines = Lists.newCopyOnWriteArrayList();
 
-        lines.addAll(Arrays.asList("§8===============", "§7Module §b#" + moduleNumber, "§7Name§8: §b" + this.name, "§7Builder(s)§8: §b" + this.builder,
-                "§7Difficulty§8: " + this.moduleDifficulty.getDisplayName(), "§8==============="));
+        lines.add(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("module-hologram-line-1"));
+        lines.add(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("module-hologram-line-2", String.valueOf(moduleNumber)));
+        lines.add(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("module-hologram-line-3", this.name));
+        lines.add(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("module-hologram-line-4", this.builder));
+        lines.add(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("module-hologram-line-5", this.moduleDifficulty.getDisplayName()));
+        lines.add(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("module-hologram-line-6"));
 
         final Location hologramLocation = this.startPointLocation.clone().add(2.0, 0.7 + (0.3 * lines.size()), 0.5); //Hologram offset
         lines.forEach(line -> new HologramUtil().summonArmorStand(player, hologramLocation.add(0.0, -0.3, 0.0), line));

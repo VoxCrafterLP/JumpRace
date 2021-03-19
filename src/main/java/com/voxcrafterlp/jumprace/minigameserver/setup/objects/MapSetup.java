@@ -29,9 +29,9 @@ public class MapSetup {
         this.spawnLocations = Lists.newCopyOnWriteArrayList();
         this.endPointLocations = Lists.newCopyOnWriteArrayList();
 
-        player.sendMessage(JumpRace.getInstance().getPrefix() + "§7Type §b\"add\" §7to add a new §bspawn location§8.");
-        player.sendMessage(JumpRace.getInstance().getPrefix() + "§7Type §b\"endpoint\" §7to add a new §bend point location§8.");
-        player.sendMessage(JumpRace.getInstance().getPrefix() + "§7Type §b\"finish\" §7to §bfinish §7the setup§8.");
+        player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("setup-map-instructions-1"));
+        player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("setup-map-instructions-2"));
+        player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("setup-map-instructions-3"));
         JumpRace.getInstance().getMapSetups().put(this.player, this);
     }
 

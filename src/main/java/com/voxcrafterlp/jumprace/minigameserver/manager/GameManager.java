@@ -72,7 +72,7 @@ public class GameManager {
         this.lobbyCountdown = new Countdown(Countdown.Type.LOBBY, this::startGame);
         this.endingCountdown = new Countdown(Countdown.Type.ENDING, () -> {
             Bukkit.getOnlinePlayers().forEach(player ->
-                    player.kickPlayer(JumpRace.getInstance().getPrefix() + "§7The game is §bover§8."));
+                    player.kickPlayer(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("message-game-over")));
             Bukkit.getScheduler().scheduleAsyncDelayedTask(JumpRace.getInstance(), Bukkit::shutdown, 5);
         });
         this.jumpingCountdown = new Countdown(Countdown.Type.JUMPING, this::startDeathmatch);
@@ -164,12 +164,10 @@ public class GameManager {
                 team.getMembers().remove(player);
                 Bukkit.getOnlinePlayers().forEach(players -> {
                     if(team.getMembers().size() == 0) {
-                        players.sendMessage(JumpRace.getInstance().getPrefix() + team.getTeamColor().getColorCode() + "Team " +
-                                team.getTeamColor().getDisplayName() + " §7has been §4eliminated§8.");
+                        player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("message-team-eliminated", team.getTeamColor().getColorCode(), team.getTeamColor().getDisplayName()));
                         team.setAlive(false);
                     } else
-                        players.sendMessage(JumpRace.getInstance().getPrefix() + team.getTeamColor().getColorCode() + "Team " +
-                                team.getTeamColor().getDisplayName() + " §7has got §c" + team.getMembers().size() + " players §7left§8.");
+                        player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("message-team-players-left", team.getTeamColor().getColorCode(), team.getTeamColor().getDisplayName(), String.valueOf(team.getMembers().size())));
                 });
                 //checkTeams();
             }
@@ -194,8 +192,7 @@ public class GameManager {
 
         Bukkit.getOnlinePlayers().forEach(player -> {
             player.teleport(JumpRace.getInstance().getLocationManager().getLobbyLocation());
-            player.sendMessage(JumpRace.getInstance().getPrefix() + winningTeam.getTeamColor().getColorCode() +
-                    "Team " + winningTeam.getTeamColor().getDisplayName() + " §7won the §bgame§8!");
+            player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("message-team-won", winningTeam.getTeamColor().getColorCode(), winningTeam.getTeamColor().getDisplayName()));
             JumpRace.getInstance().getInventoryManager().setInventory(player, InventoryManager.Type.LOBBY);
             player.setLevel(0);
             player.setExp(0);
@@ -248,20 +245,20 @@ public class GameManager {
             if(this.gameState == GameState.LOBBY) {
                 if(!this.lobbyCountdown.isRunning()) {
                     if(JumpRace.getInstance().getLocationManager().getLoadedMaps().size() == 0) {
-                        Bukkit.getOnlinePlayers().forEach(player -> new ActionBarUtil().sendActionbar(player, "§cNo map has been set up!"));
+                        Bukkit.getOnlinePlayers().forEach(player -> new ActionBarUtil().sendActionbar(player, JumpRace.getInstance().getLanguageLoader().getTranslationByKey("actionbar-no-map")));
                         return;
                     }
 
                     final int playerLeft = JumpRace.getInstance().getJumpRaceConfig().getPlayersRequiredForStart() - Bukkit.getOnlinePlayers().size();
                     Bukkit.getOnlinePlayers().forEach(player -> new ActionBarUtil().sendActionbar(player,
-                            ((playerLeft == 1) ? "§7Waiting for §bone §7more player§8..." : "§7Waiting for §b" + playerLeft + " §7more players§8...")));
+                            ((playerLeft == 1) ? JumpRace.getInstance().getLanguageLoader().getTranslationByKey("actionbar-waiting-player") : JumpRace.getInstance().getLanguageLoader().getTranslationByKey("actionbar-waiting-players", String.valueOf(playerLeft)))));
                 } else
-                    Bukkit.getOnlinePlayers().forEach(player -> new ActionBarUtil().sendActionbar(player, "§cTeaming forbidden"));
+                    Bukkit.getOnlinePlayers().forEach(player -> new ActionBarUtil().sendActionbar(player, JumpRace.getInstance().getLanguageLoader().getTranslationByKey("actionbar-teaming-forbidden")));
             } else {
                 Bukkit.getScheduler().scheduleAsyncRepeatingTask(JumpRace.getInstance(), () -> this.registeredTeams.forEach(team -> team.getMembers().forEach(player ->
-                        new ActionBarUtil().sendActionbar(player, team.getTeamColor().getColorCode() + "Team " + team.getTeamColor().getDisplayName()))), 5, 200);
+                        new ActionBarUtil().sendActionbar(player, JumpRace.getInstance().getLanguageLoader().getTranslationByKey("actionbar-team", team.getTeamColor().getColorCode(), team.getTeamColor().getDisplayName())))), 5, 200);
 
-                this.spectatorManager.getSpectators().forEach(player -> new ActionBarUtil().sendActionbar(player, "§7Spectator"));
+                this.spectatorManager.getSpectators().forEach(player -> new ActionBarUtil().sendActionbar(player, JumpRace.getInstance().getLanguageLoader().getTranslationByKey("actionbar-spectator")));
             }
         }, 20, 20);
     }
@@ -273,8 +270,7 @@ public class GameManager {
     public void reachGoal(Player player) {
         if(this.jumpingCountdown.getTimeLeft() > 10)
             this.jumpingCountdown.setTimeLeft(10);
-        Bukkit.broadcastMessage(JumpRace.getInstance().getPrefix() + JumpRace.getInstance().getGameManager().getPlayerNames().get(player) +
-                " §7reached the §bgoal§8.");
+        Bukkit.broadcastMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("message-goal-reached",JumpRace.getInstance().getGameManager().getPlayerNames().get(player)));
         player.playSound(player.getLocation(), Sound.ENDERDRAGON_GROWL,1,1);
         player.getInventory().setBoots(new ItemManager(Material.DIAMOND_BOOTS).setUnbreakable(true).build());
     }
@@ -366,12 +362,10 @@ public class GameManager {
                 team.getMembers().remove(player);
                 Bukkit.getOnlinePlayers().forEach(players -> {
                     if(team.getMembers().size() == 0) {
-                        players.sendMessage(JumpRace.getInstance().getPrefix() + team.getTeamColor().getColorCode() + "Team " +
-                                team.getTeamColor().getDisplayName() + " §7has been §4eliminated§8.");
+                        player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("message-team-eliminated", team.getTeamColor().getColorCode(), team.getTeamColor().getDisplayName()));
                         team.setAlive(false);
                     } else
-                        players.sendMessage(JumpRace.getInstance().getPrefix() + team.getTeamColor().getColorCode() + "Team " +
-                                team.getTeamColor().getDisplayName() + " §7has got §c" + team.getMembers().size() + " players §7left§8.");
+                        player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("message-team-players-left", team.getTeamColor().getColorCode(), team.getTeamColor().getDisplayName(), String.valueOf(team.getMembers().size())));
                 });
                 //checkTeams();
             }

@@ -32,7 +32,7 @@ public class PlayerModifyBarrierListener implements Listener {
             if(!isInRegion(event.getBlock().getLocation(), moduleBorders[0], moduleBorders[1])) {
                 if(event.getBlock().getLocation().getBlockX() < session.getModule().calculateLocation(session.getModule().getSpawnLocation(), session.getModule().getStartPoint()).getBlockX()) {
                     event.setCancelled(true);
-                    event.getPlayer().sendMessage(JumpRace.getInstance().getPrefix() + "§7You can't build §chere§8!");
+                    event.getPlayer().sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("building-not-allowed"));
                     return;
                 }
                 session.updateBorders(moduleBorders, event.getBlock().getLocation(), InteractionType.PLACE);
@@ -52,7 +52,7 @@ public class PlayerModifyBarrierListener implements Listener {
             if(isInRegion(event.getBlock().getLocation(), moduleBorders[0], moduleBorders[1])) {
                 if(event.getBlock().getLocation().equals(session.getModule().getStartPointLocation())) {
                     event.setCancelled(true);
-                    event.getPlayer().sendMessage(JumpRace.getInstance().getPrefix() + "§7You can't §cbreak §7the spawn block§7!");
+                    event.getPlayer().sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("spawn-block-protected"));
                     return;
                 }
 

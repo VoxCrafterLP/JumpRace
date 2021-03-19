@@ -49,7 +49,7 @@ public class Team {
         lore.add("§8§m-------------------");
 
         for(int i = 0; i< JumpRace.getInstance().getJumpRaceConfig().getTeamSize(); i++)
-            lore.add(this.members.size() >= (i+1) ? " §8➜" + this.teamColor.getColorCode() + " " + this.members.get(i).getName() : " §8➜");
+            lore.add(this.members.size() >= (i+1) ? JumpRace.getInstance().getLanguageLoader().getTranslationByKey("team-selector-item-decription", (this.teamColor.getColorCode() + " " + this.members.get(i).getName())) : JumpRace.getInstance().getLanguageLoader().getTranslationByKey("team-selector-item-decription", ""));
 
         lore.add("§8§m-------------------");
 

@@ -14,7 +14,7 @@ import org.bukkit.Location;
 public class CalculatorUtil {
 
     /**
-     * Calculates the spawn location of the module based on the last module
+     * Calculate the spawn location of the module based on the last module
      * @param endPoint Endpoint location of the last module
      * @param relativePosition RelativePosition of the module
      * @return Spawn location of the module

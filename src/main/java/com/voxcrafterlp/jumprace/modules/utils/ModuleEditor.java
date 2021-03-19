@@ -32,7 +32,7 @@ public class ModuleEditor {
     private Inventory playerInventory;
 
     public int actionbarTaskID;
-    private ModuleEditorSettings settings;
+    private final ModuleEditorSettings settings;
     private EditorSetup editorSetup;
 
     public ModuleEditor(Player player, Module module) {
@@ -47,8 +47,8 @@ public class ModuleEditor {
         this.module.build(this.getSpawnLocation(), true);
         this.player.teleport(this.module.getPlayerSpawnLocation());
         this.player.setGameMode(GameMode.CREATIVE);
-        this.player.sendMessage(JumpRace.getInstance().getPrefix() + "§7You can now start §bbuilding§8.");
-        this.player.sendMessage(JumpRace.getInstance().getPrefix() + "§7You can §cdisable §7particles in the §bsettings by switching to the §cperformance editor§8.");
+        this.player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("message-editor-start-1"));
+        this.player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("message-editor-start-2"));
 
         if(this.settings.getEditorMode() == EditorMode.PERFORMANCE)
             this.module.stopParticles();
@@ -73,8 +73,8 @@ public class ModuleEditor {
         this.clearArea(borders);
 
         JumpRace.getInstance().getEditorSessions().remove(this.player);
-        player.sendMessage(JumpRace.getInstance().getPrefix() + "§7The module has been saved §asuccessfully§8.");
-        new TitleUtil().sendFullTitle(player, "§7Module", "§asaved", 10, 35, 5);
+        player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("message-editor-save-success"));
+        new TitleUtil().sendFullTitle(player, JumpRace.getInstance().getLanguageLoader().getTranslationByKey("title-editor-save-success-1"), JumpRace.getInstance().getLanguageLoader().getTranslationByKey("title-editor-save-success2"), 10, 35, 5);
     }
 
     /**
@@ -85,7 +85,7 @@ public class ModuleEditor {
         this.playerInventory.setContents(this.player.getInventory().getContents());
         this.player.getInventory().clear();
 
-        this.player.getInventory().setItem(8, new ItemManager(Material.REDSTONE_COMPARATOR).setDisplayName("§cSettings").build());
+        this.player.getInventory().setItem(8, new ItemManager(Material.REDSTONE_COMPARATOR).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("settings-item-name")).build());
     }
 
     public void resetToPreviousInventory() {
@@ -102,7 +102,7 @@ public class ModuleEditor {
 
     private void startActionbar() {
         this.actionbarTaskID = Bukkit.getScheduler().scheduleAsyncRepeatingTask(JumpRace.getInstance(), () -> {
-            new ActionBarUtil().sendActionbar(this.player, "§7Editing module§8: §b" + this.module.getName() + " §8● §7Difficulty§8: §b" + this.module.getModuleDifficulty().getDisplayName());
+            new ActionBarUtil().sendActionbar(this.player, JumpRace.getInstance().getLanguageLoader().getTranslationByKey("actionbar-editor-editing", this.module.getName(), this.module.getModuleDifficulty().getDisplayName()));
         }, 5, 20);
     }
 

@@ -22,18 +22,15 @@ import java.util.HashMap;
  * Project: JumpRace
  */
 
-@Getter
+@Getter @Setter
 public class ModuleSetup {
 
     @Getter
     private static final HashMap<Player, ModuleSetup> activeSetups = new HashMap<>();
 
     private final Player player;
-    @Setter
     private String name;
-    @Setter
     private String builder;
-    @Setter
     private ModuleDifficulty moduleDifficulty;
 
     private int setupStep;
@@ -42,7 +39,7 @@ public class ModuleSetup {
         this.player = player;
         this.setupStep = 0;
 
-        player.sendMessage(JumpRace.getInstance().getPrefix() + "§7Please type the §bname §7of the module you want to §bcreate§7.");
+        player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("module-setup-enter-name"));
         activeSetups.put(player, this);
     }
 
@@ -51,20 +48,20 @@ public class ModuleSetup {
 
         switch (this.setupStep) {
             case 1:
-                player.sendMessage(JumpRace.getInstance().getPrefix() + "§7Please enter the name of the §bbuilder(s) §7of the module. (You can change that later)");
+                player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("module-setup-enter-builders"));
                 break;
             case 2:
-                Inventory inventory = Bukkit.createInventory(null, 27, "§cModule difficulty");
+                final Inventory inventory = Bukkit.createInventory(null, 27, JumpRace.getInstance().getLanguageLoader().getTranslationByKey("module-difficulty-inventory-name"));
 
                 for(int i = 0; i<27; i++)
                     inventory.setItem(i, new ItemManager(Material.STAINED_GLASS_PANE,15).setNoName().build());
 
-                inventory.setItem(10, new ItemManager(Material.WOOL,5).setDisplayName("§aEasy").build());
-                inventory.setItem(12, new ItemManager(Material.WOOL,1).setDisplayName("§6Normal").build());
-                inventory.setItem(14, new ItemManager(Material.WOOL,14).setDisplayName("§cHard").build());
-                inventory.setItem(16, new ItemManager(Material.WOOL,15).setDisplayName("§4Very hard").build());
+                inventory.setItem(10, new ItemManager(Material.WOOL,5).setDisplayName(ModuleDifficulty.EASY.getDisplayName()).build());
+                inventory.setItem(12, new ItemManager(Material.WOOL,1).setDisplayName(ModuleDifficulty.EASY.getDisplayName()).build());
+                inventory.setItem(14, new ItemManager(Material.WOOL,14).setDisplayName(ModuleDifficulty.EASY.getDisplayName()).build());
+                inventory.setItem(16, new ItemManager(Material.WOOL,15).setDisplayName(ModuleDifficulty.EASY.getDisplayName()).build());
 
-                player.sendMessage(JumpRace.getInstance().getPrefix() + "§7Please choose the §bdifficulty §7of the §bmodule§7.");
+                player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("module-setup-choose-difficulty"));
                 player.openInventory(inventory);
                 player.playSound(player.getLocation(), Sound.CHEST_OPEN,3,3);
                 break;
