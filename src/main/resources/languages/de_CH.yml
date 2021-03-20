@@ -121,6 +121,11 @@ message-countdown-lobby-second: "&7S'Spiel &bstartet &7ih &b{0} Sekunde&8."
 message-countdown-end-seconds: "&7S'Spiel &cendet &7ih &b{0} Sekunde&8."
 message-countdown-end-second: "&7S'Spiel &cendet &7ih &b{0} Sekunde&8."
 
+message-command-start-not-available: "§7Du chasch de Befehl im Miment §cnöd §7usfüehre&8!"
+message-command-start-already-starting: "&7S'Spiel startet &cscho&8!"
+message-command-start-not-running: "&7S'Spiel startet &cnöd&8!"
+message-command-start-success: "&7Du hesch s'Spiel &agestartet&8."
+
 actionbar-no-map: "&cEs isch kei Map ihgrichtet!"
 actionbar-teaming-forbidden: "&cTeaming isch verbote"
 actionbar-waiting-player: "&7Wart uf &ben &7witere Spieler&8..."
@@ -167,4 +172,4 @@ scoreboard-map: "&7Map&8:"
 scoreboard-teams: "&7Teams&8:"
 scoreboard-time: "&7Ziit&8: "
 
-# Translated by Lezurex (https://github.com/Lezurex)
+# Translated by Lezurex (https://github.com/Lezurex) 
