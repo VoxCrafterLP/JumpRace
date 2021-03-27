@@ -371,12 +371,12 @@ public class GameManager {
     }
 
     /**
-     * Removes the player's live in deathmatch.
+     * Removes the player's life in deathmatch.
      * If the player has no lives left, he'll be set into spectator mode and a {@link DeathChest} will be spawned at his death location
-     * @param player Player whose live should be removed
+     * @param player Player whose life should be removed
      * @param drops List containing the player's items as {@link ItemStack} objects
      */
-    public void removeLive(Player player, List<ItemStack> drops) {
+    public void removeLife(Player player, List<ItemStack> drops) {
         if(this.livesLeft.get(player) == 1) {
             this.spectatorManager.setSpectating(player);
 

@@ -3,7 +3,6 @@ package com.voxcrafterlp.jumprace.minigameserver.listener.deathmatch;
 import com.voxcrafterlp.jumprace.JumpRace;
 import com.voxcrafterlp.jumprace.enums.GameState;
 import net.minecraft.server.v1_8_R3.PacketPlayInClientCommand;
-import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -26,7 +25,7 @@ public class PlayerDeathListener implements Listener {
         if(JumpRace.getInstance().getGameManager().getGameState() != GameState.DEATHMATCH) return;
         final Player player = event.getEntity();
 
-        JumpRace.getInstance().getGameManager().removeLive(player, event.getDrops());
+        JumpRace.getInstance().getGameManager().removeLife(player, event.getDrops());
 
         event.setKeepInventory(true);
         event.setDroppedExp(0);
