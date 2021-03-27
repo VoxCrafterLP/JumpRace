@@ -7,7 +7,7 @@
     <groupId>com.voxcrafterlp</groupId>
     <artifactId>JumpRace</artifactId>
     <name>JumpRace</name>
-    <version>1.0.1-RELEASE</version>
+    <version>1.0.2-RELEASE</version>
     <build>
         <plugins>
             <plugin>
@@ -37,6 +37,33 @@
                             <mainClass>com.voxcrafterlp.jumprace.JumpRace</mainClass>
                         </manifest>
                     </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.7</version>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.5.1</version>
+                <executions>
+                    <execution>
+                        <id>default-deploy</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>deploy</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <serverId>voxcrafter-repo</serverId>
+                    <nexusUrl>https://repo.voxcrafter.dev/</nexusUrl>
+                    <skipStaging>true</skipStaging>
                 </configuration>
             </plugin>
         </plugins>
@@ -96,9 +123,12 @@
 
     <distributionManagement>
         <repository>
-            <id>github</id>
-            <name>GitHub Packages</name>
-            <url>https://maven.pkg.github.com/VoxCrafterLP/JumpRace</url>
+            <id>voxcrafter-repo</id>
+            <url>https://repo.voxcrafter.dev/repository/maven-releases/</url>
         </repository>
+        <snapshotRepository>
+            <id>voxcrafter-repo</id>
+            <url>https://repo.voxcrafter.dev/repository/maven-snapshots/</url>
+        </snapshotRepository>
     </distributionManagement>
 </project>
