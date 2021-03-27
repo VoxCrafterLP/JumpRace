@@ -1,7 +1,6 @@
 package com.voxcrafterlp.jumprace.api.events;
 
 import com.voxcrafterlp.jumprace.modules.objects.Module;
-import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -14,7 +13,6 @@ import org.bukkit.event.HandlerList;
  * Project: JumpRace
  */
 
-@Getter
 public class ModuleFailEvent extends Event {
 
     private static final HandlerList handlers = new HandlerList();
@@ -31,5 +29,17 @@ public class ModuleFailEvent extends Event {
     @Override
     public HandlerList getHandlers() {
         return handlers;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public Location getRespawnLocation() {
+        return respawnLocation;
+    }
+
+    public Module getModule() {
+        return module;
     }
 }

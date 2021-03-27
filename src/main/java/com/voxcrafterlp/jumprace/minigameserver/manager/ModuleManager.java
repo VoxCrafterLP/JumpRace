@@ -37,7 +37,10 @@ public class ModuleManager {
         this.moduleLength = 0;
     }
 
-    public void buildModules() {
+    /**
+     * Calculate the necessary ModuleRow amount and build them
+     */
+    public void buildModuleRows() {
         if(this.loadedModules.isEmpty()) return;
 
         try {
@@ -70,6 +73,12 @@ public class ModuleManager {
         Bukkit.getConsoleSender().sendMessage("§aModules built successfully");
     }
 
+    /**
+     * Pick random modules of a certain difficulty
+     * @param moduleDifficulty Difficultly of the modules
+     * @param amount The amount of modules which should be picked
+     * @return Array containing the picked modules
+     */
     private Module[] pickRandomModules(ModuleDifficulty moduleDifficulty, int amount) {
         List<Module> list = Lists.newCopyOnWriteArrayList();
 
@@ -91,6 +100,10 @@ public class ModuleManager {
         return array;
     }
 
+    /**
+     * @see #pickRandomModules(ModuleDifficulty, int)
+     * @throws ModuleNotFoundException If not enough modules of the specified difficulty could be found
+     */
     private void fillList(List<Module> list, ModuleDifficulty moduleDifficulty, int amount) throws ModuleNotFoundException {
         final Module[] newModules = this.pickRandomModules(moduleDifficulty, amount);
 

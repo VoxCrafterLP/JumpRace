@@ -14,6 +14,11 @@ import org.bukkit.entity.Player;
 
 public class ActionBarUtil {
 
+    /**
+     * Send an actionbar to a {@link Player}
+     * @param player Player who should the actionbar be sent to
+     * @param text Actionbar text
+     */
     public void sendActionbar(Player player, String text) {
         IChatBaseComponent iChatBaseComponent = IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + text + "\"}");
         PacketPlayOutChat packetPlayOutChat = new PacketPlayOutChat(iChatBaseComponent, (byte) 2);

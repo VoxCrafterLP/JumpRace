@@ -3,6 +3,8 @@ package com.voxcrafterlp.jumprace.modules.enums;
 import com.voxcrafterlp.jumprace.JumpRace;
 import lombok.Getter;
 
+import java.util.Arrays;
+
 /**
  * This file was created by VoxCrafter_LP!
  * Date: 21.12.2020
@@ -27,10 +29,6 @@ public enum ModuleDifficulty {
     }
 
     public static ModuleDifficulty getModuleDifficultyByConfigName(String configName) {
-        for(ModuleDifficulty moduleDifficulty : ModuleDifficulty.values()) {
-            if(moduleDifficulty.getConfigName().equals(configName))
-                return moduleDifficulty;
-        }
-        return null;
+        return Arrays.stream(ModuleDifficulty.values()).filter(moduleDifficulty -> moduleDifficulty.getConfigName().equals(configName)).findAny().get();
     }
 }

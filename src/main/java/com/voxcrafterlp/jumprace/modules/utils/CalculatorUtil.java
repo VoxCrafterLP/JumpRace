@@ -20,9 +20,9 @@ public class CalculatorUtil {
      * @return Spawn location of the module
      */
     public Location calculateSpawnLocation(Location endPoint, RelativePosition relativePosition) {
-        int x = endPoint.getBlockX() - relativePosition.getRelativeX();
-        int y = endPoint.getBlockY() - relativePosition.getRelativeY();
-        int z = endPoint.getBlockZ() - relativePosition.getRelativeZ();
+        final int x = endPoint.getBlockX() - relativePosition.getRelativeX();
+        final int y = endPoint.getBlockY() - relativePosition.getRelativeY();
+        final int z = endPoint.getBlockZ() - relativePosition.getRelativeZ();
 
         return new Location(Bukkit.getWorld("jumprace"), x, y, z);
     }

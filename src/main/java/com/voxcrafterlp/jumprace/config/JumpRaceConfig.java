@@ -24,6 +24,9 @@ public class JumpRaceConfig {
     private final String adminPermission, builderPermission, setupPermission, mapSwitchPermission, startPermission;
     private final String languageFile;
 
+    /**
+     * Load the configuration from the config file
+     */
     public JumpRaceConfig() {
         this.configFile = new File("plugins/JumpRace/config.yml");
         this.configuration = YamlConfiguration.loadConfiguration(this.configFile);

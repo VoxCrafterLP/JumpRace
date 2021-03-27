@@ -14,6 +14,7 @@ import org.json.JSONObject;
 import java.io.*;
 import java.lang.reflect.Method;
 import java.nio.file.Files;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -36,27 +37,31 @@ public class ModuleLoader {
         this.modulesFolder = new File("plugins/JumpRace/modules/");
     }
 
+    /**
+     * Load modules from the modules folder
+     * @throws IOException If an I/O error occurred
+     */
     public void loadModules() throws IOException {
-        for(File file : Objects.requireNonNull(this.modulesFolder.listFiles())) {
+        Arrays.stream(Objects.requireNonNull(this.modulesFolder.listFiles())).forEach(file -> {
             if(file.isDirectory()) {
-                File moduleProperties = new File(file.getAbsolutePath() + File.separator + "module.json");
-                File moduleSchematic = new File(file.getAbsolutePath() + File.separator + "module.schematic");
+                final File moduleProperties = new File(file.getAbsolutePath() + File.separator + "module.json");
+                final File moduleSchematic = new File(file.getAbsolutePath() + File.separator + "module.schematic");
 
                 if(!(moduleProperties.exists() && moduleSchematic.exists())) {
                     Bukkit.getConsoleSender().sendMessage("§cInvalid module found in directory " + file.getName() + ".");
                     return;
                 }
 
-                String propertiesString = readModuleProperties(moduleProperties);
+                final String propertiesString = this.readModuleProperties(moduleProperties);
 
                 if(!isValidJson(propertiesString)) {
                     Bukkit.getConsoleSender().sendMessage("§cInvalid module found in directory " + file.getName() + ".");
                     return;
                 }
 
-                JSONObject properties = new JSONObject(propertiesString);
+                final JSONObject properties = new JSONObject(propertiesString);
 
-                Module module = new Module(properties.getString("name"),
+                final Module module = new Module(properties.getString("name"),
                         properties.getString("builder"),
                         ModuleDifficulty.getModuleDifficultyByConfigName(properties.getString("difficulty")),
                         this.getModuleDataFromFile(moduleSchematic),
@@ -70,7 +75,7 @@ public class ModuleLoader {
                 } else
                     this.defaultModule = module;
             }
-        }
+        });
         if(this.moduleList.isEmpty())
             Bukkit.getConsoleSender().sendMessage("§cNo modules found");
     }
@@ -84,17 +89,32 @@ public class ModuleLoader {
         }
     }
 
-    private String readModuleProperties(File moduleProperties) throws IOException {
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(moduleProperties.getPath()));
-        List<String> lines = Files.readAllLines(moduleProperties.toPath());
+    /**
+     * Read the content from the properties file
+     * @param moduleProperties Properties file
+     * @return Content of the the file
+     */
+    private String readModuleProperties(File moduleProperties) {
+        try {
+            final BufferedReader bufferedReader = new BufferedReader(new FileReader(moduleProperties.getPath()));
+            final List<String> lines = Files.readAllLines(moduleProperties.toPath());
 
-        StringBuilder stringBuilder = new StringBuilder();
-        lines.forEach(stringBuilder::append);
+            StringBuilder stringBuilder = new StringBuilder();
+            lines.forEach(stringBuilder::append);
 
-        bufferedReader.close();
-        return stringBuilder.toString();
+            bufferedReader.close();
+            return stringBuilder.toString();
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+        return null;
     }
 
+    /**
+     * Read module data from the schematic file
+     * @param file Schematic file
+     * @return Parsed ModuleData
+     */
     private ModuleData getModuleDataFromFile(File file) {
         try {
             ModuleData moduleData = new ModuleData();
@@ -119,7 +139,11 @@ public class ModuleLoader {
         return null;
     }
 
-
+    /**
+     * Check of a string has a valid json format
+     * @param string String which should be checked
+     * @return If the string is a valid json
+     */
     private boolean isValidJson(String string) {
         try {
             new JSONObject(string);

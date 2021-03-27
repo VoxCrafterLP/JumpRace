@@ -39,6 +39,10 @@ public class ModuleRow {
         this.build(modules);
     }
 
+    /**
+     * Build the modules in a row
+     * @param modules List containing the modules which should be built
+     */
     private void build(List<Module> modules) {
         AtomicInteger spawnedModules = new AtomicInteger(0);
         final int height = JumpRace.getInstance().getJumpRaceConfig().getModuleSpawnHeight();
@@ -58,6 +62,11 @@ public class ModuleRow {
         });
     }
 
+    /**
+     * Teleport the player to the first module's spawn location and start the respawn scheduler.
+     * @param player Player which should be assigned
+     * @return Current instance of the ModuleRow
+     */
     public ModuleRow assignPlayer(Player player) {
         this.player = player;
         final Location location = this.getModules().get(0).getPlayerSpawnLocation();
@@ -76,19 +85,27 @@ public class ModuleRow {
         return this;
     }
 
+    /**
+     * Teleport the player to the start point of the current module
+     */
     public void respawn() {
         player.teleport(this.respawnLocation);
         player.playSound(player.getLocation(), Sound.NOTE_BASS,1,1);
         Bukkit.getPluginManager().callEvent(new ModuleFailEvent(this.player, this.modules.get(this.modulesCompleted), this.respawnLocation));
     }
 
+    /**
+     * Check if the module of the gold plate has already been completed.
+     * If not, completes the module.
+     * @param location Location of the gold plate
+     */
    public void triggerGoldPlate(Location location) {
         if(this.modulesCompleted == 10) return;
         if(!location.equals(this.modules.get(this.modulesCompleted).getGoldPlateLocation())) return;
 
-       Bukkit.getPluginManager().callEvent(new PlayerCompleteModuleEvent(player, this.modules.get(this.modulesCompleted)));
+        Bukkit.getPluginManager().callEvent(new PlayerCompleteModuleEvent(player, this.modules.get(this.modulesCompleted)));
 
-       this.modulesCompleted++;
+        this.modulesCompleted++;
         player.playSound(player.getLocation(), Sound.LEVEL_UP,1,1);
         player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("message-module-complete", String.valueOf(this.modulesCompleted)));
 
@@ -105,6 +122,10 @@ public class ModuleRow {
         this.respawnHeight = this.getModules().get(this.modulesCompleted).getModuleBorders()[0].getBlockY();
    }
 
+    /**
+     * Get the current ModuleDifficulty based on the completed modules
+     * @return Calculated ModuleDifficulty
+     */
    public ModuleDifficulty getCurrentModuleDifficulty() {
         if(this.modulesCompleted < 4)
             return ModuleDifficulty.EASY;

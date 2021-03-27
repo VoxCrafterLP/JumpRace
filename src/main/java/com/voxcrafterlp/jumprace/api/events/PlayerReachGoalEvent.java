@@ -1,6 +1,5 @@
 package com.voxcrafterlp.jumprace.api.events;
 
-import lombok.Getter;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -12,7 +11,6 @@ import org.bukkit.event.HandlerList;
  * Project: JumpRace
  */
 
-@Getter
 public class PlayerReachGoalEvent extends Event {
 
     private static final HandlerList handlers = new HandlerList();
@@ -25,5 +23,9 @@ public class PlayerReachGoalEvent extends Event {
     @Override
     public HandlerList getHandlers() {
         return handlers;
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 }

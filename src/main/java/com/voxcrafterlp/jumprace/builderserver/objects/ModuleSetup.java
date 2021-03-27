@@ -72,7 +72,7 @@ public class ModuleSetup {
     }
 
     /**
-     * Builds a new module
+     * Build a new module
      * @return Dummy module
      */
     private Module finish() {

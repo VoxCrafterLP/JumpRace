@@ -7,6 +7,7 @@ import com.voxcrafterlp.jumprace.builderserver.listener.editor.PlayerModifyBarri
 import com.voxcrafterlp.jumprace.builderserver.listener.editor.Protection;
 import com.voxcrafterlp.jumprace.config.JumpRaceConfig;
 import com.voxcrafterlp.jumprace.config.LanguageLoader;
+import com.voxcrafterlp.jumprace.minigameserver.commands.SetupCommand;
 import com.voxcrafterlp.jumprace.minigameserver.commands.StartCommand;
 import com.voxcrafterlp.jumprace.minigameserver.listener.EnchantmentListener;
 import com.voxcrafterlp.jumprace.minigameserver.listener.PlayerLoginListener;
@@ -18,17 +19,17 @@ import com.voxcrafterlp.jumprace.minigameserver.listener.deathmatch.PlayerRespaw
 import com.voxcrafterlp.jumprace.minigameserver.manager.GameManager;
 import com.voxcrafterlp.jumprace.minigameserver.manager.InventoryManager;
 import com.voxcrafterlp.jumprace.minigameserver.manager.LocationManager;
-import com.voxcrafterlp.jumprace.minigameserver.commands.SetupCommand;
 import com.voxcrafterlp.jumprace.minigameserver.manager.ModuleManager;
 import com.voxcrafterlp.jumprace.minigameserver.setup.listener.SetupListener;
 import com.voxcrafterlp.jumprace.minigameserver.setup.objects.MapSetup;
-import com.voxcrafterlp.jumprace.modules.utils.ModuleLoader;
 import com.voxcrafterlp.jumprace.modules.utils.ModuleEditor;
+import com.voxcrafterlp.jumprace.modules.utils.ModuleLoader;
 import lombok.Getter;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -128,7 +129,7 @@ public class JumpRace extends JavaPlugin {
 
         this.gameManager = new GameManager();
         this.moduleManager = new ModuleManager();
-        this.moduleManager.buildModules();
+        this.moduleManager.buildModuleRows();
         this.locationManager = new LocationManager();
         this.inventoryManager = new InventoryManager();
 

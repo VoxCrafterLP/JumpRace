@@ -80,7 +80,7 @@ public class InventoryManager {
     }
 
     /**
-     * Gives the player the items of an inventory
+     * Give the player the items of an inventory
      * @param player Player to whom the items should be given
      * @param type {@link Type} object of the inventory
      */

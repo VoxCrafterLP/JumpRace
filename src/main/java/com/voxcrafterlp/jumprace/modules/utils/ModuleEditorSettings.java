@@ -35,6 +35,9 @@ public class ModuleEditorSettings {
         this.buildInventory();
     }
 
+    /**
+     * Build the settings inventory
+     */
     private void buildInventory() {
         this.settingsInventory = Bukkit.createInventory(null, 27, JumpRace.getInstance().getLanguageLoader().getTranslationByKey("settings-inventory-name"));
 
@@ -48,10 +51,16 @@ public class ModuleEditorSettings {
         this.settingsInventory.setItem(26, new ItemManager(Material.BARRIER).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("settings-item-cancel-name")).addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("settings-item-cancel-description")).build());
     }
 
+    /**
+     * Update the editor item in the inventory
+     */
     public void updateInventory() {
         this.settingsInventory.setItem(14, new ItemManager((this.editorMode == EditorMode.PERFORMANCE) ? Material.DIODE : Material.REDSTONE_COMPARATOR).setDisplayName((this.editorMode == EditorMode.PERFORMANCE) ? JumpRace.getInstance().getLanguageLoader().getTranslationByKey("settings-item-quick-editor") : JumpRace.getInstance().getLanguageLoader().getTranslationByKey("settings-item-performance-editor")).addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("settings-item-editor-description")).build());
     }
 
+    /**
+     * Open the settings inventory and play a CHEST_OPEN sound
+     */
     public void openInventory() {
         this.player.openInventory(this.settingsInventory);
         this.player.playSound(player.getLocation(), Sound.CHEST_OPEN, 10, 10);

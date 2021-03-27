@@ -43,6 +43,10 @@ public class ModuleExportUtil {
         this.spawnLocation = spawnLocation;
     }
 
+    /**
+     * Save the module's schematic and properties file.
+     * Reload modules
+     */
     public void exportModule() {
         try {
             this.saveProperties();
@@ -55,6 +59,10 @@ public class ModuleExportUtil {
         Bukkit.getScheduler().scheduleSyncDelayedTask(JumpRace.getInstance(), () -> JumpRace.getInstance().getModuleLoader().reloadModules(), 3);
     }
 
+    /**
+     * Save the properties file of the module
+     * @throws IOException If an I/O error occurred
+     */
     private void saveProperties() throws IOException {
         final File propertiesFile = new File("plugins/JumpRace/modules/" + this.name + "/module.json");
         final JSONObject properties = new JSONObject();
@@ -70,6 +78,10 @@ public class ModuleExportUtil {
         myWriter.close();
     }
 
+    /**
+     * Generate and save the schematic file of the module
+     * @throws IOException If an I/O error occurred
+     */
     private void saveSchematic() throws IOException {
         this.moduleBorders[1] = this.moduleBorders[1].add(1.0, 1.0, 1.0);
 
@@ -96,7 +108,7 @@ public class ModuleExportUtil {
 
         final File schematicFile = new File("plugins/JumpRace/modules/" + this.name + "/module.schematic");
 
-        NBTTagCompound nbt = new NBTTagCompound();
+        final NBTTagCompound nbt = new NBTTagCompound();
         nbt.setInt("Width", width);
         nbt.setInt("Height", height);
         nbt.setInt("Length", length);
@@ -107,8 +119,13 @@ public class ModuleExportUtil {
         NBTCompressedStreamTools.a(nbt, new FileOutputStream(schematicFile));
     }
 
+    /**
+     * Convert a {@link java.util.Map} to a byte array
+     * @param map Map with the index as key and the byte value as value
+     * @return Byte array containing the byte values from the map
+     */
     private byte[] convertMapToByteArray(TreeMap<Integer, Byte> map) {
-        Byte[] array =  map.values().toArray(new Byte[0]);
+        Byte[] array = map.values().toArray(new Byte[0]);
         byte[] bytes = new byte[array.length];
 
         int i = 0;

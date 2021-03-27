@@ -8,20 +8,14 @@ import com.voxcrafterlp.jumprace.modules.utils.ModuleExportUtil;
 import com.voxcrafterlp.jumprace.utils.HologramUtil;
 import lombok.Getter;
 import lombok.Setter;
-import net.minecraft.server.v1_8_R3.EntityArmorStand;
-import net.minecraft.server.v1_8_R3.PacketPlayOutSpawnEntityLiving;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import java.io.File;
-import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * This file was created by VoxCrafter_LP!
@@ -65,7 +59,7 @@ public class Module {
     }
 
     /*
-     * https://www.spigotmc.org/threads/schematic-load-paste.302761/
+     * Build the module
      */
     public void build(Location location, boolean isLastModule) {
         this.spawnLocation = location;
@@ -77,7 +71,7 @@ public class Module {
                     int b = moduleData.getBlocks()[index] & 0xFF; //make the block unsigned
                     Material material = Material.getMaterial(b);
                     if(material != Material.AIR) {
-                        Block block = new Location(location.getWorld(), location.getBlockX() + x, location.getBlockY() + y, location.getBlockZ() + z).getBlock();
+                        final Block block = new Location(location.getWorld(), location.getBlockX() + x, location.getBlockY() + y, location.getBlockZ() + z).getBlock();
                         block.setType(material, false);
                         block.setData(moduleData.getData()[index]);
                     }
@@ -100,6 +94,9 @@ public class Module {
         }
     }
 
+    /**
+     * Start the particle scheduler
+     */
     public void spawnParticles() {
         this.particlesTaskID = Bukkit.getScheduler().scheduleAsyncRepeatingTask(JumpRace.getInstance(), () -> {
             this.particleLines.forEach(ParticleLine::draw);
@@ -107,7 +104,7 @@ public class Module {
     }
 
     /**
-     * Calculates the border particles based on the size of the module
+     * Calculate the border particles based on the size of the module
      */
     public void recalculateParticles() {
         int width = this.border2.getRelativeZ() - this.border1.getRelativeZ() + 1;
@@ -119,7 +116,7 @@ public class Module {
         border4 = new RelativePosition((border1.getRelativeX() + depth), border1.getRelativeY(), border1.getRelativeZ());
         border5 = new RelativePosition(border1.getRelativeX(), (border1.getRelativeY() + height), border1.getRelativeZ());
 
-        List<ParticleLine> particleLines = Lists.newCopyOnWriteArrayList();
+        final List<ParticleLine> particleLines = Lists.newCopyOnWriteArrayList();
 
         particleLines.add(new ParticleLine(this.calculateLocation(this.spawnLocation, this.border1), ParticleDirection.EAST, depth));
         particleLines.add(new ParticleLine(this.calculateLocation(this.spawnLocation, this.border1), ParticleDirection.UP, height));
@@ -143,23 +140,47 @@ public class Module {
         this.endPointLocation = calculateLocation(this.spawnLocation, endPoint);
     }
 
+    /**
+     * Stop the particle scheduler
+     */
     public void stopParticles() {
         Bukkit.getScheduler().cancelTask(this.particlesTaskID);
     }
 
+    /**
+     * Calculate a {@link Location} based on {@link RelativePosition}
+     * @param location Lower left corner of the module
+     * @param relativePosition RelativePosition which should be converted
+     * @return Calculated location
+     */
     public Location calculateLocation(Location location, RelativePosition relativePosition) {
         return new Location(location.getWorld(), (location.getX() + relativePosition.getRelativeX()), (location.getY() + relativePosition.getRelativeY()), (location.getZ()) + relativePosition.getRelativeZ());
     }
 
+    /**
+     * Get the module's borders
+     * @return Array containing the lower left and the upper right corner
+     */
     public Location[] getModuleBorders() {
         return new Location[]{this.calculateLocation(this.spawnLocation, this.border1), this.calculateLocation(this.spawnLocation, this.border2)};
     }
 
+    /**
+     * Save the module
+     * @param borders Borders of the module
+     * @param startPoint RelativePosition of the start block
+     * @param endPoint RelativePosition of the end block
+     */
     public void saveModule(Location[] borders, RelativePosition startPoint, RelativePosition endPoint) {
         new File("plugins/JumpRace/modules/" + this.name).mkdir();
         new ModuleExportUtil(this.name, this.builder, this.moduleDifficulty, startPoint, endPoint, borders, this.spawnLocation).exportModule();
     }
 
+    /**
+     * Spawn the module hologram
+     * @param player Player who the hologram should be sent to
+     * @param moduleNumber Number of the module in the {@link ModuleRow}
+     */
     public void spawnHologram(Player player, int moduleNumber) {
         final List<String> lines = Lists.newCopyOnWriteArrayList();
 
@@ -174,6 +195,10 @@ public class Module {
         lines.forEach(line -> new HologramUtil().summonArmorStand(player, hologramLocation.add(0.0, -0.3, 0.0), line));
     }
 
+    /**
+     * Calculate the player's spawn location
+     * @return Spawn location
+     */
     public Location getPlayerSpawnLocation() {
         final Location spawnLocation = this.calculateLocation(this.getSpawnLocation(), this.getStartPoint());
         spawnLocation.setX(spawnLocation.getX() + 0.5);

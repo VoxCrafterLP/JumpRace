@@ -215,12 +215,15 @@ public class GameManager {
         this.endingCountdown.startCountdown();
     }
 
+    /**
+     * Spawn firework at the lobby location
+     */
     private void firework() {
-        final AtomicInteger spanwed = new AtomicInteger(0);
+        final AtomicInteger spawned = new AtomicInteger(0);
         final Location fireworkLocation = JumpRace.getInstance().getLocationManager().getLobbyLocation();
 
         this.fireworkTaskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(JumpRace.getInstance(), () -> {
-            if(spanwed.get() == 5) {
+            if(spawned.get() == 5) {
                 Bukkit.getScheduler().cancelTask(this.fireworkTaskID);
                 return;
             }
@@ -231,7 +234,7 @@ public class GameManager {
             fireworkMeta.addEffect(FireworkEffect.builder().flicker(true).withFlicker().withColor(Color.GREEN).build());
             fireworkMeta.setPower(2);
 
-            spanwed.getAndIncrement();
+            spawned.getAndIncrement();
         }, 5, 10);
     }
 
@@ -367,6 +370,12 @@ public class GameManager {
         this.getSpectatorManager().getSpectators().forEach(player -> player.teleport(JumpRace.getInstance().getLocationManager().getSelectedMap().getRandomSpawnLocation()));
     }
 
+    /**
+     * Removes the player's live in deathmatch.
+     * If the player has no lives left, he'll be set into spectator mode and a {@link DeathChest} will be spawned at his death location
+     * @param player Player whose live should be removed
+     * @param drops List containing the player's items as {@link ItemStack} objects
+     */
     public void removeLive(Player player, List<ItemStack> drops) {
         if(this.livesLeft.get(player) == 1) {
             this.spectatorManager.setSpectating(player);
@@ -391,6 +400,9 @@ public class GameManager {
         this.livesLeft.replace(player, (this.livesLeft.get(player) - 1));
     }
 
+    /**
+     * Calculate the winner based on his distance to end point
+     */
     public void calculateWinner() {
         final Location endPointLocation = JumpRace.getInstance().getLocationManager().getSelectedMap().getEndPointLocation();
         final Player winner = this.playersLeft.stream().min(Comparator.comparing(player -> player.getLocation().distance(endPointLocation))).get();

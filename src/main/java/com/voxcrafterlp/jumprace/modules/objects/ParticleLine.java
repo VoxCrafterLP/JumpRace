@@ -28,26 +28,37 @@ public class ParticleLine {
         this.length = length;
     }
 
+    /**
+     * Calculate the particle's location and send a {@link PacketPlayOutWorldParticles} to every player.
+     */
     public void draw() {
         float x = (float) startLocation.getX();
         float y = (float) startLocation.getY();
         float z = (float) startLocation.getZ();
 
-        for (int i = 0; i<(this.length * 10); i++) {
-            if(this.particleDirection == ParticleDirection.EAST)
-                x = x + 0.1F;
-            if(this.particleDirection == ParticleDirection.WEST)
-                x = x - 0.1F;
-            if(this.particleDirection == ParticleDirection.UP)
-                y = y + 0.1F;
-            if(this.particleDirection == ParticleDirection.DOWN)
-                y = y - 0.1F;
-            if(this.particleDirection == ParticleDirection.SOUTH)
-                z = z + 0.1F;
-            if(this.particleDirection == ParticleDirection.NORTH)
-                z = z - 0.1F;
+        for(int i = 0; i<(this.length * 10); i++) {
+            switch (this.particleDirection) {
+                case EAST:
+                    x = x + 0.1F;
+                    break;
+                case WEST:
+                    x = x - 0.1F;
+                    break;
+                case UP:
+                    y = y + 0.1F;
+                    break;
+                case DOWN:
+                    y = y - 0.1F;
+                    break;
+                case SOUTH:
+                    z = z + 0.1F;
+                    break;
+                case NORTH:
+                    z = z - 0.1F;
+                    break;
+            }
 
-            PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(EnumParticle.REDSTONE, true, x, y, z, 255, 0, 0, 0, 0, 0);
+            final PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(EnumParticle.REDSTONE, true, x, y, z, 255, 0, 0, 0, 0, 0);
             Bukkit.getOnlinePlayers().forEach(player -> ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet));
         }
     }

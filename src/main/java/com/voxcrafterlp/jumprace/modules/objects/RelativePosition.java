@@ -39,34 +39,28 @@ public class RelativePosition {
         return new JSONObject().put("relativeX", this.relativeX).put("relativeY", this.relativeY).put("relativeZ", this.relativeZ);
     }
 
-    public RelativePosition addRelativeX() {
+    public void addRelativeX() {
         this.relativeX++;
-        return this;
     }
 
-    public RelativePosition addRelativeY() {
+    public void addRelativeY() {
         this.relativeY++;
-        return this;
     }
 
-    public RelativePosition addRelativeZ() {
+    public void addRelativeZ() {
         this.relativeZ++;
-        return this;
     }
 
-    public RelativePosition subtractRelativeX() {
+    public void subtractRelativeX() {
         this.relativeX--;
-        return this;
     }
 
-    public RelativePosition subtractRelativeY() {
+    public void subtractRelativeY() {
         this.relativeY--;
-        return this;
     }
 
-    public RelativePosition subtractRelativeZ() {
+    public void subtractRelativeZ() {
         this.relativeZ--;
-        return this;
     }
 
     public RelativePosition getForParticles() {

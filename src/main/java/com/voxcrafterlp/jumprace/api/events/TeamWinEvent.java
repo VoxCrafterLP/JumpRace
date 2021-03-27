@@ -1,7 +1,6 @@
 package com.voxcrafterlp.jumprace.api.events;
 
 import com.voxcrafterlp.jumprace.objects.Team;
-import lombok.Getter;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
@@ -12,7 +11,6 @@ import org.bukkit.event.HandlerList;
  * Project: JumpRace
  */
 
-@Getter
 public class TeamWinEvent extends Event {
 
     private static final HandlerList handlers = new HandlerList();
@@ -25,5 +23,9 @@ public class TeamWinEvent extends Event {
     @Override
     public HandlerList getHandlers() {
         return handlers;
+    }
+
+    public Team getWinningTeam() {
+        return winningTeam;
     }
 }
