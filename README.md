@@ -88,5 +88,9 @@ To enable the translation, you have to switch the language file in the config.
 
 If you found a bug or you want to request a feature, feel free to [create an issue](https://github.com/VoxCrafterLP/JumpRace/issues/new).
 
+## Important
+
+If you plan to add you own features, you'll need to run [BuildTools](https://www.spigotmc.org/wiki/buildtools/#1-8-8) in order to access the Craftbukkit API.
+
 ## License
 This project is licensed under the GNU GPL v3 and may be used accordingly. Further information can be found [here](https://github.com/VoxCrafterLP/JumpRace/blob/main/LICENSE).
