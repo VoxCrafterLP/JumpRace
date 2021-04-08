@@ -2,6 +2,7 @@ package com.voxcrafterlp.jumprace;
 
 import com.voxcrafterlp.jumprace.builderserver.commands.JumpRaceCommand;
 import com.voxcrafterlp.jumprace.builderserver.listener.*;
+import com.voxcrafterlp.jumprace.builderserver.listener.editor.BlockPhysicsListener;
 import com.voxcrafterlp.jumprace.builderserver.listener.editor.EditorSetupListener;
 import com.voxcrafterlp.jumprace.builderserver.listener.editor.PlayerModifyBarrierListener;
 import com.voxcrafterlp.jumprace.builderserver.listener.editor.Protection;
@@ -90,6 +91,7 @@ public class JumpRace extends JavaPlugin {
         pluginManager.registerEvents(new PlayerModifyBarrierListener(), this);
         pluginManager.registerEvents(new PlayerInteractListener(), this);
         pluginManager.registerEvents(new EditorSetupListener(), this);
+        pluginManager.registerEvents(new BlockPhysicsListener(), this);
 
         this.loadWorld();
         this.editorSessions = new HashMap<>();

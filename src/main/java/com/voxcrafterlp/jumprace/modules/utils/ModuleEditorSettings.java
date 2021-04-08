@@ -26,12 +26,14 @@ public class ModuleEditorSettings {
     private Inventory settingsInventory;
 
     private EditorMode editorMode;
+    private boolean enablePhysics;
 
     public ModuleEditorSettings(ModuleEditor moduleEditor) {
         this.moduleEditor = moduleEditor;
         this.player  = moduleEditor.getPlayer();
 
         this.editorMode = EditorMode.QUICK;
+        this.enablePhysics = true;
         this.buildInventory();
     }
 
@@ -39,16 +41,19 @@ public class ModuleEditorSettings {
      * Build the settings inventory
      */
     private void buildInventory() {
-        this.settingsInventory = Bukkit.createInventory(null, 27, JumpRace.getInstance().getLanguageLoader().getTranslationByKey("settings-inventory-name"));
+        this.settingsInventory = Bukkit.createInventory(null, 45, JumpRace.getInstance().getLanguageLoader().getTranslationByKey("settings-inventory-name"));
 
-        for(int i = 0; i<27; i++)
+        for(int i = 0; i<this.settingsInventory.getSize(); i++)
             this.settingsInventory.setItem(i, new ItemManager(Material.STAINED_GLASS_PANE, 15).setNoName().build());
 
         this.settingsInventory.setItem(10, new ItemManager(Material.NAME_TAG).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("settings-item-rename-name")).addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("settings-item-rename-description")).build());
         this.settingsInventory.setItem(12, new ItemManager(Material.ANVIL).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("settings-item-change-difficulty-name")).addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("settings-item-change-difficulty-description")).build());
         this.settingsInventory.setItem(14, new ItemManager((this.editorMode == EditorMode.PERFORMANCE) ? Material.DIODE : Material.REDSTONE_COMPARATOR).setDisplayName((this.editorMode == EditorMode.PERFORMANCE) ? JumpRace.getInstance().getLanguageLoader().getTranslationByKey("settings-item-quick-editor") : JumpRace.getInstance().getLanguageLoader().getTranslationByKey("settings-item-performance-editor")).addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("settings-item-editor-description")).build());
         this.settingsInventory.setItem(16, new ItemManager(Material.SKULL_ITEM, 3).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("settings-item-save-name")).addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("settings-item-save-description")).setHeadValueAndBuild("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2UyYTUzMGY0MjcyNmZhN2EzMWVmYWI4ZTQzZGFkZWUxODg5MzdjZjgyNGFmODhlYThlNGM5M2E0OWM1NzI5NCJ9fX0="));
-        this.settingsInventory.setItem(26, new ItemManager(Material.BARRIER).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("settings-item-cancel-name")).addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("settings-item-cancel-description")).build());
+
+        this.settingsInventory.setItem(28, new ItemManager(Material.SAND, 1).setDisplayName((this.enablePhysics) ? JumpRace.getInstance().getLanguageLoader().getTranslationByKey("settings-item-physics-name-enabled") : JumpRace.getInstance().getLanguageLoader().getTranslationByKey("settings-item-physics-name-disabled")).addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("settings-item-physics-description")).build());
+
+        this.settingsInventory.setItem(44, new ItemManager(Material.BARRIER).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("settings-item-cancel-name")).addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("settings-item-cancel-description")).build());
     }
 
     /**
@@ -56,6 +61,7 @@ public class ModuleEditorSettings {
      */
     public void updateInventory() {
         this.settingsInventory.setItem(14, new ItemManager((this.editorMode == EditorMode.PERFORMANCE) ? Material.DIODE : Material.REDSTONE_COMPARATOR).setDisplayName((this.editorMode == EditorMode.PERFORMANCE) ? JumpRace.getInstance().getLanguageLoader().getTranslationByKey("settings-item-quick-editor") : JumpRace.getInstance().getLanguageLoader().getTranslationByKey("settings-item-performance-editor")).addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("settings-item-editor-description")).build());
+        this.settingsInventory.setItem(28, new ItemManager(Material.SAND, 1).setDisplayName((this.enablePhysics) ? JumpRace.getInstance().getLanguageLoader().getTranslationByKey("settings-item-physics-name-enabled") : JumpRace.getInstance().getLanguageLoader().getTranslationByKey("settings-item-physics-name-disabled")).addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("settings-item-physics-description")).build());
     }
 
     /**
@@ -64,6 +70,15 @@ public class ModuleEditorSettings {
     public void openInventory() {
         this.player.openInventory(this.settingsInventory);
         this.player.playSound(player.getLocation(), Sound.CHEST_OPEN, 10, 10);
+    }
+
+    /**
+     * Toggles the physics and updates the settings inventory
+     */
+    public void togglePhysics() {
+        this.enablePhysics = !enablePhysics;
+        player.sendMessage(JumpRace.getInstance().getPrefix() + ((this.enablePhysics) ? JumpRace.getInstance().getLanguageLoader().getTranslationByKey("message-enable-physics") : JumpRace.getInstance().getLanguageLoader().getTranslationByKey("message-disable-physics")));
+        this.updateInventory();
     }
 
 }

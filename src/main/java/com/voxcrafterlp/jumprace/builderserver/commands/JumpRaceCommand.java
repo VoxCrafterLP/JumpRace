@@ -26,7 +26,7 @@ public class JumpRaceCommand implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender, Command command, String label, String[] args) {
         if(!(commandSender instanceof Player)) return false;
 
-        Player player = (Player) commandSender;
+        final Player player = (Player) commandSender;
 
         if(!player.hasPermission(JumpRace.getInstance().getJumpRaceConfig().getBuilderPermission())
                 && !player.hasPermission(JumpRace.getInstance().getJumpRaceConfig().getAdminPermission())) {
@@ -38,6 +38,15 @@ public class JumpRaceCommand implements CommandExecutor {
             case 1:
                 switch (args[0].toLowerCase()) {
                     case "newmodule":
+                        if(!JumpRace.getInstance().getEditorSessions().isEmpty()) {
+                            player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("already-editing"));
+                            return false;
+                        }
+                        if(!ModuleSetup.getActiveSetups().isEmpty()) {
+                            player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("already-editing"));
+                            return false;
+                        }
+
                         new ModuleSetup(player);
                         break;
                     case "list":
@@ -61,22 +70,18 @@ public class JumpRaceCommand implements CommandExecutor {
                 switch (args[0].toLowerCase()) {
                     case "edit":
                         final String moduleName = args[1];
-                        boolean found = false;
-                        Module module = null;
+                        final Module module = JumpRace.getInstance().getModuleLoader().getModuleList().stream().filter(modules -> modules.getName().equalsIgnoreCase(moduleName)).findAny().orElse(null);
 
-                        for(Module modules : JumpRace.getInstance().getModuleLoader().getModuleList()) {
-                            if(modules.getName().equalsIgnoreCase(moduleName)) {
-                                found = true;
-                                module = modules;
-                            }
-                        }
-
-                        if(!found) {
+                        if(module == null) {
                             player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("invalid-module"));
                             return false;
                         }
 
-                        if(JumpRace.getInstance().getEditorSessions().containsKey(player)) {
+                        if(!JumpRace.getInstance().getEditorSessions().isEmpty()) {
+                            player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("already-editing"));
+                            return false;
+                        }
+                        if(!ModuleSetup.getActiveSetups().isEmpty()) {
                             player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("already-editing"));
                             return false;
                         }

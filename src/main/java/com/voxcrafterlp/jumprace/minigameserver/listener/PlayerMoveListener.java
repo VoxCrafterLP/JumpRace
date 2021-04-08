@@ -16,9 +16,16 @@ public class PlayerMoveListener implements Listener {
 
     @EventHandler
     public void onMove(PlayerMoveEvent event) {
-        if(JumpRace.getInstance().getGameManager().getPreJumpingCountdown().isRunning()
-                || JumpRace.getInstance().getGameManager().getPreDeathMatchCountdown().isRunning())
-            event.setCancelled(true);
-    }
+        if((JumpRace.getInstance().getGameManager().getPreJumpingCountdown().isRunning()
+                || JumpRace.getInstance().getGameManager().getPreDeathMatchCountdown().isRunning()) &&
+            !JumpRace.getInstance().getGameManager().getSpectatorManager().isSpectator(event.getPlayer())) {
 
+            if(event.getFrom().distance(event.getTo()) <= 0.0D) return;
+
+            event.getFrom().setPitch(event.getTo().getPitch());
+            event.getFrom().setYaw(event.getTo().getYaw());
+
+            event.setTo(event.getFrom());
+        }
+    }
 }

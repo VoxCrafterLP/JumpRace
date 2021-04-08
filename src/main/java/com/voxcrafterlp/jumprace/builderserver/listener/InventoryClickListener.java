@@ -147,6 +147,7 @@ public class InventoryClickListener implements Listener {
                 player.closeInventory();
                 player.playSound(player.getLocation(), Sound.LEVEL_UP,1,1);
                 session.startEditorSetup();
+                return;
             }
             if(event.getCurrentItem().getType() == Material.BARRIER) {
                 final ModuleEditor session = JumpRace.getInstance().getEditorSessions().get(player);
@@ -159,6 +160,12 @@ public class InventoryClickListener implements Listener {
                 final Location[] borders = (session.getSettings().getEditorMode() == EditorMode.QUICK) ? session.getModule().getModuleBorders() : null;
                 session.clearArea(borders);
                 JumpRace.getInstance().getEditorSessions().remove(player);
+            }
+            if(event.getCurrentItem().getType() == Material.SAND) {
+                final ModuleEditor session = JumpRace.getInstance().getEditorSessions().get(player);
+                session.getSettings().togglePhysics();
+                player.playSound(player.getLocation(), Sound.LEVEL_UP, 1, 1);
+                return;
             }
         }
 
