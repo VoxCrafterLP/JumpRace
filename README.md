@@ -1,7 +1,7 @@
 # JumpRace
 This is a spigot based jumpandrun minigame. It's almost like the gamemode 'JumpLeague' on the gommehd.net server but with a few changes. The plugin contains its own building system, which can be used to build your own modules.
 
-**Important**! It is highly recommended to use this plugin in a cloud-system based environment like [CloudNET](https://www.spigotmc.org/resources/cloudnet-v3-the-cloud-network-environment-technology.42059/). 
+**Important**! It is highly recommended to use this plugin in a cloud-system based environment like [CloudNET](https://cloudnetservice.eu/). 
 
 ## Features
 
