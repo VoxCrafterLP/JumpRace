@@ -8,6 +8,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockFromToEvent;
 import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 
@@ -38,9 +39,24 @@ public class BlockPhysicsListener implements Listener {
 
                     if(blockBelow.getType() == Material.AIR) {
                         blockBelow.setType(Material.BARRIER);
-                        event.getBlock().setType(event.getBlock().getType(), false);
-                        Bukkit.getScheduler().scheduleSyncDelayedTask(JumpRace.getInstance(), () -> blockBelow.setType(Material.AIR), 1);
+                        event.getBlock().setTypeIdAndData(event.getBlock().getTypeId(), event.getBlock().getData(), false);
+                        Bukkit.getScheduler().scheduleSyncDelayedTask(JumpRace.getInstance(), () -> blockBelow.setType(Material.AIR), 4);
                     }
+                }
+            });
+        }
+    }
+
+    @EventHandler
+    public void onBlock(BlockFromToEvent event) {
+        if(!JumpRace.getInstance().getEditorSessions().isEmpty()) {
+            JumpRace.getInstance().getEditorSessions().forEach((player, moduleEditor) -> {
+                if(moduleEditor.getSettings().isEnablePhysics()) return;
+
+                final int id = event.getBlock().getTypeId();
+
+                if(id == 8 || id == 9) {
+                    event.setCancelled(true);
                 }
             });
         }

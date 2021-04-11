@@ -67,6 +67,8 @@ settings-item-cancel-description: "&7Clicking here will close the\n&7editor with
 settings-item-physics-name-enabled: "&bPhysics &7(&aenabled&7)"
 settings-item-physics-name-disabled: "&bPhysics &7(&cdisabled&7)"
 settings-item-physics-description: "&7Here you can toggle the\n&7world's physics"
+settings-item-heads-name: "&bHeads"
+settings-item-heads-description: "&7Here you can get some\n&7custom heads for your build"
 
 heads-headitem-name: "&bHead"
 heads-previous-page-name: "&bPrevious page"

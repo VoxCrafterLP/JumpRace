@@ -67,6 +67,8 @@ settings-item-cancel-description: "&7Wenn du da klicksch, schlüssisch du de\n&7E
 settings-item-physics-name-enabled: "&bPhysik &7(&aaktiviert&7)"
 settings-item-physics-name-disabled: "&bPhysik &7(&cdeaktiviert&7)"
 settings-item-physics-description: "&7Da chasch du d'\n&7Block-Physik\n&7umstelle"
+settings-item-heads-name: "&bChöpf"
+settings-item-heads-description: "&7Da findsch du einigi\n&7Chöpf für dis Bauwerch"
 
 heads-headitem-name: "&bChopf"
 heads-previous-page-name: "&bVorherigi Site"

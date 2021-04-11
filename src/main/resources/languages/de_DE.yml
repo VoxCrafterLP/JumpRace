@@ -67,6 +67,8 @@ settings-item-cancel-description: "&7Wenn du hier klickst, schließt du den\n&7Ed
 settings-item-physics-name-enabled: "&bPhysik &7(&aaktiviert&7)"
 settings-item-physics-name-disabled: "&bPhysik &7(&cdeaktiviert&7)"
 settings-item-physics-description: "&7Hier kannst du die\n&7Block-Physik\n&7umstellen"
+settings-item-heads-name: "&bKöpfe"
+settings-item-heads-description: "&7Hier findest du einige\n&7Köpfe für dein Bauwerk"
 
 heads-headitem-name: "&bKopf"
 heads-previous-page-name: "&bVorherige Seite"
