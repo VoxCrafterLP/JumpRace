@@ -11,6 +11,9 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * This file was created by VoxCrafter_LP!
  * Date: 18.02.2021
@@ -24,6 +27,9 @@ public class ModuleEditorSettings {
     private final ModuleEditor moduleEditor;
     private final Player player;
     private Inventory settingsInventory;
+
+    private Inventory headsInventory;
+    private int headInventoryPage, maxHeadInventoryPages;
 
     private EditorMode editorMode;
     private boolean enablePhysics;
@@ -52,8 +58,20 @@ public class ModuleEditorSettings {
         this.settingsInventory.setItem(16, new ItemManager(Material.SKULL_ITEM, 3).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("settings-item-save-name")).addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("settings-item-save-description")).setHeadValueAndBuild("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2UyYTUzMGY0MjcyNmZhN2EzMWVmYWI4ZTQzZGFkZWUxODg5MzdjZjgyNGFmODhlYThlNGM5M2E0OWM1NzI5NCJ9fX0="));
 
         this.settingsInventory.setItem(28, new ItemManager(Material.SAND, 1).setDisplayName((this.enablePhysics) ? JumpRace.getInstance().getLanguageLoader().getTranslationByKey("settings-item-physics-name-enabled") : JumpRace.getInstance().getLanguageLoader().getTranslationByKey("settings-item-physics-name-disabled")).addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("settings-item-physics-description")).build());
+        this.settingsInventory.setItem(30, new ItemManager(Material.SKULL_ITEM, 3).setDisplayName("§bHeads").addLore("").setHeadValueAndBuild("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNThiYzhmYTcxNmNhZGQwMDRiODI4Y2IyN2NjMGY2ZjZhZGUzYmU0MTUxMTY4OGNhOWVjZWZmZDE2NDdmYjkifX19"));
 
         this.settingsInventory.setItem(44, new ItemManager(Material.BARRIER).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("settings-item-cancel-name")).addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("settings-item-cancel-description")).build());
+
+        //========================================//
+
+        this.headsInventory = Bukkit.createInventory(null, 54, JumpRace.getInstance().getLanguageLoader().getTranslationByKey("heads-inventory-name"));
+        this.headInventoryPage = 1;
+
+        this.maxHeadInventoryPages = JumpRace.getInstance().getJumpRaceConfig().getHeadValues().size() / 36;
+        if((JumpRace.getInstance().getJumpRaceConfig().getHeadValues().size() % 36) != 0)
+            this.maxHeadInventoryPages++;
+
+        this.buildHeadInventory();
     }
 
     /**
@@ -79,6 +97,29 @@ public class ModuleEditorSettings {
         this.enablePhysics = !enablePhysics;
         player.sendMessage(JumpRace.getInstance().getPrefix() + ((this.enablePhysics) ? JumpRace.getInstance().getLanguageLoader().getTranslationByKey("message-enable-physics") : JumpRace.getInstance().getLanguageLoader().getTranslationByKey("message-disable-physics")));
         this.updateInventory();
+    }
+
+    public void switchHeadInventoryPage(int newPage) {
+        this.headInventoryPage = newPage;
+        this.headsInventory.clear();
+        this.buildHeadInventory();
+    }
+
+    private void buildHeadInventory() {
+        final List<String> headValues = JumpRace.getInstance().getJumpRaceConfig().getHeadValues();
+
+        for(int i = 36; i<45; i++)
+            this.headsInventory.setItem(i, new ItemManager(Material.STAINED_GLASS_PANE, 15).setNoName().build());
+
+        this.headsInventory.setItem(45, new ItemManager(Material.SKULL_ITEM, 3).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("heads-previous-page-name")).addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("head-pageswitcher-description", String.valueOf(this.headInventoryPage), String.valueOf(this.maxHeadInventoryPages))).setHeadValueAndBuild("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWI2MTQwYWYzMmNiMzY0ZDliZTNiOTRlOTMwODFkNmNmYzhjMjdkM2NmZTBiNGRkNDVlNzg1MjI1ZWIifX19"));
+        this.headsInventory.setItem(53, new ItemManager(Material.SKULL_ITEM, 3).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("heads-next-page-name")).addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("head-pageswitcher-description", String.valueOf(this.headInventoryPage), String.valueOf(this.maxHeadInventoryPages))).setHeadValueAndBuild("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmNhODQyNjdjYjVhMzdkNjk5YWJlN2Q2YTAzMTc4ZGUwODlkN2NmMmU3MjZmMzdkYTNmZTk5N2ZkNyJ9fX0="));
+
+        final int startIndex = ((this.headInventoryPage - 1) * 36);
+
+        for(int i = 0; i<36; i++) {
+            if(headValues.size() >= (startIndex + i + 1))
+                this.headsInventory.setItem(i, new ItemManager(Material.SKULL_ITEM, 3).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("heads-headitem-name")).setHeadValueAndBuild(headValues.get(startIndex + i)));
+        }
     }
 
 }

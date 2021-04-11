@@ -63,10 +63,10 @@ public class LanguageLoader {
      * @param descriptionKey Key of the translation
      * @return Description of the item
      */
-    public String[] buildDescription(String descriptionKey) {
+    public String[] buildDescription(String descriptionKey, String... variables) {
         List<String> lore = Lists.newCopyOnWriteArrayList();
         lore.addAll(Arrays.asList("§8§m------------------", " "));
-        lore.addAll(Arrays.asList(this.getTranslationByKey(descriptionKey).split("\n")));
+        lore.addAll(Arrays.asList(this.getTranslationByKey(descriptionKey, variables).split("\n")));
         lore.addAll(Arrays.asList(" ", "§8§m------------------"));
         return lore.toArray(new String[0]);
     }

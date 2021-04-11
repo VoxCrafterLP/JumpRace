@@ -50,6 +50,7 @@ message-disable-physics: "&7You &cdisabled &7physics&8."
 module-difficulty-inventory-name: "&cModule difficulty"
 change-module-difficulty-inventory-name: "&cNew module difficulty"
 settings-inventory-name: "&cSettings"
+heads-inventory-name: "&bHeads"
 
 settings-item-name: "&cSettings"
 settings-item-rename-name: "&cRename module"
@@ -66,6 +67,11 @@ settings-item-cancel-description: "&7Clicking here will close the\n&7editor with
 settings-item-physics-name-enabled: "&bPhysics &7(&aenabled&7)"
 settings-item-physics-name-disabled: "&bPhysics &7(&cdisabled&7)"
 settings-item-physics-description: "&7Here you can toggle the\n&7world's physics"
+
+heads-headitem-name: "&bHead"
+heads-previous-page-name: "&bPrevious page"
+heads-next-page-name: "&bNext page"
+head-pageswitcher-description: "&7Page&8: &3{0}&8/&b{1}"
 
 message-editor-start-1: "&7You can now start &bbuilding&8."
 message-editor-start-2: "&7You can &cdisable &7particles in the &bsettings &7by switching to the &cperformance editor&8."

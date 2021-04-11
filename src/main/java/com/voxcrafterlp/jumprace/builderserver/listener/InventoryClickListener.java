@@ -127,7 +127,7 @@ public class InventoryClickListener implements Listener {
                 return;
             }
             if(event.getCurrentItem().getType() == Material.ANVIL) {
-                Inventory inventory = Bukkit.createInventory(null, 27, JumpRace.getInstance().getLanguageLoader().getTranslationByKey("change-module-difficulty-inventory-name"));
+                final Inventory inventory = Bukkit.createInventory(null, 27, JumpRace.getInstance().getLanguageLoader().getTranslationByKey("change-module-difficulty-inventory-name"));
 
                 for(int i = 0; i<27; i++)
                     inventory.setItem(i, new ItemManager(Material.STAINED_GLASS_PANE,15).setNoName().build());
@@ -142,7 +142,7 @@ public class InventoryClickListener implements Listener {
                 player.playSound(player.getLocation(), Sound.WOOD_CLICK, 2, 2);
                 return;
             }
-            if(event.getCurrentItem().getType() == Material.SKULL_ITEM) {
+            if(event.getSlot() == 16) {
                 final ModuleEditor session = JumpRace.getInstance().getEditorSessions().get(player);
                 player.closeInventory();
                 player.playSound(player.getLocation(), Sound.LEVEL_UP,1,1);
@@ -167,6 +167,11 @@ public class InventoryClickListener implements Listener {
                 player.playSound(player.getLocation(), Sound.LEVEL_UP, 1, 1);
                 return;
             }
+            if(event.getSlot() == 30) {
+                player.openInventory(JumpRace.getInstance().getEditorSessions().get(player).getSettings().getHeadsInventory());
+                player.playSound(player.getLocation(), Sound.CHEST_OPEN, 3, 3);
+                return;
+            }
         }
 
         if(event.getInventory().getName().equals(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("change-module-difficulty-inventory-name"))) {
@@ -181,6 +186,41 @@ public class InventoryClickListener implements Listener {
                 changeModuleDifficulty(player, session, ModuleDifficulty.HARD);
             if(event.getSlot() == 16)
                 changeModuleDifficulty(player, session, ModuleDifficulty.VERY_HARD);
+        }
+
+        if(event.getInventory().getName().equals(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("heads-inventory-name"))) {
+            event.setCancelled(true);
+
+            if(event.getSlot() == 45) {
+                final ModuleEditor session = JumpRace.getInstance().getEditorSessions().get(player);
+
+                if(session.getSettings().getHeadInventoryPage() == 1) {
+                    player.playSound(player.getLocation(), Sound.NOTE_BASS, 1,1);
+                    return;
+                }
+
+                session.getSettings().switchHeadInventoryPage(session.getSettings().getHeadInventoryPage() - 1);
+                player.playSound(player.getLocation(), Sound.CLICK, 1,1);
+                return;
+            }
+            if(event.getSlot() == 53) {
+                final ModuleEditor session = JumpRace.getInstance().getEditorSessions().get(player);
+
+                if(session.getSettings().getHeadInventoryPage() == session.getSettings().getMaxHeadInventoryPages()) {
+                    player.playSound(player.getLocation(), Sound.NOTE_BASS, 1,1);
+                    return;
+                }
+
+                session.getSettings().switchHeadInventoryPage(session.getSettings().getHeadInventoryPage() + 1);
+                player.playSound(player.getLocation(), Sound.CLICK, 1,1);
+                return;
+            }
+
+            if(event.getCurrentItem().getType() == Material.SKULL_ITEM) {
+                player.getInventory().addItem(event.getCurrentItem());
+                player.playSound(player.getLocation(), Sound.CLICK, 1,1);
+                return;
+            }
         }
     }
 

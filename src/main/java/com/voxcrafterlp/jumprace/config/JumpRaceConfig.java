@@ -4,6 +4,8 @@ import lombok.Getter;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.List;
 
 /**
  * This file was created by VoxCrafter_LP!
@@ -20,6 +22,8 @@ public class JumpRaceConfig {
 
     private final boolean builderServer;
     private final int moduleSpawnHeight, teamSize, teamAmount, playersRequiredForStart, maxLives;
+
+    private final List<String> headValues;
 
     private final String adminPermission, builderPermission, setupPermission, mapSwitchPermission, startPermission;
     private final String languageFile;
@@ -39,6 +43,8 @@ public class JumpRaceConfig {
         this.playersRequiredForStart = this.configuration.getInt("players-required-for-start");
 
         this.maxLives = this.configuration.getInt("max-lives");
+
+        this.headValues = this.configuration.getStringList("head-values");
 
         this.adminPermission = this.configuration.getString("admin-permission");
         this.builderPermission = this.configuration.getString("builder-permission");
