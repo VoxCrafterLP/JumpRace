@@ -44,10 +44,13 @@ set-module-difficulty-success: "&7Du hesch de Modul-Schwierigkeitsgrad zu {0} &7
 set-editor-mode-success: "&7Du hesch de Editor-Modus zu &c{0} &7gänderet&8."
 error-switch-to-quick-editor: "&7Du chasch &cnöd &7ih de Quick-Editor-Modus wechsle&8!"
 message-select-new-module-difficulty: "&7Bitte wähl de neu &bSchwierigkeitsgrad &7vom &bModul &7us&8."
+message-enable-physics: "&7Du hesch Physik &aaktiviert&8."
+message-disable-physics: "&7Du hesch Physik &cdeaktiviert&8."
 
 module-difficulty-inventory-name: "&cModul-Schwierigkeit"
 change-module-difficulty-inventory-name: "&cNeui Modul-Schwierigkeit"
 settings-inventory-name: "&cIhstellige"
+heads-inventory-name: "&bChöpf"
 
 settings-item-name: "&cIhstellige"
 settings-item-rename-name: "&cModul umbenenne"
@@ -61,6 +64,14 @@ settings-item-save-name: "&2Speichere"
 settings-item-save-description: "&7Da chasch du\n&7s'Modul speichere\n&7und de Editor verlah"
 settings-item-cancel-name: "&4Abbreche"
 settings-item-cancel-description: "&7Wenn du da klicksch, schlüssisch du de\n&7Editor ohni z'speichere"
+settings-item-physics-name-enabled: "&bPhysik &7(&aaktiviert&7)"
+settings-item-physics-name-disabled: "&bPhysik &7(&cdeaktiviert&7)"
+settings-item-physics-description: "&7Da chasch du d'\n&7Block-Physik\n&7umstelle"
+
+heads-headitem-name: "&bChopf"
+heads-previous-page-name: "&bVorherigi Site"
+heads-next-page-name: "&bNächsti Site"
+head-pageswitcher-description: "&7Site&8: &3{0}&8/&b{1}"
 
 message-editor-start-1: "&7Du chasch s'Modul jetzt &bbaue&8."
 message-editor-start-2: "&7Du chasch Partikel ih de &bIhstellige &cdeaktiviere&7, indem du ih de &cPerformance-Editor &7wechslisch&8."
