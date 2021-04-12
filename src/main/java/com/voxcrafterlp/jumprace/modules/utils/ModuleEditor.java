@@ -85,7 +85,7 @@ public class ModuleEditor {
 
         JumpRace.getInstance().getEditorSessions().remove(this.player);
         player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("message-editor-save-success"));
-        new TitleUtil().sendFullTitle(player, JumpRace.getInstance().getLanguageLoader().getTranslationByKey("title-editor-save-success-1"), JumpRace.getInstance().getLanguageLoader().getTranslationByKey("title-editor-save-success2"), 10, 35, 5);
+        new TitleUtil().sendFullTitle(player, JumpRace.getInstance().getLanguageLoader().getTranslationByKey("title-editor-save-success-1"), JumpRace.getInstance().getLanguageLoader().getTranslationByKey("title-editor-save-success-2"), 10, 35, 5);
     }
 
     /**
