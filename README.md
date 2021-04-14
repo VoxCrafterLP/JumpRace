@@ -36,7 +36,7 @@ You can learn here how to use the [latest build](https://www.spigotmc.org/wiki/b
 <dependency>
   <groupId>com.voxcrafterlp</groupId>
   <artifactId>JumpRace</artifactId>
-  <version>1.0.2-RELEASE</version>
+  <version>1.1.0-RELEASE</version>
   <scope>provided</scope>
 </dependency>
 
