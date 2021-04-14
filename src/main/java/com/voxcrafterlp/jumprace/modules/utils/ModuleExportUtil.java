@@ -4,10 +4,7 @@ import com.google.common.collect.Lists;
 import com.voxcrafterlp.jumprace.JumpRace;
 import com.voxcrafterlp.jumprace.modules.enums.ModuleDifficulty;
 import com.voxcrafterlp.jumprace.modules.objects.RelativePosition;
-import net.minecraft.server.v1_8_R3.NBTCompressedStreamTools;
-import net.minecraft.server.v1_8_R3.NBTTagCompound;
-import net.minecraft.server.v1_8_R3.NBTTagList;
-import net.minecraft.server.v1_8_R3.TileEntity;
+import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -113,7 +110,10 @@ public class ModuleExportUtil {
                     if(tileEntity != null) {
                         final NBTTagCompound tileEntityNBT = new NBTTagCompound();
 
-                        tileEntity.b(tileEntityNBT);
+                        if(tileEntity instanceof TileEntitySkull) {
+                            ((TileEntitySkull) tileEntity).b(tileEntityNBT);
+                        } else
+                            tileEntity.b(tileEntityNBT);
 
                         tileEntities.add(tileEntityNBT);
                     }
