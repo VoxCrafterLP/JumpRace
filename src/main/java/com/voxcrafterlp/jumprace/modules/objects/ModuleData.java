@@ -2,6 +2,7 @@ package com.voxcrafterlp.jumprace.modules.objects;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.minecraft.server.v1_8_R3.NBTTagList;
 
 /**
  * This file was created by VoxCrafter_LP!
@@ -19,5 +20,7 @@ public class ModuleData {
 
     private byte[] blocks;
     private byte[] data;
+
+    private NBTTagList tileEntities;
 
 }

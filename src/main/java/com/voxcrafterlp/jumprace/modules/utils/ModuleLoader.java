@@ -7,6 +7,7 @@ import com.voxcrafterlp.jumprace.modules.objects.ModuleData;
 import com.voxcrafterlp.jumprace.modules.objects.RelativePosition;
 import lombok.Getter;
 import net.minecraft.server.v1_8_R3.NBTCompressedStreamTools;
+import net.minecraft.server.v1_8_R3.NBTTagCompound;
 import org.bukkit.Bukkit;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -117,19 +118,18 @@ public class ModuleLoader {
      */
     private ModuleData getModuleDataFromFile(File file) {
         try {
-            ModuleData moduleData = new ModuleData();
-            FileInputStream fileInputStream = new FileInputStream(file);
+            final ModuleData moduleData = new ModuleData();
+            final FileInputStream fileInputStream = new FileInputStream(file);
+            final NBTTagCompound nbtData = NBTCompressedStreamTools.a(fileInputStream);;
 
-            Object nbtData = NBTCompressedStreamTools.class.getMethod("a", InputStream.class).invoke(null, fileInputStream);
-            Method getShort  = nbtData.getClass().getMethod("getShort", String.class);
-            Method getByteArray = nbtData.getClass().getMethod("getByteArray", String.class);
+            moduleData.setWidth( nbtData.getShort("Width"));
+            moduleData.setHeight( nbtData.getShort("Height"));
+            moduleData.setLength( nbtData.getShort("Length"));
 
-            moduleData.setWidth((short) getShort.invoke(nbtData, "Width"));
-            moduleData.setHeight((short) getShort.invoke(nbtData, "Height"));
-            moduleData.setLength((short) getShort.invoke(nbtData, "Length"));
+            moduleData.setBlocks(nbtData.getByteArray("Blocks"));
+            moduleData.setData(nbtData.getByteArray("Data"));
 
-            moduleData.setBlocks((byte[]) getByteArray.invoke(nbtData, "Blocks"));
-            moduleData.setData((byte[]) getByteArray.invoke(nbtData, "Data"));
+            moduleData.setTileEntities(nbtData.getList("TileEntities", 10));
 
             fileInputStream.close();
             return moduleData;

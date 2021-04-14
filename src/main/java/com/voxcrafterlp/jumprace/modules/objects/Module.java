@@ -8,10 +8,13 @@ import com.voxcrafterlp.jumprace.modules.utils.ModuleExportUtil;
 import com.voxcrafterlp.jumprace.utils.HologramUtil;
 import lombok.Getter;
 import lombok.Setter;
+import net.minecraft.server.v1_8_R3.NBTTagCompound;
+import net.minecraft.server.v1_8_R3.TileEntity;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.entity.Player;
 
 import java.io.File;
@@ -77,6 +80,15 @@ public class Module {
                     }
                 }
             }
+        }
+
+        for(int i = 0; i<this.moduleData.getTileEntities().size(); i++) {
+            final NBTTagCompound nbtTileEntity = this.moduleData.getTileEntities().get(i);
+            final TileEntity tileEntity = ((CraftWorld) this.spawnLocation.getWorld())
+                    .getTileEntityAt(nbtTileEntity.getInt("x"), nbtTileEntity.getInt("y"), nbtTileEntity.getInt("z"));
+
+            tileEntity.a(nbtTileEntity);
+            tileEntity.update();
         }
 
         this.startPointLocation = calculateLocation(location, startPoint);

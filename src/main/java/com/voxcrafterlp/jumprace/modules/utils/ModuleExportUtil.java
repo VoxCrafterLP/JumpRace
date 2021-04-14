@@ -1,19 +1,25 @@
 package com.voxcrafterlp.jumprace.modules.utils;
 
+import com.google.common.collect.Lists;
 import com.voxcrafterlp.jumprace.JumpRace;
 import com.voxcrafterlp.jumprace.modules.enums.ModuleDifficulty;
 import com.voxcrafterlp.jumprace.modules.objects.RelativePosition;
 import net.minecraft.server.v1_8_R3.NBTCompressedStreamTools;
 import net.minecraft.server.v1_8_R3.NBTTagCompound;
+import net.minecraft.server.v1_8_R3.NBTTagList;
+import net.minecraft.server.v1_8_R3.TileEntity;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 import java.util.TreeMap;
 
 /**
@@ -51,7 +57,7 @@ public class ModuleExportUtil {
         try {
             this.saveProperties();
             this.saveSchematic();
-        } catch (IOException e) {
+        } catch (IOException | NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             e.printStackTrace();
         }
 
@@ -82,7 +88,7 @@ public class ModuleExportUtil {
      * Generate and save the schematic file of the module
      * @throws IOException If an I/O error occurred
      */
-    private void saveSchematic() throws IOException {
+    private void saveSchematic() throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         this.moduleBorders[1] = this.moduleBorders[1].add(1.0, 1.0, 1.0);
 
         final int width = this.moduleBorders[1].getBlockX() - this.moduleBorders[0].getBlockX();
@@ -91,6 +97,7 @@ public class ModuleExportUtil {
 
         final TreeMap<Integer, Byte> blockMap = new TreeMap<>();
         final TreeMap<Integer, Byte> dataMap = new TreeMap<>();
+        final List<NBTTagCompound> tileEntities = Lists.newCopyOnWriteArrayList();
 
         for(int x = this.moduleBorders[0].getBlockX(); x<this.moduleBorders[1].getBlockX(); x++) {
             for(int y = this.moduleBorders[0].getBlockY(); y<this.moduleBorders[1].getBlockY(); y++) {
@@ -99,12 +106,27 @@ public class ModuleExportUtil {
                     final Block block = this.spawnLocation.getWorld().getBlockAt(new Location(this.spawnLocation.getWorld(), x, y, z));
                     blockMap.put(index, (byte) block.getTypeId());
                     dataMap.put(index, block.getData());
+
+                    final TileEntity tileEntity = ((CraftWorld) block.getWorld())
+                            .getTileEntityAt(block.getLocation().getBlockX(), block.getLocation().getBlockY(), block.getLocation().getBlockZ());
+
+                    if(tileEntity != null) {
+                        final NBTTagCompound tileEntityNBT = new NBTTagCompound();
+
+                        tileEntity.b(tileEntityNBT);
+
+                        tileEntities.add(tileEntityNBT);
+                    }
                 }
             }
         }
 
         byte[] blocks = this.convertMapToByteArray(blockMap);
         byte[] data = this.convertMapToByteArray(dataMap);
+
+        final NBTTagList nbtTileEntities = new NBTTagList();
+        tileEntities.forEach(nbtTileEntities::add);
+
 
         final File schematicFile = new File("plugins/JumpRace/modules/" + this.name + "/module.schematic");
 
@@ -115,6 +137,7 @@ public class ModuleExportUtil {
         nbt.setString("Materials", "Alpha");
         nbt.setByteArray("Blocks", blocks);
         nbt.setByteArray("Data", data);
+        nbt.set("TileEntities", nbtTileEntities);
 
         NBTCompressedStreamTools.a(nbt, new FileOutputStream(schematicFile));
     }
