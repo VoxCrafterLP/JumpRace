@@ -11,6 +11,7 @@ import com.voxcrafterlp.jumprace.config.LanguageLoader;
 import com.voxcrafterlp.jumprace.minigameserver.commands.SetupCommand;
 import com.voxcrafterlp.jumprace.minigameserver.commands.StartCommand;
 import com.voxcrafterlp.jumprace.minigameserver.listener.EnchantmentListener;
+import com.voxcrafterlp.jumprace.minigameserver.listener.MetricsListener;
 import com.voxcrafterlp.jumprace.minigameserver.listener.PlayerLoginListener;
 import com.voxcrafterlp.jumprace.minigameserver.listener.PlayerMoveListener;
 import com.voxcrafterlp.jumprace.minigameserver.listener.deathmatch.EntityDamageByEntityListener;
@@ -26,6 +27,7 @@ import com.voxcrafterlp.jumprace.minigameserver.setup.objects.MapSetup;
 import com.voxcrafterlp.jumprace.modules.utils.ModuleEditor;
 import com.voxcrafterlp.jumprace.modules.utils.ModuleLoader;
 import lombok.Getter;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
@@ -58,6 +60,8 @@ public class JumpRace extends JavaPlugin {
     private ModuleManager moduleManager;
     private LocationManager locationManager;
     private InventoryManager inventoryManager;
+
+    private Metrics metrics;
 
     @Override
     public void onEnable() {
@@ -123,6 +127,7 @@ public class JumpRace extends JavaPlugin {
         pluginManager.registerEvents(new EntityDamageByEntityListener(), this);
         pluginManager.registerEvents(new InstantTNTListener(), this);
         pluginManager.registerEvents(new EnchantmentListener(), this);
+        pluginManager.registerEvents(new MetricsListener(), this);
 
         this.loadWorld();
         this.mapSetups = new HashMap<>();
@@ -139,6 +144,8 @@ public class JumpRace extends JavaPlugin {
             Bukkit.getWorld(this.locationManager.getLobbyLocation().getWorld().getName()).setGameRuleValue("doDaylightCycle", "false");
             Bukkit.getWorld(this.locationManager.getLobbyLocation().getWorld().getName()).setDifficulty(Difficulty.PEACEFUL);
         }
+
+        this.loadMetrics();
     }
 
     /**
@@ -196,7 +203,7 @@ public class JumpRace extends JavaPlugin {
     }
 
     /**
-     * Export default module to the modules folder
+     * Exports default module to the modules folder
      */
     private void loadDefaultModule() {
         new File("plugins/JumpRace/modules/").mkdir();
@@ -204,6 +211,14 @@ public class JumpRace extends JavaPlugin {
             JumpRace.getInstance().saveResource("modules/default/module.json", false);
             JumpRace.getInstance().saveResource("modules/default/module.schematic", false);
         }
+    }
+
+    /**
+     * Loads bStats
+     */
+    private void loadMetrics() {
+        final int pluginId = 11049;
+        this.metrics = new Metrics(this, pluginId);
     }
 
     public String getPrefix() {

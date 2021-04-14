@@ -87,8 +87,10 @@ public class Module {
             final TileEntity tileEntity = ((CraftWorld) this.spawnLocation.getWorld())
                     .getTileEntityAt(nbtTileEntity.getInt("x"), nbtTileEntity.getInt("y"), nbtTileEntity.getInt("z"));
 
-            tileEntity.a(nbtTileEntity);
-            tileEntity.update();
+            if(tileEntity != null) {
+                tileEntity.a(nbtTileEntity);
+                tileEntity.update();
+            }
         }
 
         this.startPointLocation = calculateLocation(location, startPoint);

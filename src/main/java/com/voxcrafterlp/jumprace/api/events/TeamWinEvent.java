@@ -25,6 +25,10 @@ public class TeamWinEvent extends Event {
         return handlers;
     }
 
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
+
     public Team getWinningTeam() {
         return winningTeam;
     }
