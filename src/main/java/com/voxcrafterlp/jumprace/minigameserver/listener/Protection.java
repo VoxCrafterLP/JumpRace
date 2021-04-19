@@ -1,8 +1,10 @@
 package com.voxcrafterlp.jumprace.minigameserver.listener;
 
+import com.google.common.collect.Lists;
 import com.voxcrafterlp.jumprace.JumpRace;
 import com.voxcrafterlp.jumprace.enums.GameState;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -20,6 +22,8 @@ import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.List;
+
 /**
  * This file was created by VoxCrafter_LP!
  * Date: 28.02.2021
@@ -28,6 +32,12 @@ import org.bukkit.inventory.ItemStack;
  */
 
 public class Protection implements Listener {
+
+    private final List<Location> placedCobwebs;
+
+    public Protection() {
+        this.placedCobwebs = Lists.newCopyOnWriteArrayList();
+    }
 
     @EventHandler
     public void onChange(FoodLevelChangeEvent event) {
@@ -41,7 +51,13 @@ public class Protection implements Listener {
             event.setCancelled(true);
             return;
         }
-        if(event.getBlock().getType() == Material.WEB && JumpRace.getInstance().getGameManager().getGameState() == GameState.DEATHMATCH) return;
+        if(JumpRace.getInstance().getGameManager().getGameState() == GameState.DEATHMATCH) return;
+
+        if(event.getBlock().getType() == Material.WEB && this.placedCobwebs.contains(event.getBlock().getLocation())) {
+            this.placedCobwebs.remove(event.getBlock().getLocation());
+            return;
+        }
+
         if(event.getPlayer().getGameMode() != GameMode.CREATIVE)
             event.setCancelled(true);
     }
@@ -55,7 +71,11 @@ public class Protection implements Listener {
         if(JumpRace.getInstance().getGameManager().getGameState() == GameState.DEATHMATCH) {
             final ItemStack itemInHand = event.getItemInHand();
             if(itemInHand != null)
-                if(itemInHand.getType() == Material.WEB || itemInHand.getType() == Material.TNT) return;
+                if(itemInHand.getType() == Material.WEB || itemInHand.getType() == Material.TNT) {
+                    if(itemInHand.getType() == Material.WEB)
+                        this.placedCobwebs.add(event.getBlock().getLocation());
+                    return;
+                }
         }
 
         if(event.getPlayer().getGameMode() != GameMode.CREATIVE)
