@@ -343,6 +343,9 @@ public class GameManager {
         return map;
     }
 
+    /**
+     * Teleports the players and spectators to the deathmatch arena and sets the {@link org.bukkit.scoreboard.Scoreboard}
+     */
     private void startDeathmatch() {
         this.gameState = GameState.DEATHMATCH;
         final com.voxcrafterlp.jumprace.objects.Map map = JumpRace.getInstance().getLocationManager().getSelectedMap();
@@ -361,9 +364,8 @@ public class GameManager {
             index.getAndIncrement();
         });
 
-        Bukkit.getScheduler().scheduleSyncDelayedTask(JumpRace.getInstance(), () -> {
-            Bukkit.getOnlinePlayers().forEach(player -> new PlayerScoreboard().setScoreboard(player));
-        }, 20);
+        Bukkit.getScheduler().scheduleSyncDelayedTask(JumpRace.getInstance(), () -> Bukkit.getOnlinePlayers().forEach(player ->
+                new PlayerScoreboard().setScoreboard(player)), 20);
 
         this.preDeathMatchCountdown.startCountdown();
 

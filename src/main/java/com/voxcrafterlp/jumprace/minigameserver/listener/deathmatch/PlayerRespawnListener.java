@@ -1,6 +1,7 @@
 package com.voxcrafterlp.jumprace.minigameserver.listener.deathmatch;
 
 import com.voxcrafterlp.jumprace.JumpRace;
+import com.voxcrafterlp.jumprace.enums.GameState;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerRespawnEvent;
@@ -16,7 +17,10 @@ public class PlayerRespawnListener implements Listener {
 
     @EventHandler
     public void onRespawn(PlayerRespawnEvent event) {
-        event.setRespawnLocation(JumpRace.getInstance().getLocationManager().getSelectedMap().getRandomSpawnLocation());
+        if(JumpRace.getInstance().getGameManager().getGameState() == GameState.DEATHMATCH)
+            event.setRespawnLocation(JumpRace.getInstance().getLocationManager().getSelectedMap().getRandomSpawnLocation());
+        if(JumpRace.getInstance().getGameManager().getGameState() == GameState.ENDING)
+            event.setRespawnLocation(JumpRace.getInstance().getLocationManager().getLobbyLocation());
     }
 
 }
