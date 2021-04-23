@@ -23,6 +23,8 @@ public class JumpRaceConfig {
     private final boolean builderServer;
     private final int moduleSpawnHeight, teamSize, teamAmount, playersRequiredForStart, maxLives;
 
+    private final int jumpTime, deathmatchTime;
+
     private final List<String> headValues;
 
     private final String adminPermission, builderPermission, setupPermission, mapSwitchPermission, startPermission;
@@ -41,6 +43,9 @@ public class JumpRaceConfig {
         this.teamSize = this.configuration.getInt("team-size");
         this.teamAmount = this.configuration.getInt("team-amount");
         this.playersRequiredForStart = this.configuration.getInt("players-required-for-start");
+
+        this.jumpTime = this.configuration.getInt("jump-duration");
+        this.deathmatchTime = this.configuration.getInt("deathmatch-duration");
 
         this.maxLives = this.configuration.getInt("max-lives");
 

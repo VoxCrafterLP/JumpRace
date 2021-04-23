@@ -11,6 +11,11 @@ team-amount: 8
 # Determines how many players are required to start the game
 players-required-for-start: 2
 
+# Determines the duration of the jumping phase in seconds
+jump-duration: 540
+# Determines the duration of the deathmatch in seconds
+deathmatch-duration: 420
+
 # Max amount of lives in the deathmatch (Range: 1-10) (default: 3)
 max-lives: 3
 
@@ -47,10 +52,15 @@ head-values:
   - "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2FhNTk2NmExNDcyNDQ1MDRjYzU2ZWY2ZWZkMmQyZjQ0NzM4YjhmMDNkOTNhNjE3NjZhZjNmYzQ0ODdmOTgwYiJ9fX0="
   - "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmFlNzUxNzcwYTcwYTAwOGEwM2UxMzk3Y2JjNWJlOGFlM2Y3ODI5ODZhODE0ZjA0OTQzY2Y2MmE3MTIxYmMzZiJ9fX0="
 
+# Permission to execute every command
 admin-permission: jumprace.*
+# Permission for the building system
 builder-permission: jumprace.builder
+# Permission to create a new module
 setup-permission: jumprace.setup
+# Permission to use the map switcher
 switchMap-permission: jumprace.switchmap
+# Permission to start the game
 startgame-permission: jumprace.startgame
 
 # To change the language, please provide an existing language file in the 'languages' folder (default: en_US)

@@ -216,9 +216,9 @@ public class Countdown {
 
         LOBBY(60),
         ENDING(15),
-        JUMPING(480),
+        JUMPING(JumpRace.getInstance().getJumpRaceConfig().getJumpTime()),
         PRE_JUMPING(5),
-        DEATHMATCH(480),
+        DEATHMATCH(JumpRace.getInstance().getJumpRaceConfig().getDeathmatchTime()),
         PRE_DEATHMATCH(5);
 
         private final int duration;

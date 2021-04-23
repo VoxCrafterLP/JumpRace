@@ -51,11 +51,12 @@ public class Protection implements Listener {
             event.setCancelled(true);
             return;
         }
-        if(JumpRace.getInstance().getGameManager().getGameState() == GameState.DEATHMATCH) return;
-
-        if(event.getBlock().getType() == Material.WEB && this.placedCobwebs.contains(event.getBlock().getLocation())) {
-            this.placedCobwebs.remove(event.getBlock().getLocation());
-            return;
+        if(JumpRace.getInstance().getGameManager().getGameState() == GameState.DEATHMATCH) {
+            if(event.getBlock().getType() == Material.WEB && this.placedCobwebs.contains(event.getBlock().getLocation())) {
+                this.placedCobwebs.remove(event.getBlock().getLocation());
+                event.getBlock().getDrops().clear();
+                return;
+            }
         }
 
         if(event.getPlayer().getGameMode() != GameMode.CREATIVE)
