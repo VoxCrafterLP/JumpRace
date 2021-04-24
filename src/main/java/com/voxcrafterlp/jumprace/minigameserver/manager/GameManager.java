@@ -145,11 +145,13 @@ public class GameManager {
     }
 
     /**
-     * Start countdown if enough players are online
+     * Start countdown if enough players are online and everything is set up correctly
      */
     public void handlePlayerJoin() {
-        if(!this.lobbyCountdown.isRunning() && Bukkit.getOnlinePlayers().size() >= JumpRace.getInstance().getJumpRaceConfig().getPlayersRequiredForStart()  &&
-            JumpRace.getInstance().getLocationManager().getLoadedMaps().size() != 0)
+        if(!this.lobbyCountdown.isRunning()
+                && Bukkit.getOnlinePlayers().size() >= JumpRace.getInstance().getJumpRaceConfig().getPlayersRequiredForStart()
+                && JumpRace.getInstance().getLocationManager().getLoadedMaps().size() != 0
+                && JumpRace.getInstance().getModuleManager().getLoadedModules().size() != 0)
             this.lobbyCountdown.startCountdown();
     }
 

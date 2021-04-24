@@ -17,7 +17,7 @@ import java.util.List;
  */
 
 @Getter
-public class ParticleEffect {
+public abstract class ParticleEffect {
 
     private final Location location;
     private final EnumParticle enumParticle;
