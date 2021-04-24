@@ -55,12 +55,17 @@ public class ModuleLoader {
 
                 final String propertiesString = this.readModuleProperties(moduleProperties);
 
-                if(!isValidJson(propertiesString)) {
+                if(!this.isValidJson(propertiesString)) {
                     Bukkit.getConsoleSender().sendMessage("§cInvalid module found in directory " + file.getName() + ".");
                     return;
                 }
 
                 final JSONObject properties = new JSONObject(propertiesString);
+
+                if(this.moduleList.stream().filter(module -> module.getName().equalsIgnoreCase(properties.getString("name"))).count() != 0) {
+                    Bukkit.getConsoleSender().sendMessage("§cModule " + properties.getString("name") + " already exists!");
+                    return;
+                }
 
                 final Module module = new Module(properties.getString("name"),
                         properties.getString("builder"),
