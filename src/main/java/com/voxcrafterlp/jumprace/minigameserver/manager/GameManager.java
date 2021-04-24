@@ -25,6 +25,7 @@ import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.scheduler.BukkitScheduler;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -36,6 +37,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @Getter
 public class GameManager {
+
+    private static final int MAX_MODULES = 10;
 
     private final List<Team> registeredTeams;
     private GameState gameState;
@@ -285,11 +288,27 @@ public class GameManager {
      * @param player Player who reaches the goal
      */
     public void reachGoal(Player player) {
-        if(this.jumpingCountdown.getTimeLeft() > 10)
-            this.jumpingCountdown.setTimeLeft(10);
-        Bukkit.broadcastMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("message-goal-reached",JumpRace.getInstance().getGameManager().getPlayerNames().get(player)));
+        Bukkit.broadcastMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("message-goal-reached", JumpRace.getInstance().getGameManager().getPlayerNames().get(player)));
         player.playSound(player.getLocation(), Sound.ENDERDRAGON_GROWL,1,1);
         player.getInventory().setBoots(new ItemManager(Material.DIAMOND_BOOTS).setUnbreakable(true).build());
+
+        if(this.jumpingCountdown.getTimeLeft() > 10) {
+            if(JumpRace.getInstance().getJumpRaceConfig().getTeamSize() != 1) {
+                final AtomicBoolean skipJumpPhase = new AtomicBoolean(true);
+
+                JumpRace.getInstance().getGameManager().getTeamFromPlayer(player).getMembers().forEach(member -> {
+                    if(JumpRace.getInstance().getGameManager().getModuleRows().get(member).getModulesCompleted() != MAX_MODULES)
+                        skipJumpPhase.set(false);
+                });
+
+                if(!skipJumpPhase.get()) {
+                    player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("message-skip-info-1"));
+                    player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("message-skip-info-2"));
+                } else
+                    this.jumpingCountdown.setTimeLeft(10);
+            } else
+                this.jumpingCountdown.setTimeLeft(10);
+        }
 
         Bukkit.getPluginManager().callEvent(new PlayerReachGoalEvent(player));
     }

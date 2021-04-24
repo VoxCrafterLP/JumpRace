@@ -12,3 +12,5 @@ commands:
     description: Setup command for the maps
   start:
     description: Skip the lobby countdown
+  skip:
+    description: Skip waiting for team members to reach the goal

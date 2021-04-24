@@ -1,6 +1,5 @@
 package com.voxcrafterlp.jumprace.minigameserver.listener;
 
-import com.google.common.collect.Lists;
 import com.voxcrafterlp.jumprace.JumpRace;
 import com.voxcrafterlp.jumprace.enums.GameState;
 import com.voxcrafterlp.jumprace.utils.ItemManager;
@@ -12,7 +11,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -176,7 +174,7 @@ public class PlayerInteractListener implements Listener {
         }
     }
 
-    public enum ArmorType {
+    private enum ArmorType {
 
         HELMET,
         CHESTPLATE,

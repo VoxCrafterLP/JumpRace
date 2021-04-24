@@ -9,6 +9,7 @@ import com.voxcrafterlp.jumprace.builderserver.listener.editor.Protection;
 import com.voxcrafterlp.jumprace.config.JumpRaceConfig;
 import com.voxcrafterlp.jumprace.config.LanguageLoader;
 import com.voxcrafterlp.jumprace.minigameserver.commands.SetupCommand;
+import com.voxcrafterlp.jumprace.minigameserver.commands.SkipCommand;
 import com.voxcrafterlp.jumprace.minigameserver.commands.StartCommand;
 import com.voxcrafterlp.jumprace.minigameserver.listener.EnchantmentListener;
 import com.voxcrafterlp.jumprace.minigameserver.listener.MetricsListener;
@@ -109,6 +110,7 @@ public class JumpRace extends JavaPlugin {
 
         this.getCommand("setup").setExecutor(new SetupCommand());
         this.getCommand("start").setExecutor(new StartCommand());
+        this.getCommand("skip").setExecutor(new SkipCommand());
 
         final PluginManager pluginManager = Bukkit.getPluginManager();
         pluginManager.registerEvents(new com.voxcrafterlp.jumprace.minigameserver.listener.PlayerJoinListener(), this);
@@ -178,7 +180,8 @@ public class JumpRace extends JavaPlugin {
     }
 
     /**
-     * Load the default languages into the languages folder
+     * Saves the default languages into the languages folder &
+     * loads the set language
      */
     private void loadLanguages() {
         new File("plugins/JumpRace/languages/").mkdir();
@@ -190,6 +193,9 @@ public class JumpRace extends JavaPlugin {
         this.languageLoader = new LanguageLoader("plugins/JumpRace/languages/" + this.jumpRaceConfig.getLanguageFile() + ".yml");
     }
 
+    /**
+     * Initializes the {@link ModuleLoader} and loads the modules from the 'modules' folder
+     */
     private void loadModules() {
         Bukkit.getConsoleSender().sendMessage(" ");
         Bukkit.getConsoleSender().sendMessage("§7Loading modules..");
