@@ -3,8 +3,10 @@ package com.voxcrafterlp.jumprace.modules.particlesystem.effects;
 import com.voxcrafterlp.jumprace.JumpRace;
 import lombok.Getter;
 import net.minecraft.server.v1_8_R3.EnumParticle;
+import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -45,5 +47,12 @@ public abstract class ParticleEffect {
     }
 
     public void draw() {}
+
+    public void sendPacket(PacketPlayOutWorldParticles packet, Location location) {
+        this.visibleTo.forEach(player -> {
+            if(location.distance(player.getLocation()) <= 50)
+                ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+        });
+    }
 
 }

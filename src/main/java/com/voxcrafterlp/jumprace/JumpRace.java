@@ -25,6 +25,7 @@ import com.voxcrafterlp.jumprace.minigameserver.manager.LocationManager;
 import com.voxcrafterlp.jumprace.minigameserver.manager.ModuleManager;
 import com.voxcrafterlp.jumprace.minigameserver.setup.listener.SetupListener;
 import com.voxcrafterlp.jumprace.minigameserver.setup.objects.MapSetup;
+import com.voxcrafterlp.jumprace.modules.particlesystem.TestCommand;
 import com.voxcrafterlp.jumprace.modules.utils.ModuleEditor;
 import com.voxcrafterlp.jumprace.modules.utils.ModuleLoader;
 import lombok.Getter;
@@ -68,6 +69,8 @@ public class JumpRace extends JavaPlugin {
     public void onEnable() {
         instance = this;
         this.loadConfig();
+
+        getCommand("test").setExecutor(new TestCommand());
 
         Bukkit.getConsoleSender().sendMessage("§8=======================================");
 

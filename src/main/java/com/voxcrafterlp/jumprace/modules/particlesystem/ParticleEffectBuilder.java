@@ -44,6 +44,13 @@ public class ParticleEffectBuilder {
         return this;
     }
 
+    public ParticleEffectBuilder setRotation(int yaw, int pitch, int roll) {
+        this.yaw = yaw;
+        this.pitch = pitch;
+        this.roll = roll;
+        return this;
+    }
+
     public ParticleEffectBuilder setYaw(int yaw) {
         this.yaw = yaw;
         return this;
