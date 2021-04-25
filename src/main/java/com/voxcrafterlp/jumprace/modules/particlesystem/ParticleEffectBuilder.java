@@ -100,12 +100,14 @@ public class ParticleEffectBuilder {
     @Getter
     public enum EffectType {
 
-        RING(RingEffect.class);
+        RING(RingEffect.class, "§bRing");
 
         private final Class<? extends ParticleEffect> clazz;
+        private final String displayName;
 
-        EffectType(Class<? extends ParticleEffect> clazz) {
+        EffectType(Class<? extends ParticleEffect> clazz, String displayName) {
             this.clazz = clazz;
+            this.displayName = displayName;
         }
 
     }

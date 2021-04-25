@@ -1,8 +1,11 @@
 package com.voxcrafterlp.jumprace.modules.objects;
 
+import com.voxcrafterlp.jumprace.modules.particlesystem.ParticleEffectData;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.server.v1_8_R3.NBTTagList;
+
+import java.util.List;
 
 /**
  * This file was created by VoxCrafter_LP!
@@ -22,5 +25,6 @@ public class ModuleData {
     private byte[] data;
 
     private NBTTagList tileEntities;
+    private List<ParticleEffectData> particleEffectData;
 
 }
