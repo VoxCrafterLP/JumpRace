@@ -1,5 +1,6 @@
 package com.voxcrafterlp.jumprace.modules.particlesystem;
 
+import com.voxcrafterlp.jumprace.JumpRace;
 import com.voxcrafterlp.jumprace.modules.objects.Module;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -35,7 +36,7 @@ public class ParticleUI {
         if((JumpRace.getInstance().getJumpRaceConfig().getHeadValues().size() % 36) != 0)
             this.maxParticleOverviewPages++;
 
-        this.buildHeadInventory();
+        //TODO
     }
 
     public void updateInventory() {
