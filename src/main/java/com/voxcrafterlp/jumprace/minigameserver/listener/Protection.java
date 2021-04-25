@@ -72,7 +72,7 @@ public class Protection implements Listener {
         if(JumpRace.getInstance().getGameManager().getGameState() == GameState.DEATHMATCH) {
             final ItemStack itemInHand = event.getItemInHand();
             if(itemInHand != null)
-                if(itemInHand.getType() == Material.WEB || itemInHand.getType() == Material.TNT) {
+                if(itemInHand.getType() == Material.WEB || itemInHand.getType() == Material.TNT || itemInHand.getType() == Material.CAKE) {
                     if(itemInHand.getType() == Material.WEB)
                         this.placedCobwebs.add(event.getBlock().getLocation());
                     return;

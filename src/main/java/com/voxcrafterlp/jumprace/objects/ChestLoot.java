@@ -55,6 +55,7 @@ public class ChestLoot {
         this.addLoot(ModuleDifficulty.EASY, new ItemStack(Material.WOOD_SWORD), 20);
         this.addLoot(ModuleDifficulty.EASY, new ItemStack(Material.TNT), 15);
         this.addLoot(ModuleDifficulty.EASY, new ItemStack(Material.WEB), 15);
+        this.addLoot(ModuleDifficulty.EASY, new ItemStack(Material.CAKE), 15);
 
         //=================================================//
 
@@ -71,6 +72,7 @@ public class ChestLoot {
         this.addLoot(ModuleDifficulty.NORMAL, new ItemStack(Material.EXP_BOTTLE, 2), 25);
         this.addLoot(ModuleDifficulty.NORMAL, new ItemStack(Material.TNT), 20);
         this.addLoot(ModuleDifficulty.NORMAL, new ItemStack(Material.WEB), 20);
+        this.addLoot(ModuleDifficulty.NORMAL, new ItemStack(Material.CAKE), 15);
         this.addLoot(ModuleDifficulty.NORMAL, new ItemStack(Material.BOW), 15);
         this.addLoot(ModuleDifficulty.NORMAL, new ItemManager(Material.ARROW).setAmount(new Random().nextInt(3) + 1).build(), 20);
 
