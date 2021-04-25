@@ -5,15 +5,17 @@ import com.voxcrafterlp.jumprace.modules.enums.ModuleDifficulty;
 import com.voxcrafterlp.jumprace.modules.objects.Module;
 import com.voxcrafterlp.jumprace.modules.objects.ModuleData;
 import com.voxcrafterlp.jumprace.modules.objects.RelativePosition;
+import com.voxcrafterlp.jumprace.modules.particlesystem.ParticleEffectBuilder;
+import com.voxcrafterlp.jumprace.modules.particlesystem.ParticleEffectData;
 import lombok.Getter;
 import net.minecraft.server.v1_8_R3.NBTCompressedStreamTools;
 import net.minecraft.server.v1_8_R3.NBTTagCompound;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.*;
-import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;
@@ -74,6 +76,20 @@ public class ModuleLoader {
                         new RelativePosition(properties.getJSONObject("startpoint")),
                         new RelativePosition(properties.getJSONObject("endpoint")), false);
 
+
+                module.getModuleData().setParticleEffectData(Lists.newCopyOnWriteArrayList());
+                if(!properties.isNull("particles")) {
+                    for(int i = 0; i<properties.getJSONArray("particles").length(); i++) {
+                        final JSONObject particleEffect = properties.getJSONArray("particles").getJSONObject(i);
+                        module.getModuleData().getParticleEffectData().add(new ParticleEffectData(
+                                ParticleEffectBuilder.EffectType.valueOf(particleEffect.getString("type")),
+                                new Location(Bukkit.getWorld("jumprace"), particleEffect.getDouble("x"),
+                                        particleEffect.getDouble("y"), particleEffect.getDouble("z")),
+                                particleEffect.getString("particleType"), particleEffect.getInt("yaw"),
+                                particleEffect.getInt("pitch"), particleEffect.getInt("roll"),
+                                particleEffect.getInt("size")));
+                    }
+                }
 
                 if(!module.getName().equals("default")) {
                     Bukkit.getConsoleSender().sendMessage("§aSuccessfully loaded module " + module.getName() + ".");
