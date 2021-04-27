@@ -15,12 +15,12 @@ import org.bukkit.Location;
 @Getter @Setter
 public class ParticleEffectData {
 
-    private final ParticleEffectBuilder.EffectType effectType;
+    private final EffectType effectType;
     private final Location location;
     private final EnumParticle enumParticle;
     private final int yaw, pitch, roll, size;
 
-    public ParticleEffectData(ParticleEffectBuilder.EffectType effectType, Location location, String particleType, int yaw, int pitch, int roll, int size) {
+    public ParticleEffectData(EffectType effectType, Location location, String particleType, int yaw, int pitch, int roll, int size) {
         this.effectType = effectType;
         this.location = location;
         this.enumParticle = EnumParticle.valueOf(particleType);

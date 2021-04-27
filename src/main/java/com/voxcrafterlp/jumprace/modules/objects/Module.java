@@ -5,6 +5,7 @@ import com.voxcrafterlp.jumprace.JumpRace;
 import com.voxcrafterlp.jumprace.modules.enums.ModuleDifficulty;
 import com.voxcrafterlp.jumprace.modules.enums.ParticleDirection;
 import com.voxcrafterlp.jumprace.modules.particlesystem.ParticleManager;
+import com.voxcrafterlp.jumprace.modules.particlesystem.ParticleUI;
 import com.voxcrafterlp.jumprace.modules.utils.ModuleExportUtil;
 import com.voxcrafterlp.jumprace.utils.HologramUtil;
 import lombok.Getter;
@@ -36,6 +37,7 @@ public class Module {
     private ModuleDifficulty moduleDifficulty;
     private ModuleData moduleData;
     private ParticleManager particleManager;
+    private ParticleUI particleUI;
 
     private RelativePosition startPoint, endPoint;
     private RelativePosition border1, border2;
@@ -228,6 +230,7 @@ public class Module {
 
     public void initializeParticleManager(Player player) {
         this.particleManager = new ParticleManager(this.moduleData, player);
+        this.particleUI = new ParticleUI(this, player);
     }
 
     @Override

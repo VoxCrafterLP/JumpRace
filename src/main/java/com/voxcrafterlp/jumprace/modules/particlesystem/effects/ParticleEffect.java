@@ -1,6 +1,7 @@
 package com.voxcrafterlp.jumprace.modules.particlesystem.effects;
 
 import com.voxcrafterlp.jumprace.JumpRace;
+import com.voxcrafterlp.jumprace.modules.particlesystem.EffectType;
 import com.voxcrafterlp.jumprace.modules.particlesystem.ParticleEffectData;
 import lombok.Getter;
 import net.minecraft.server.v1_8_R3.EnumParticle;
@@ -47,7 +48,7 @@ public abstract class ParticleEffect {
         Bukkit.getScheduler().cancelTask(this.taskID);
     }
 
-    public void draw() {}
+    public abstract void draw();
 
     public void sendPacket(PacketPlayOutWorldParticles packet, Location location) {
         this.visibleTo.forEach(player -> {
@@ -55,5 +56,7 @@ public abstract class ParticleEffect {
                 ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
         });
     }
+
+    public abstract EffectType getEffectType();
 
 }

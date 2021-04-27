@@ -142,7 +142,7 @@ public class InventoryClickListener implements Listener {
                 player.playSound(player.getLocation(), Sound.WOOD_CLICK, 2, 2);
                 return;
             }
-            if(event.getSlot() == 16) {
+            if(event.getSlot() == 16) { //Save module
                 final ModuleEditor session = JumpRace.getInstance().getEditorSessions().get(player);
                 player.closeInventory();
                 player.playSound(player.getLocation(), Sound.LEVEL_UP,1,1);
@@ -167,9 +167,14 @@ public class InventoryClickListener implements Listener {
                 player.playSound(player.getLocation(), Sound.LEVEL_UP, 1, 1);
                 return;
             }
-            if(event.getSlot() == 30) {
+            if(event.getSlot() == 30) { //Open head overview
                 player.openInventory(JumpRace.getInstance().getEditorSessions().get(player).getSettings().getHeadsInventory());
                 player.playSound(player.getLocation(), Sound.CHEST_OPEN, 3, 3);
+                return;
+            }
+            if(event.getCurrentItem().getType() == Material.NETHER_STAR) {
+                player.openInventory(JumpRace.getInstance().getEditorSessions().get(player).getModule().getParticleUI().getParticleOverviewInventory());
+                player.playSound(player.getLocation(), Sound.CLICK, 1, 1);
                 return;
             }
         }
@@ -221,6 +226,45 @@ public class InventoryClickListener implements Listener {
                 player.playSound(player.getLocation(), Sound.CLICK, 1,1);
                 return;
             }
+        }
+        if(event.getInventory().getName().equals("§bParticles")) {
+            event.setCancelled(true);
+
+            if(event.getSlot() == 45) {
+                final ModuleEditor session = JumpRace.getInstance().getEditorSessions().get(player);
+
+                if(session.getModule().getParticleUI().getParticleOverviewPage() == 1) {
+                    player.playSound(player.getLocation(), Sound.NOTE_BASS, 1,1);
+                    return;
+                }
+
+                session.getModule().getParticleUI().switchEffectOverviewInventoryPage(session.getModule().getParticleUI().getParticleOverviewPage() - 1);
+                player.playSound(player.getLocation(), Sound.CLICK, 1,1);
+                return;
+            }
+            if(event.getSlot() == 53) {
+                final ModuleEditor session = JumpRace.getInstance().getEditorSessions().get(player);
+
+                if(session.getModule().getParticleUI().getParticleOverviewPage() == session.getModule().getParticleUI().getMaxParticleOverviewPages()) {
+                    player.playSound(player.getLocation(), Sound.NOTE_BASS, 1,1);
+                    return;
+                }
+
+                session.getModule().getParticleUI().switchEffectOverviewInventoryPage(session.getModule().getParticleUI().getParticleOverviewPage() + 1);
+                player.playSound(player.getLocation(), Sound.CLICK, 1,1);
+                return;
+            }
+
+            if(event.getSlot() == 49) { //Add effect
+                player.openInventory(JumpRace.getInstance().getEditorSessions().get(player).getModule().getParticleUI().getAddParticleInventory());
+                player.playSound(player.getLocation(), Sound.CLICK, 1, 1);
+                return;
+            }
+
+            if(event.getSlot() < 36) { //Effect selected
+
+            }
+            return;
         }
     }
 

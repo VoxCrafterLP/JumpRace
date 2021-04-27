@@ -97,19 +97,4 @@ public class ParticleEffectBuilder {
         return null;
     }
 
-    @Getter
-    public enum EffectType {
-
-        RING(RingEffect.class, "§bRing");
-
-        private final Class<? extends ParticleEffect> clazz;
-        private final String displayName;
-
-        EffectType(Class<? extends ParticleEffect> clazz, String displayName) {
-            this.clazz = clazz;
-            this.displayName = displayName;
-        }
-
-    }
-
 }

@@ -71,9 +71,9 @@ settings-item-heads-name: "&bKöpfe"
 settings-item-heads-description: "&7Hier findest du einige\n&7Köpfe für dein Bauwerk"
 
 heads-headitem-name: "&bKopf"
-heads-previous-page-name: "&bVorherige Seite"
-heads-next-page-name: "&bNächste Seite"
-head-pageswitcher-description: "&7Seite&8: &3{0}&8/&b{1}"
+previous-page-name: "&bVorherige Seite"
+next-page-name: "&bNächste Seite"
+pageswitcher-description: "&7Seite&8: &3{0}&8/&b{1}"
 
 message-editor-start-1: "&7Du kannst das Modul jetzt &bbauen&8."
 message-editor-start-2: "&7du kannst Partikel in den &bEinstellungen &cdeaktivieren&7, indem du in den &cPerformance-Editor &7wechselst&8."

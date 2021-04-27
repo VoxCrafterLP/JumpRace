@@ -1,5 +1,6 @@
 package com.voxcrafterlp.jumprace.modules.particlesystem.effects;
 
+import com.voxcrafterlp.jumprace.modules.particlesystem.EffectType;
 import com.voxcrafterlp.jumprace.modules.utils.MathUtils;
 import net.minecraft.server.v1_8_R3.EnumParticle;
 import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
@@ -43,4 +44,10 @@ public class RingEffect extends ParticleEffect {
                     (float) location.getY(), (float) location.getZ(), 0, 0, 0, 255, 0, 0),location);
         }
     }
+
+    @Override
+    public EffectType getEffectType() {
+        return EffectType.RING;
+    }
+
 }

@@ -39,6 +39,7 @@ public class ModuleEditor {
         this.player = player;
         this.module = module;
         this.settings = new ModuleEditorSettings(this);
+        this.module.initializeParticleManager(player);
 
         JumpRace.getInstance().getEditorSessions().put(this.player, this);
     }

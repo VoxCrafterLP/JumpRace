@@ -71,9 +71,9 @@ settings-item-heads-name: "&bChöpf"
 settings-item-heads-description: "&7Da findsch du einigi\n&7Chöpf für dis Bauwerch"
 
 heads-headitem-name: "&bChopf"
-heads-previous-page-name: "&bVorherigi Site"
-heads-next-page-name: "&bNächsti Site"
-head-pageswitcher-description: "&7Site&8: &3{0}&8/&b{1}"
+previous-page-name: "&bVorherigi Site"
+next-page-name: "&bNächsti Site"
+pageswitcher-description: "&7Site&8: &3{0}&8/&b{1}"
 
 message-editor-start-1: "&7Du chasch s'Modul jetzt &bbaue&8."
 message-editor-start-2: "&7Du chasch Partikel ih de &bIhstellige &cdeaktiviere&7, indem du ih de &cPerformance-Editor &7wechslisch&8."

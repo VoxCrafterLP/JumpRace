@@ -21,7 +21,7 @@ public class TestCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
 
-        ParticleEffect effect = new ParticleEffectBuilder(ParticleEffectBuilder.EffectType.RING, ((Player) commandSender).getLocation(), EnumParticle.VILLAGER_HAPPY).setRotation(45, 45, 0).build();
+        ParticleEffect effect = new ParticleEffectBuilder(EffectType.RING, ((Player) commandSender).getLocation(), EnumParticle.VILLAGER_HAPPY).setRotation(45, 45, 0).build();
         effect.startDrawing();
 
         Bukkit.getScheduler().runTaskLater(JumpRace.getInstance(), effect::stopDrawing, 400);

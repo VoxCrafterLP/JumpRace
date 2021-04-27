@@ -5,7 +5,7 @@ import com.voxcrafterlp.jumprace.modules.enums.ModuleDifficulty;
 import com.voxcrafterlp.jumprace.modules.objects.Module;
 import com.voxcrafterlp.jumprace.modules.objects.ModuleData;
 import com.voxcrafterlp.jumprace.modules.objects.RelativePosition;
-import com.voxcrafterlp.jumprace.modules.particlesystem.ParticleEffectBuilder;
+import com.voxcrafterlp.jumprace.modules.particlesystem.EffectType;
 import com.voxcrafterlp.jumprace.modules.particlesystem.ParticleEffectData;
 import lombok.Getter;
 import net.minecraft.server.v1_8_R3.NBTCompressedStreamTools;
@@ -82,7 +82,7 @@ public class ModuleLoader {
                     for(int i = 0; i<properties.getJSONArray("particles").length(); i++) {
                         final JSONObject particleEffect = properties.getJSONArray("particles").getJSONObject(i);
                         module.getModuleData().getParticleEffectData().add(new ParticleEffectData(
-                                ParticleEffectBuilder.EffectType.valueOf(particleEffect.getString("type")),
+                                EffectType.valueOf(particleEffect.getString("type")),
                                 new Location(Bukkit.getWorld("jumprace"), particleEffect.getDouble("x"),
                                         particleEffect.getDouble("y"), particleEffect.getDouble("z")),
                                 particleEffect.getString("particleType"), particleEffect.getInt("yaw"),

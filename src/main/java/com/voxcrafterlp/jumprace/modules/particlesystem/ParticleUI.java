@@ -2,10 +2,16 @@ package com.voxcrafterlp.jumprace.modules.particlesystem;
 
 import com.voxcrafterlp.jumprace.JumpRace;
 import com.voxcrafterlp.jumprace.modules.objects.Module;
+import com.voxcrafterlp.jumprace.modules.particlesystem.effects.ParticleEffect;
+import com.voxcrafterlp.jumprace.utils.ItemManager;
 import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+
+import java.util.List;
 
 /**
  * This file was created by VoxCrafter_LP!
@@ -20,27 +26,62 @@ public class ParticleUI {
     private final Module module;
     private final Player player;
 
-    private Inventory particleOverviewInventory;
+    private final Inventory particleOverviewInventory, addParticleInventory;
     private int particleOverviewPage, maxParticleOverviewPages;
 
     public ParticleUI(Module module, Player player) {
         this.module = module;
         this.player = player;
+
+        this.particleOverviewInventory = Bukkit.createInventory(null, 54, "§bParticles");
+        this.addParticleInventory = Bukkit.createInventory(null, 54, "§bAdd particle effect");
+
+        this.buildOverviewInventory();
+        this.buildAddEffectInventory();
     }
 
-    private void buildInventory() {
-        this.particleOverviewInventory = Bukkit.createInventory(null, 54, "§bParticles");
+    private void buildOverviewInventory() {
+        final List<ParticleEffect> particleEffects = this.module.getParticleManager().getParticleEffects();
+
         this.particleOverviewPage = 1;
 
-        this.maxParticleOverviewPages = JumpRace.getInstance().getJumpRaceConfig().getHeadValues().size() / 36;
-        if((JumpRace.getInstance().getJumpRaceConfig().getHeadValues().size() % 36) != 0)
+        this.maxParticleOverviewPages = particleEffects.size() / 36;
+        if((particleEffects.size() % 36) != 0)
             this.maxParticleOverviewPages++;
 
-        //TODO
+        if(this.maxParticleOverviewPages == 0)
+            this.maxParticleOverviewPages++;
+
+        for(int i = 36; i<45; i++)
+            this.particleOverviewInventory.setItem(i, new ItemManager(Material.STAINED_GLASS_PANE, 15).setNoName().build());
+
+        this.particleOverviewInventory.setItem(45, new ItemManager(Material.SKULL_ITEM, 3).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("previous-page-name")).addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("pageswitcher-description", String.valueOf(this.particleOverviewPage), String.valueOf(this.maxParticleOverviewPages))).setHeadValueAndBuild("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmQ2OWUwNmU1ZGFkZmQ4NGU1ZjNkMWMyMTA2M2YyNTUzYjJmYTk0NWVlMWQ0ZDcxNTJmZGM1NDI1YmMxMmE5In19fQ=="));
+        this.particleOverviewInventory.setItem(53, new ItemManager(Material.SKULL_ITEM, 3).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("next-page-name")).addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("pageswitcher-description", String.valueOf(this.particleOverviewPage), String.valueOf(this.maxParticleOverviewPages))).setHeadValueAndBuild("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTliZjMyOTJlMTI2YTEwNWI1NGViYTcxM2FhMWIxNTJkNTQxYTFkODkzODgyOWM1NjM2NGQxNzhlZDIyYmYifX19"));
+        this.particleOverviewInventory.setItem(49, new ItemManager(Material.SKULL_ITEM, 3).setDisplayName("§bAdd effect").addLore("§7Add effect idk").setHeadValueAndBuild("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTgxMzZmZmYyZTk2MjM4MTBjNzg0ODZhNmZmZTJmOWFlZTUxNDhmM2IyODJmMmZkMjA3ZDI1NWY1OGUwZDEifX19"));
+
+        final int startIndex = ((this.particleOverviewPage - 1) * 36);
+
+        if(particleEffects.isEmpty()) {
+            this.particleOverviewInventory.setItem(13, new ItemManager(Material.BARRIER).setDisplayName("§cNo effects").addLore("§7You have not added", "§7any effects yet").build());
+            return;
+        }
+
+        for(int i = 0; i<36; i++) {
+            if(particleEffects.size() >= (startIndex + i + 1)) {
+                final ParticleEffect particleEffect = particleEffects.get(i);
+                this.particleOverviewInventory.setItem(i, new ItemManager(particleEffect.getEffectType().getMaterial()).setDisplayName(particleEffect.getEffectType().getDisplayName()).build());
+            }
+        }
     }
 
-    public void updateInventory() {
+    private void buildAddEffectInventory() {
 
+    }
+
+    public void switchEffectOverviewInventoryPage(int newPage) {
+        this.particleOverviewPage = newPage;
+        this.particleOverviewInventory.clear();
+        this.buildOverviewInventory();
     }
 
 }
