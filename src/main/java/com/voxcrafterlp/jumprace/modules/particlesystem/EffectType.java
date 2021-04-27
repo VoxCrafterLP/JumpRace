@@ -1,5 +1,6 @@
 package com.voxcrafterlp.jumprace.modules.particlesystem;
 
+import com.voxcrafterlp.jumprace.JumpRace;
 import com.voxcrafterlp.jumprace.modules.particlesystem.effects.ParticleEffect;
 import com.voxcrafterlp.jumprace.modules.particlesystem.effects.RingEffect;
 import lombok.Getter;
@@ -15,7 +16,7 @@ import org.bukkit.Material;
 @Getter
 public enum EffectType {
 
-    RING(RingEffect.class, "§bRing", Material.EMERALD);
+    RING(RingEffect.class, JumpRace.getInstance().getLanguageLoader().getTranslationByKey("particle-ring-name"), Material.EMERALD);
 
     private final Class<? extends ParticleEffect> clazz;
     private final String displayName;

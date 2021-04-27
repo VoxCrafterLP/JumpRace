@@ -53,6 +53,7 @@ settings-inventory-name: "&cEinstellungen"
 heads-inventory-name: "&bKöpfe"
 
 settings-item-name: "&cEinstellungen"
+settings-item-description: "&7Hier kannst du Einstellungen\n&7zu dem Modul abändern,\n&7sowie einige einzigartige\n&7Features nutzen"
 settings-item-rename-name: "&cModul umbenennen"
 settings-item-rename-description: "&7Hier kannst du\n&7das Modul\n&7umbenennen"
 settings-item-change-difficulty-name: "&cSchwierigkeit ändern"
@@ -63,17 +64,30 @@ settings-item-editor-description: "&7Hier kannst du\n&7den Editor-Modus\n&7änder
 settings-item-save-name: "&2Speichern"
 settings-item-save-description: "&7Hier kannst du das\n&7Modul speichern\n&7und den Editor verlassen"
 settings-item-cancel-name: "&4Abbrechen"
-settings-item-cancel-description: "&7Wenn du hier klickst, schließt du den\n&7Editor,ohne zu speichern"
+settings-item-cancel-description: "&7Wenn du hier klickst,\n&7schließt du den Editor,\n&7ohne zu speichern\n\n&4Warnung&8! &7Wenn du diesen\n&7Knopf drückst, löscht du\n&7alle sich befindlichen Blöcke\n&7in diesem Gebiet"
 settings-item-physics-name-enabled: "&bPhysik &7(&aaktiviert&7)"
 settings-item-physics-name-disabled: "&bPhysik &7(&cdeaktiviert&7)"
 settings-item-physics-description: "&7Hier kannst du die\n&7Block-Physik\n&7umstellen"
 settings-item-heads-name: "&bKöpfe"
 settings-item-heads-description: "&7Hier findest du einige\n&7Köpfe für dein Bauwerk"
+settings-item-particles-name: "&bPartikel-Effekte"
+settings-item-particles-description: "&7Hier kannst du eigene\n&7Partikel-Effekte für\n&7dein Bauwerk hinzufügen"
 
-heads-headitem-name: "&bKopf"
 previous-page-name: "&bVorherige Seite"
 next-page-name: "&bNächste Seite"
 pageswitcher-description: "&7Seite&8: &3{0}&8/&b{1}"
+
+heads-headitem-name: "&bKopf"
+
+particles-overview-inventory: "&bPartikel"
+particles-overview-addeffect-name: "&bEffekt hinzufügen"
+particles-overview-addeffect-description: "&7Füge einen eigenen\n&7Partikel-Effekt hinzu"
+particles-overview-noeffects-name: "&cKeine Effekte"
+particles-overview-noeffects-description: "§7Du hast bislang noch\n&7keine Effekte hinzugefügt.\n\n&7Du kannst Effekte hinzufügen,\n&7indem du auf den &8\"&bEffekt\n&bhinzufügen&8\"&7-Knopf drückst."
+
+particles-addeffect-inventory: "&bPartikel-Effekt hinzufügen"
+
+particle-ring-name: "§2Ring"
 
 message-editor-start-1: "&7Du kannst das Modul jetzt &bbauen&8."
 message-editor-start-2: "&7du kannst Partikel in den &bEinstellungen &cdeaktivieren&7, indem du in den &cPerformance-Editor &7wechselst&8."

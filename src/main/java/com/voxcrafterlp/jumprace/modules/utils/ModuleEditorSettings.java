@@ -59,7 +59,7 @@ public class ModuleEditorSettings {
 
         this.settingsInventory.setItem(28, new ItemManager(Material.SAND, 1).setDisplayName((this.enablePhysics) ? JumpRace.getInstance().getLanguageLoader().getTranslationByKey("settings-item-physics-name-enabled") : JumpRace.getInstance().getLanguageLoader().getTranslationByKey("settings-item-physics-name-disabled")).addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("settings-item-physics-description")).build());
         this.settingsInventory.setItem(30, new ItemManager(Material.SKULL_ITEM, 3).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("settings-item-heads-name")).addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("settings-item-heads-description")).setHeadValueAndBuild("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNThiYzhmYTcxNmNhZGQwMDRiODI4Y2IyN2NjMGY2ZjZhZGUzYmU0MTUxMTY4OGNhOWVjZWZmZDE2NDdmYjkifX19"));
-        this.settingsInventory.setItem(32, new ItemManager(Material.NETHER_STAR).setDisplayName("§bParticles").build());
+        this.settingsInventory.setItem(32, new ItemManager(Material.NETHER_STAR).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("settings-item-particles-name")).addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("settings-item-particles-description")).build());
 
         this.settingsInventory.setItem(44, new ItemManager(Material.BARRIER).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("settings-item-cancel-name")).addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("settings-item-cancel-description")).build());
 

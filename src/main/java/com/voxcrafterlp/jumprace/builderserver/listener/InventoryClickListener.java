@@ -227,7 +227,7 @@ public class InventoryClickListener implements Listener {
                 return;
             }
         }
-        if(event.getInventory().getName().equals("§bParticles")) {
+        if(event.getInventory().getName().equals(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("settings-item-particles-name"))) {
             event.setCancelled(true);
 
             if(event.getSlot() == 45) {

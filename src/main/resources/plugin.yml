@@ -14,4 +14,3 @@ commands:
     description: Skip the lobby countdown
   skip:
     description: Skip waiting for team members to reach the goal
-  test:

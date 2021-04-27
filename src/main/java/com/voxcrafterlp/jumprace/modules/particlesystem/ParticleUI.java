@@ -33,8 +33,8 @@ public class ParticleUI {
         this.module = module;
         this.player = player;
 
-        this.particleOverviewInventory = Bukkit.createInventory(null, 54, "§bParticles");
-        this.addParticleInventory = Bukkit.createInventory(null, 54, "§bAdd particle effect");
+        this.particleOverviewInventory = Bukkit.createInventory(null, 54, JumpRace.getInstance().getLanguageLoader().getTranslationByKey("particles-overview-inventory"));
+        this.addParticleInventory = Bukkit.createInventory(null, 54, JumpRace.getInstance().getLanguageLoader().getTranslationByKey("particles-addeffect-inventory"));
 
         this.buildOverviewInventory();
         this.buildAddEffectInventory();
@@ -57,12 +57,12 @@ public class ParticleUI {
 
         this.particleOverviewInventory.setItem(45, new ItemManager(Material.SKULL_ITEM, 3).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("previous-page-name")).addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("pageswitcher-description", String.valueOf(this.particleOverviewPage), String.valueOf(this.maxParticleOverviewPages))).setHeadValueAndBuild("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmQ2OWUwNmU1ZGFkZmQ4NGU1ZjNkMWMyMTA2M2YyNTUzYjJmYTk0NWVlMWQ0ZDcxNTJmZGM1NDI1YmMxMmE5In19fQ=="));
         this.particleOverviewInventory.setItem(53, new ItemManager(Material.SKULL_ITEM, 3).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("next-page-name")).addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("pageswitcher-description", String.valueOf(this.particleOverviewPage), String.valueOf(this.maxParticleOverviewPages))).setHeadValueAndBuild("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTliZjMyOTJlMTI2YTEwNWI1NGViYTcxM2FhMWIxNTJkNTQxYTFkODkzODgyOWM1NjM2NGQxNzhlZDIyYmYifX19"));
-        this.particleOverviewInventory.setItem(49, new ItemManager(Material.SKULL_ITEM, 3).setDisplayName("§bAdd effect").addLore("§7Add effect idk").setHeadValueAndBuild("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTgxMzZmZmYyZTk2MjM4MTBjNzg0ODZhNmZmZTJmOWFlZTUxNDhmM2IyODJmMmZkMjA3ZDI1NWY1OGUwZDEifX19"));
+        this.particleOverviewInventory.setItem(49, new ItemManager(Material.SKULL_ITEM, 3).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("particles-overview-addeffect-name")).addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("particles-overview-addeffect-description")).setHeadValueAndBuild("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTgxMzZmZmYyZTk2MjM4MTBjNzg0ODZhNmZmZTJmOWFlZTUxNDhmM2IyODJmMmZkMjA3ZDI1NWY1OGUwZDEifX19"));
 
         final int startIndex = ((this.particleOverviewPage - 1) * 36);
 
         if(particleEffects.isEmpty()) {
-            this.particleOverviewInventory.setItem(13, new ItemManager(Material.BARRIER).setDisplayName("§cNo effects").addLore("§7You have not added", "§7any effects yet").build());
+            this.particleOverviewInventory.setItem(13, new ItemManager(Material.BARRIER).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("particles-overview-noeffects-name")).addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("particles-overview-noeffects-description")).build());
             return;
         }
 

@@ -3,6 +3,7 @@ package com.voxcrafterlp.jumprace.config;
 import com.google.common.collect.Lists;
 import com.voxcrafterlp.jumprace.JumpRace;
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -20,7 +21,7 @@ import java.util.List;
 @Getter
 public class LanguageLoader {
 
-    private final File languageFile;
+    private File languageFile;
     private final YamlConfiguration configuration;
 
     /**
@@ -29,6 +30,12 @@ public class LanguageLoader {
      */
     public LanguageLoader(String path) {
         this.languageFile = new File(path);
+
+        if(!this.languageFile.exists()) {
+            Bukkit.getConsoleSender().sendMessage("§4The file " + path + " could not be found! Defaulting to en_US!");
+            this.languageFile = new File("plugins/JumpRace/languages/en_US.yml");
+        }
+
         this.configuration = YamlConfiguration.loadConfiguration(this.languageFile);
     }
 

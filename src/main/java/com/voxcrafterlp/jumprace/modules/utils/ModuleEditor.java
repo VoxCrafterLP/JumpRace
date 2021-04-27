@@ -97,7 +97,7 @@ public class ModuleEditor {
         this.playerInventory.setContents(this.player.getInventory().getContents());
         this.player.getInventory().clear();
 
-        this.player.getInventory().setItem(8, new ItemManager(Material.REDSTONE_COMPARATOR).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("settings-item-name")).build());
+        this.player.getInventory().setItem(8, new ItemManager(Material.REDSTONE_COMPARATOR).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("settings-item-name")).addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("settings-item-description")).build());
     }
 
     /**
