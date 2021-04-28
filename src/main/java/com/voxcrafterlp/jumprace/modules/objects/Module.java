@@ -228,9 +228,14 @@ public class Module {
         return spawnLocation;
     }
 
+    /**
+     * Initializes the {@link ParticleManager} and the {@link ParticleUI} if the server is configured as a builder server
+     * @param player Player required to initialize the {@link ParticleManager}
+     */
     public void initializeParticleManager(Player player) {
         this.particleManager = new ParticleManager(this.moduleData, player);
-        this.particleUI = new ParticleUI(this, player);
+        if(JumpRace.getInstance().getJumpRaceConfig().isBuilderServer())
+            this.particleUI = new ParticleUI(this, player);
     }
 
     @Override
