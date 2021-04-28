@@ -4,6 +4,8 @@ import com.voxcrafterlp.jumprace.JumpRace;
 import com.voxcrafterlp.jumprace.builderserver.objects.ModuleSetup;
 import com.voxcrafterlp.jumprace.modules.enums.EditorMode;
 import com.voxcrafterlp.jumprace.modules.enums.ModuleDifficulty;
+import com.voxcrafterlp.jumprace.modules.objects.Module;
+import com.voxcrafterlp.jumprace.modules.particlesystem.EffectType;
 import com.voxcrafterlp.jumprace.modules.utils.ModuleEditor;
 import com.voxcrafterlp.jumprace.utils.ItemManager;
 import net.wesjd.anvilgui.AnvilGUI;
@@ -83,6 +85,7 @@ public class InventoryClickListener implements Listener {
 
                 event.setCancelled(true);
             }
+            return;
         }
 
         if(event.getInventory().getName().equals(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("settings-inventory-name"))) {
@@ -177,6 +180,7 @@ public class InventoryClickListener implements Listener {
                 player.playSound(player.getLocation(), Sound.CLICK, 1, 1);
                 return;
             }
+            return;
         }
 
         if(event.getInventory().getName().equals(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("change-module-difficulty-inventory-name"))) {
@@ -191,6 +195,8 @@ public class InventoryClickListener implements Listener {
                 changeModuleDifficulty(player, session, ModuleDifficulty.HARD);
             if(event.getSlot() == 16)
                 changeModuleDifficulty(player, session, ModuleDifficulty.VERY_HARD);
+
+            return;
         }
 
         if(event.getInventory().getName().equals(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("heads-inventory-name"))) {
@@ -226,8 +232,9 @@ public class InventoryClickListener implements Listener {
                 player.playSound(player.getLocation(), Sound.CLICK, 1,1);
                 return;
             }
+            return;
         }
-        if(event.getInventory().getName().equals(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("settings-item-particles-name"))) {
+        if(event.getInventory().getName().equals(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("particles-overview-inventory"))) {
             event.setCancelled(true);
 
             if(event.getSlot() == 45) {
@@ -261,8 +268,29 @@ public class InventoryClickListener implements Listener {
                 return;
             }
 
-            if(event.getSlot() < 36) { //Effect selected
+            if(event.getSlot() < 36 && event.getCurrentItem().getType() != Material.BARRIER) { //Effect selected
+                //TODO
+                return;
+            }
+            return;
+        }
+        if(event.getInventory().getName().equals(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("particles-addeffect-inventory"))) {
+            event.setCancelled(true);
 
+            if(event.getSlot() == 45) {
+                player.openInventory(JumpRace.getInstance().getEditorSessions().get(player).getModule().getParticleUI().getParticleOverviewInventory());
+                player.playSound(player.getLocation(), Sound.CLICK, 1, 1);
+                return;
+            }
+            if(event.getSlot() < 36) {
+                final EffectType effectType = EffectType.values()[event.getSlot()];
+                final Module module = JumpRace.getInstance().getEditorSessions().get(player).getModule();
+
+                module.getParticleManager().addParticleEffect(effectType, player.getLocation());
+                module.getParticleUI().updateOverviewInventory();
+                player.playSound(player.getLocation(), Sound.LEVEL_UP,1,1);
+                player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("particles-addeffect-success", effectType.getDisplayName()));
+                return;
             }
             return;
         }

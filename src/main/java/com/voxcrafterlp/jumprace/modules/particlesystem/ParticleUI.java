@@ -75,13 +75,32 @@ public class ParticleUI {
     }
 
     private void buildAddEffectInventory() {
+        final EffectType[] effectTypes = EffectType.values();
 
+        for(int i = 36; i<45; i++)
+            this.addParticleInventory.setItem(i, new ItemManager(Material.STAINED_GLASS_PANE, 15).setNoName().build());
+
+        this.addParticleInventory.setItem(45, new ItemManager(Material.SKULL_ITEM, 3).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("particles-addeffect-back-name")).addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("particles-addeffect-back-description")).setHeadValueAndBuild("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmQ2OWUwNmU1ZGFkZmQ4NGU1ZjNkMWMyMTA2M2YyNTUzYjJmYTk0NWVlMWQ0ZDcxNTJmZGM1NDI1YmMxMmE5In19fQ=="));
+        this.addParticleInventory.setItem(49, new ItemManager(Material.BOOK).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("particles-addeffect-info-name")).addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("particles-addeffect-info-description")).build());
+
+
+        for(int i = 0; i<effectTypes.length; i++) {
+            this.addParticleInventory.setItem(i, new ItemManager(effectTypes[i].getMaterial())
+                    .setDisplayName(effectTypes[i].getDisplayName())
+                    .addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("particles-addeffect-item-description"))
+                    .build());
+            i++;
+        }
     }
 
     public void switchEffectOverviewInventoryPage(int newPage) {
         this.particleOverviewPage = newPage;
         this.particleOverviewInventory.clear();
         this.buildOverviewInventory();
+    }
+
+    public void updateOverviewInventory() {
+        this.switchEffectOverviewInventoryPage(this.particleOverviewPage);
     }
 
 }
