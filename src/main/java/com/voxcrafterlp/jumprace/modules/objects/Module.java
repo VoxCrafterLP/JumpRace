@@ -65,8 +65,10 @@ public class Module {
         this.border2 = new RelativePosition((this.moduleData.getWidth() - 1), (this.moduleData.getHeight() - 1), (this.moduleData.getLength() - 1));
     }
 
-    /*
-     * Build the module
+    /**
+     * Builds the module
+     * @param location Lower left corner of the module
+     * @param isLastModule Determines the material of the last block
      */
     public void build(Location location, boolean isLastModule) {
         this.spawnLocation = location;
@@ -113,16 +115,15 @@ public class Module {
     }
 
     /**
-     * Start the particle scheduler
+     * Starts the particle scheduler
      */
     public void spawnParticles() {
-        this.particlesTaskID = Bukkit.getScheduler().scheduleAsyncRepeatingTask(JumpRace.getInstance(), () -> {
-            this.particleLines.forEach(ParticleLine::draw);
-        }, 20, 4);
+        this.particlesTaskID = Bukkit.getScheduler().scheduleAsyncRepeatingTask(JumpRace.getInstance(), () ->
+                this.particleLines.forEach(ParticleLine::draw), 20, 4);
     }
 
     /**
-     * Calculate the border particles based on the size of the module
+     * Calculates the border particles based on the size of the module
      */
     public void recalculateParticles() {
         int width = this.border2.getRelativeZ() - this.border1.getRelativeZ() + 1;
@@ -159,14 +160,14 @@ public class Module {
     }
 
     /**
-     * Stop the particle scheduler
+     * Stops the particle scheduler
      */
     public void stopParticles() {
         Bukkit.getScheduler().cancelTask(this.particlesTaskID);
     }
 
     /**
-     * Calculate a {@link Location} based on {@link RelativePosition}
+     * Calculates a {@link Location} based on {@link RelativePosition}
      * @param location Lower left corner of the module
      * @param relativePosition RelativePosition which should be converted
      * @return Calculated location
@@ -176,7 +177,7 @@ public class Module {
     }
 
     /**
-     * Get the module's borders
+     * Gets the module's borders
      * @return Array containing the lower left and the upper right corner
      */
     public Location[] getModuleBorders() {

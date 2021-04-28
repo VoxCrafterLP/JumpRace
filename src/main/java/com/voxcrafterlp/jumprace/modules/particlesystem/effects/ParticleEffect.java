@@ -40,16 +40,27 @@ public abstract class ParticleEffect {
         this.visibleTo = visibleTo;
     }
 
+    /**
+     * Starts a scheduler which calls the {@link ParticleEffect#draw()} method every 4 ticks
+     */
     public void startDrawing() {
         this.taskID = Bukkit.getScheduler().scheduleAsyncRepeatingTask(JumpRace.getInstance(), this::draw, 10, 4);
     }
 
+    /**
+     * Stops the scheduler that is drawing the particle effect
+     */
     public void stopDrawing() {
         Bukkit.getScheduler().cancelTask(this.taskID);
     }
 
     public abstract void draw();
 
+    /**
+     * Sends a {@link PacketPlayOutWorldParticles} packet to players in a 50 block radius
+     * @param packet Packet that should be send
+     * @param location Location of the particle effect
+     */
     public void sendPacket(PacketPlayOutWorldParticles packet, Location location) {
         this.visibleTo.forEach(player -> {
             if(location.distance(player.getLocation()) <= 50)

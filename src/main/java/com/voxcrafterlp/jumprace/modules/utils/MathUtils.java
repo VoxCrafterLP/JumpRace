@@ -11,6 +11,13 @@ import org.bukkit.util.Vector;
 
 public class MathUtils {
 
+    /**
+     * Calculates the rotation for a {@link com.voxcrafterlp.jumprace.modules.particlesystem.effects.ParticleEffect} using rotation matrices
+     * @param vector Initial vector
+     * @param yaw Yaw rotation in degrees
+     * @param pitch Pitch rotation in degrees
+     * @param roll Roll rotation in degrees
+     */
     public void rotate(Vector vector, float yaw, float pitch, float roll) {
         final double yawR = yaw / 180.0 * Math.PI;
         final double pitchR = pitch / 180.0 * Math.PI;
@@ -19,7 +26,6 @@ public class MathUtils {
         //this.rotateAboutZ(vector, rollR);
         this.rotateAboutX(vector, pitchR);
         this.rotateAboutY(vector, -yawR);
-
     }
 
     private void rotateAboutX(Vector vector, double a) {

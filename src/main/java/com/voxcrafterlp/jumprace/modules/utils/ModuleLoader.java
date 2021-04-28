@@ -102,6 +102,9 @@ public class ModuleLoader {
             Bukkit.getConsoleSender().sendMessage("§cNo modules found");
     }
 
+    /**
+     * Reloads the module from the 'modules' folder
+     */
     public void reloadModules() {
         this.moduleList.clear();
         try {
