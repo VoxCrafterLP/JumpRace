@@ -41,7 +41,7 @@ public abstract class ParticleEffect {
     }
 
     public void startDrawing() {
-        this.taskID = Bukkit.getScheduler().scheduleAsyncRepeatingTask(JumpRace.getInstance(), this::draw, 10, 10);
+        this.taskID = Bukkit.getScheduler().scheduleAsyncRepeatingTask(JumpRace.getInstance(), this::draw, 10, 4);
     }
 
     public void stopDrawing() {
@@ -58,5 +58,7 @@ public abstract class ParticleEffect {
     }
 
     public abstract EffectType getEffectType();
+
+    public abstract ParticleEffectData getEffectData();
 
 }

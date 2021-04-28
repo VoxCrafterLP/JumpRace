@@ -33,16 +33,20 @@ public class ParticleManager {
                 particleEffectData.getLocation(), particleEffectData.getEnumParticle())
                 .setRotation(particleEffectData.getYaw(), particleEffectData.getPitch(), particleEffectData.getRoll())
                 .setSize(particleEffectData.getSize()).setVisibleTo(Collections.singletonList(player)).build()));
+
+        this.startEffects();
     }
 
     public void addParticleEffect(EffectType effectType, Location location) {
-        this.particleEffects.add(new ParticleEffectBuilder(effectType, location, EnumParticle.VILLAGER_HAPPY)
-        .setVisibleTo(Collections.singletonList(this.player)).setRotation(0, 0, 0)
-        .setSize(1).build());
+        final ParticleEffect particleEffect = new ParticleEffectBuilder(effectType, location, EnumParticle.VILLAGER_HAPPY)
+                .setVisibleTo(Collections.singletonList(this.player)).setRotation(0, 0, 0)
+                .setSize(1).build();
+        this.particleEffects.add(particleEffect);
+        particleEffect.startDrawing();
     }
 
     public void startEffects() {
-        this.particleEffects.forEach(ParticleEffect::startDrawing);
+        new Thread(() -> this.particleEffects.forEach(ParticleEffect::startDrawing)).start();
     }
 
     public void stopEffects() {

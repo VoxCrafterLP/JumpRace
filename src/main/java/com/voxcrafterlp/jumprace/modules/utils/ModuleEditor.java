@@ -78,6 +78,7 @@ public class ModuleEditor {
         this.resetToPreviousInventory();
         Bukkit.getScheduler().cancelTask(this.actionbarTaskID);
         this.module.stopParticles();
+        this.module.getParticleManager().stopEffects();
 
         final Location[] borders = (this.settings.getEditorMode() == EditorMode.QUICK) ? this.module.getModuleBorders() : this.editorSetup.getBorders();
 

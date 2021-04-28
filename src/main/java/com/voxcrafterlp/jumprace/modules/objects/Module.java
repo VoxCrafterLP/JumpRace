@@ -191,7 +191,7 @@ public class Module {
      */
     public void saveModule(Location[] borders, RelativePosition startPoint, RelativePosition endPoint) {
         new File("plugins/JumpRace/modules/" + this.name).mkdir();
-        new ModuleExportUtil(this.name, this.builder, this.moduleDifficulty, startPoint, endPoint, borders, this.spawnLocation).exportModule();
+        new ModuleExportUtil(this.name, this.builder, this.moduleDifficulty, startPoint, endPoint, borders, this.spawnLocation, this.particleManager.getParticleEffects()).exportModule();
     }
 
     /**

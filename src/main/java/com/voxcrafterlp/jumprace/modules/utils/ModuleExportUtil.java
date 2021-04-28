@@ -4,11 +4,13 @@ import com.google.common.collect.Lists;
 import com.voxcrafterlp.jumprace.JumpRace;
 import com.voxcrafterlp.jumprace.modules.enums.ModuleDifficulty;
 import com.voxcrafterlp.jumprace.modules.objects.RelativePosition;
+import com.voxcrafterlp.jumprace.modules.particlesystem.effects.ParticleEffect;
 import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -35,8 +37,9 @@ public class ModuleExportUtil {
     private final RelativePosition endPoint;
     private final Location[] moduleBorders;
     private final Location spawnLocation;
+    private final List<ParticleEffect> particleEffects;
 
-    public ModuleExportUtil(String name, String builder, ModuleDifficulty moduleDifficulty, RelativePosition startPoint, RelativePosition endPoint, Location[] moduleBorders, Location spawnLocation) {
+    public ModuleExportUtil(String name, String builder, ModuleDifficulty moduleDifficulty, RelativePosition startPoint, RelativePosition endPoint, Location[] moduleBorders, Location spawnLocation, List<ParticleEffect> particleEffects) {
         this.name = name;
         this.builder = builder;
         this.moduleDifficulty = moduleDifficulty;
@@ -44,6 +47,7 @@ public class ModuleExportUtil {
         this.endPoint = endPoint;
         this.moduleBorders = moduleBorders;
         this.spawnLocation = spawnLocation;
+        this.particleEffects = particleEffects;
     }
 
     /**
@@ -54,8 +58,8 @@ public class ModuleExportUtil {
         try {
             this.saveProperties();
             this.saveSchematic();
-        } catch (IOException | NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
+        } catch (IOException | NoSuchMethodException | InvocationTargetException | IllegalAccessException exception) {
+            exception.printStackTrace();
         }
 
         //Reload modules
@@ -72,6 +76,10 @@ public class ModuleExportUtil {
 
         properties.put("name", this.name).put("builder", this.builder).put("difficulty", this.moduleDifficulty.getConfigName());
         properties.put("startpoint", this.startPoint.toJSONObject()).put("endpoint", this.endPoint.toJSONObject());
+
+        final JSONArray particles = new JSONArray();
+        this.particleEffects.forEach(particleEffect -> particles.put(particleEffect.getEffectData().toJSON()));
+        properties.put("particles", particles);
 
         if(!propertiesFile.exists())
             propertiesFile.createNewFile();

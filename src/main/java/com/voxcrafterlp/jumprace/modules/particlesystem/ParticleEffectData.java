@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.server.v1_8_R3.EnumParticle;
 import org.bukkit.Location;
+import org.json.JSONObject;
 
 /**
  * This file was created by VoxCrafter_LP!
@@ -28,6 +29,14 @@ public class ParticleEffectData {
         this.pitch = pitch;
         this.roll = roll;
         this.size = size;
+    }
+
+    public JSONObject toJSON() {
+        return new JSONObject().put("type", this.effectType.name())
+                .put("x", this.location.getX()).put("y", this.location.getY()).put("z", this.location.getZ())
+                .put("particleType", this.enumParticle.name())
+                .put("yaw", this.yaw).put("pitch", this.pitch).put("roll", this.roll)
+                .put("size", this.size);
     }
 
 }
