@@ -25,7 +25,8 @@ public class ParticleEffectBuilder {
     private final EffectType effectType;
     private Location location;
     private EnumParticle enumParticle;
-    private int yaw, pitch, roll, size;
+    private int yaw, pitch, roll;
+    private double size;
     private List<Player> visibleTo;
 
     public ParticleEffectBuilder(EffectType effectType, Location location, EnumParticle enumParticle) {
@@ -66,7 +67,7 @@ public class ParticleEffectBuilder {
         return this;
     }
 
-    public ParticleEffectBuilder setSize(int size) {
+    public ParticleEffectBuilder setSize(double size) {
         this.size = size;
         return this;
     }
@@ -86,7 +87,7 @@ public class ParticleEffectBuilder {
         }
 
         final Class[] typeArray = new Class[]{Location.class, EnumParticle.class, int.class, int.class, int.class,
-                int.class, List.class};
+                double.class, List.class};
 
         try {
             return effectType.getClazz().getDeclaredConstructor(typeArray).newInstance(this.location, this.enumParticle, this.yaw, this.pitch, this.roll, this.size, this.visibleTo);

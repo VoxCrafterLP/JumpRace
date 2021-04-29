@@ -270,7 +270,9 @@ public class InventoryClickListener implements Listener {
             }
 
             if(event.getSlot() < 36 && event.getCurrentItem().getType() != Material.BARRIER) { //Effect selected
-                //TODO
+                final Module module = JumpRace.getInstance().getEditorSessions().get(player).getModule();
+                final int index = ((module.getParticleUI().getParticleOverviewPage() - 1) * 36) + event.getSlot();
+                player.openInventory(module.getParticleManager().getParticleEffects().get(index).getEffectInventory());
                 return;
             }
             return;

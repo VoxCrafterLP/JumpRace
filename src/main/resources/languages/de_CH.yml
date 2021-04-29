@@ -90,7 +90,7 @@ particles-addeffect-item-description: "&7Klicke um diesen\n&7Partikel-Effekt hin
 particles-addeffect-info-name: "&bInformationen"
 particles-addeffect-info-description: "&cHinweis&8: &7Wenn du\n&7einen Partikel-Effekt\n&7hinzufügst, wird dieser\n&7an deiner aktuellen\n&7Position gespawnt."
 particles-addeffect-back-name: "§cZurück zur Übersicht"
-particles-addeffect-back-description: "&7Klicke um zurück zu\n&7der Übersicht zu kommen"
+particles-addeffect-back-description: "&7Klicke um zurück zu\n&7der Übersicht zu gelangen"
 particles-addeffect-success: "&7Du hast den {0}&7-Effekt &berfolgreich &7hinzugefügt."
 
 particle-ring-name: "&2Ring"

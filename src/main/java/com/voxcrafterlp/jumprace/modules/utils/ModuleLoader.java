@@ -87,7 +87,7 @@ public class ModuleLoader {
                                         particleEffect.getDouble("y"), particleEffect.getDouble("z")),
                                 particleEffect.getString("particleType"), particleEffect.getInt("yaw"),
                                 particleEffect.getInt("pitch"), particleEffect.getInt("roll"),
-                                particleEffect.getInt("size")));
+                                particleEffect.getDouble("size")));
                     }
                 }
 

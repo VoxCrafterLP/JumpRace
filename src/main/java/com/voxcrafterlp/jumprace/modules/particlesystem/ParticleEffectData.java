@@ -19,9 +19,10 @@ public class ParticleEffectData {
     private final EffectType effectType;
     private final Location location;
     private final EnumParticle enumParticle;
-    private final int yaw, pitch, roll, size;
+    private final int yaw, pitch, roll;
+    private final double size;
 
-    public ParticleEffectData(EffectType effectType, Location location, String particleType, int yaw, int pitch, int roll, int size) {
+    public ParticleEffectData(EffectType effectType, Location location, String particleType, int yaw, int pitch, int roll, double size) {
         this.effectType = effectType;
         this.location = location;
         this.enumParticle = EnumParticle.valueOf(particleType);

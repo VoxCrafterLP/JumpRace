@@ -20,17 +20,18 @@ import java.util.List;
 
 public class RingEffect extends ParticleEffect {
 
-    private final int radius;
+    private final double radius;
     private static final int BASE_PARTICLES_DENSITY = 20;
 
-    public RingEffect(Location location, EnumParticle enumParticle, int yaw, int pitch, int roll, int size, List<Player> visibleTo) {
+    public RingEffect(Location location, EnumParticle enumParticle, int yaw, int pitch, int roll, double size, List<Player> visibleTo) {
         super(location, enumParticle, yaw, pitch, roll, size, visibleTo);
         this.radius = size;
+        super.buildInventory();
     }
 
     @Override
     public void draw() {
-        final int particles = this.radius * BASE_PARTICLES_DENSITY;
+        final int particles = (int) this.radius * BASE_PARTICLES_DENSITY;
 
         for(double t = 0; t < particles; t+=0.5) {
             final double x = this.radius * Math.sin(t);

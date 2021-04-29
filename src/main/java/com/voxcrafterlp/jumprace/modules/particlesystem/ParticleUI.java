@@ -69,7 +69,7 @@ public class ParticleUI {
         for(int i = 0; i<36; i++) {
             if(particleEffects.size() >= (startIndex + i + 1)) {
                 final ParticleEffect particleEffect = particleEffects.get(i);
-                this.particleOverviewInventory.setItem(i, new ItemManager(particleEffect.getEffectType().getMaterial()).setDisplayName(particleEffect.getEffectType().getDisplayName()).build());
+                this.particleOverviewInventory.setItem(i, new ItemManager(particleEffect.getEffectType().getMaterial()).setDisplayName(particleEffect.getEffectType().getDisplayName()).addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("particles-overview-item-description")).build());
             }
         }
     }
