@@ -19,7 +19,12 @@ public enum ParticleType {
     DRIP_WATER(EnumParticle.DRIP_WATER, JumpRace.getInstance().getLanguageLoader().getTranslationByKey("particle-drip_water-name")),
     CLOUD(EnumParticle.CLOUD, JumpRace.getInstance().getLanguageLoader().getTranslationByKey("particle-cloud-name")),
     CRIT(EnumParticle.CRIT, JumpRace.getInstance().getLanguageLoader().getTranslationByKey("particle-crit-name")),
-    REDSTONE(EnumParticle.REDSTONE, JumpRace.getInstance().getLanguageLoader().getTranslationByKey("particle-redstone-name"));
+    REDSTONE(EnumParticle.REDSTONE, JumpRace.getInstance().getLanguageLoader().getTranslationByKey("particle-redstone-name")),
+    PORTAL(EnumParticle.PORTAL, JumpRace.getInstance().getLanguageLoader().getTranslationByKey("particle-portal-name")),
+    SPELL(EnumParticle.SPELL_WITCH, JumpRace.getInstance().getLanguageLoader().getTranslationByKey("particle-spell-name")),
+    FIREWORKS_SPARK(EnumParticle.FIREWORKS_SPARK, JumpRace.getInstance().getLanguageLoader().getTranslationByKey("particle-fireworks-name")),
+    HEART(EnumParticle.HEART, JumpRace.getInstance().getLanguageLoader().getTranslationByKey("particle-heart-name")),
+    ENCHANTMENT_TABLE(EnumParticle.ENCHANTMENT_TABLE, JumpRace.getInstance().getLanguageLoader().getTranslationByKey("particle-enchantment_table-name"));
 
     private final EnumParticle enumParticle;
     private final String displayName;
