@@ -21,23 +21,21 @@ import java.util.List;
 
 public class RingEffect extends ParticleEffect {
 
-    private final double radius;
     private static final int BASE_PARTICLES_DENSITY = 20;
 
     public RingEffect(RelativePosition relativePosition, ParticleType particleType, int yaw, int pitch, int roll, double size, List<Player> visibleTo, Location moduleLocation) {
         super(relativePosition, particleType, yaw, pitch, roll, size, visibleTo, moduleLocation);
-        this.radius = size;
         super.buildInventory();
     }
 
     @Override
     public void draw() {
-        final int particles = (int) this.radius * BASE_PARTICLES_DENSITY;
+        final int particles = (int) super.getSize() * BASE_PARTICLES_DENSITY;
 
         for(double t = 0; t < particles; t+=0.5) {
-            final double x = this.radius * Math.sin(t);
+            final double x = super.getSize() * Math.sin(t);
             final double y = 0;
-            final double z = this.radius * Math.cos(t);
+            final double z = super.getSize() * Math.cos(t);
 
             final Vector vector = new Vector(x, y, z);
             new MathUtils().rotate(vector, super.getYaw(), super.getPitch(), super.getRoll());

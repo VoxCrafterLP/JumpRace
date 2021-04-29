@@ -33,8 +33,8 @@ public abstract class ParticleEffect {
     private Location location;
     private RelativePosition relativePosition;
     private ParticleType particleType;
-    private final int yaw, pitch, roll;
-    private final double size;
+    private int yaw, pitch, roll;
+    private double size;
     private final List<Player> visibleTo;
 
     private int taskID;

@@ -362,8 +362,58 @@ public class InventoryClickListener implements Listener {
 
                 particleEffect.setParticleType(nextParticleType);
                 particleEffect.updateInventory();
+            }
 
-                player.playSound(player.getLocation(), Sound.CLICK, 1, 1);
+            if(event.getSlot() == 49) {
+                //TODO
+                return;
+            }
+
+            switch (event.getSlot()) {
+                case 10:
+                case 12:
+                case 14:
+                case 28:
+                case 30:
+                case 32:
+                    final Module module = JumpRace.getInstance().getEditorSessions().get(player).getModule();
+                    final ParticleEffect particleEffect = module.getParticleManager().getParticleEffects().stream()
+                            .filter(particleEffects -> particleEffects.getEffectInventory().equals(event.getInventory())).findFirst().orElse(null);
+
+                    if(particleEffect == null) {
+                        player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("error-message"));
+                        return;
+                    }
+
+                    if(event.getSlot() == 10)
+                        particleEffect.setYaw((particleEffect.getYaw() != 360) ? particleEffect.getYaw() + 10 : 0);
+                    if(event.getSlot() == 12)
+                        particleEffect.setPitch((particleEffect.getPitch() != 360) ? particleEffect.getPitch() + 10 : 0);
+                    if(event.getSlot() == 14) {
+                        if(particleEffect.getSize() != 20.0)
+                            particleEffect.setSize(this.round((particleEffect.getSize() + 0.1), 1)); //Avoid floating point conversion
+                        else {
+                            player.playSound(player.getLocation(), Sound.NOTE_BASS,1,1);
+                            return;
+                        }
+                    }
+
+                    if(event.getSlot() == 28)
+                        particleEffect.setYaw((particleEffect.getYaw() != 0) ? particleEffect.getYaw() - 10 : 360);
+                    if(event.getSlot() == 30)
+                        particleEffect.setPitch((particleEffect.getPitch() != 0) ? particleEffect.getPitch() - 10 : 360);
+                    if(event.getSlot() == 32) {
+                        if(particleEffect.getSize() != 1.0)
+                            particleEffect.setSize(this.round((particleEffect.getSize() - 0.1), 1)); //Avoid floating point conversion
+                        else {
+                            player.playSound(player.getLocation(), Sound.NOTE_BASS,1,1);
+                            return;
+                        }
+                    }
+
+                    particleEffect.updateInventory();
+                    player.playSound(player.getLocation(), Sound.CLICK, 1, 1);
+                    return;
             }
 
             return;
@@ -375,6 +425,11 @@ public class InventoryClickListener implements Listener {
         player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("set-module-difficulty-success", moduleDifficulty.getDisplayName()).toUpperCase());
         player.playSound(player.getLocation(), Sound.LEVEL_UP,1,1);
         session.getSettings().openInventory();
+    }
+
+    private double round(double value, int decimalPoints) {
+        double d = Math.pow(10, decimalPoints);
+        return Math.round(value * d) / d;
     }
 
 }
