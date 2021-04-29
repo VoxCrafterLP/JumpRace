@@ -1,7 +1,8 @@
 package com.voxcrafterlp.jumprace.modules.particlesystem.effects;
 
-import com.voxcrafterlp.jumprace.modules.particlesystem.EffectType;
+import com.voxcrafterlp.jumprace.modules.particlesystem.enums.EffectType;
 import com.voxcrafterlp.jumprace.modules.particlesystem.ParticleEffectData;
+import com.voxcrafterlp.jumprace.modules.particlesystem.enums.ParticleType;
 import com.voxcrafterlp.jumprace.modules.utils.MathUtils;
 import net.minecraft.server.v1_8_R3.EnumParticle;
 import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
@@ -23,8 +24,8 @@ public class RingEffect extends ParticleEffect {
     private final double radius;
     private static final int BASE_PARTICLES_DENSITY = 20;
 
-    public RingEffect(Location location, EnumParticle enumParticle, int yaw, int pitch, int roll, double size, List<Player> visibleTo) {
-        super(location, enumParticle, yaw, pitch, roll, size, visibleTo);
+    public RingEffect(Location location, ParticleType particleType, int yaw, int pitch, int roll, double size, List<Player> visibleTo) {
+        super(location, particleType, yaw, pitch, roll, size, visibleTo);
         this.radius = size;
         super.buildInventory();
     }
@@ -42,7 +43,7 @@ public class RingEffect extends ParticleEffect {
             new MathUtils().rotate(vector, super.getYaw(), super.getPitch(), super.getRoll());
             final Location location = super.getLocation().clone().add(vector);
 
-            super.sendPacket(new PacketPlayOutWorldParticles(super.getEnumParticle(), true, (float) location.getX(),
+            super.sendPacket(new PacketPlayOutWorldParticles(super.getParticleType().getEnumParticle(), true, (float) location.getX(),
                     (float) location.getY(), (float) location.getZ(), 0, 0, 0, 255, 0, 0),location);
         }
     }
@@ -54,7 +55,7 @@ public class RingEffect extends ParticleEffect {
 
     @Override
     public ParticleEffectData getEffectData() {
-        return new ParticleEffectData(this.getEffectType(), super.getLocation(), super.getEnumParticle().name(), super.getYaw(), super.getPitch(), super.getRoll(), super.getSize());
+        return new ParticleEffectData(this.getEffectType(), super.getLocation(), super.getParticleType().name(), super.getYaw(), super.getPitch(), super.getRoll(), super.getSize());
     }
 
 }

@@ -5,7 +5,7 @@ import com.voxcrafterlp.jumprace.modules.enums.ModuleDifficulty;
 import com.voxcrafterlp.jumprace.modules.objects.Module;
 import com.voxcrafterlp.jumprace.modules.objects.ModuleData;
 import com.voxcrafterlp.jumprace.modules.objects.RelativePosition;
-import com.voxcrafterlp.jumprace.modules.particlesystem.EffectType;
+import com.voxcrafterlp.jumprace.modules.particlesystem.enums.EffectType;
 import com.voxcrafterlp.jumprace.modules.particlesystem.ParticleEffectData;
 import lombok.Getter;
 import net.minecraft.server.v1_8_R3.NBTCompressedStreamTools;

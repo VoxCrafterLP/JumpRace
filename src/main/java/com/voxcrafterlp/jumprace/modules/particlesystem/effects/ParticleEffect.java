@@ -1,11 +1,12 @@
 package com.voxcrafterlp.jumprace.modules.particlesystem.effects;
 
 import com.voxcrafterlp.jumprace.JumpRace;
-import com.voxcrafterlp.jumprace.modules.particlesystem.EffectType;
 import com.voxcrafterlp.jumprace.modules.particlesystem.ParticleEffectData;
+import com.voxcrafterlp.jumprace.modules.particlesystem.enums.EffectType;
+import com.voxcrafterlp.jumprace.modules.particlesystem.enums.ParticleType;
 import com.voxcrafterlp.jumprace.utils.ItemManager;
 import lombok.Getter;
-import net.minecraft.server.v1_8_R3.EnumParticle;
+import lombok.Setter;
 import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -24,11 +25,11 @@ import java.util.List;
  * Project: JumpRace
  */
 
-@Getter
+@Getter @Setter
 public abstract class ParticleEffect {
 
-    private final Location location;
-    private final EnumParticle enumParticle;
+    private Location location;
+    private ParticleType particleType;
     private final int yaw, pitch, roll;
     private final double size;
     private final List<Player> visibleTo;
@@ -37,9 +38,9 @@ public abstract class ParticleEffect {
 
     private Inventory effectInventory;
 
-    public ParticleEffect(Location location, EnumParticle enumParticle, int yaw, int pitch, int roll, double size, List<Player> visibleTo) {
+    public ParticleEffect(Location location, ParticleType particleType, int yaw, int pitch, int roll, double size, List<Player> visibleTo) {
         this.location = location;
-        this.enumParticle = enumParticle;
+        this.particleType = particleType;
         this.yaw = yaw;
         this.pitch = pitch;
         this.roll = roll;
@@ -103,7 +104,7 @@ public abstract class ParticleEffect {
         this.effectInventory.setItem(21, new ItemManager(Material.BOOK).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("particles-effectsettings-pitch-name")).addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("particles-effectsettings-pitch-description", String.valueOf(this.pitch))).build());
         this.effectInventory.setItem(23, new ItemManager(Material.BOOK).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("particles-effectsettings-size-name")).addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("particles-effectsettings-size-description", String.valueOf(this.size))).build());
 
-        //TODO particles
+        this.effectInventory.setItem(16, new ItemManager(Material.BLAZE_POWDER).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("particles-effectsettings-particles-name")).addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("particles-effectsettings-particles-description", this.particleType.getDisplayName())).build());
     }
 
     public abstract EffectType getEffectType();

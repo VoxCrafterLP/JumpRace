@@ -1,4 +1,4 @@
-package com.voxcrafterlp.jumprace.modules.particlesystem;
+package com.voxcrafterlp.jumprace.modules.particlesystem.enums;
 
 import com.voxcrafterlp.jumprace.JumpRace;
 import com.voxcrafterlp.jumprace.modules.particlesystem.effects.ParticleEffect;
@@ -16,7 +16,7 @@ import org.bukkit.Material;
 @Getter
 public enum EffectType {
 
-    RING(RingEffect.class, JumpRace.getInstance().getLanguageLoader().getTranslationByKey("particle-ring-name"), Material.EMERALD);
+    RING(RingEffect.class, JumpRace.getInstance().getLanguageLoader().getTranslationByKey("particle-effect-ring-name"), Material.EMERALD);
 
     private final Class<? extends ParticleEffect> clazz;
     private final String displayName;
