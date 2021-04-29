@@ -1,10 +1,10 @@
 package com.voxcrafterlp.jumprace.modules.particlesystem.effects;
 
-import com.voxcrafterlp.jumprace.modules.particlesystem.enums.EffectType;
+import com.voxcrafterlp.jumprace.modules.objects.RelativePosition;
 import com.voxcrafterlp.jumprace.modules.particlesystem.ParticleEffectData;
+import com.voxcrafterlp.jumprace.modules.particlesystem.enums.EffectType;
 import com.voxcrafterlp.jumprace.modules.particlesystem.enums.ParticleType;
 import com.voxcrafterlp.jumprace.modules.utils.MathUtils;
-import net.minecraft.server.v1_8_R3.EnumParticle;
 import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -24,8 +24,8 @@ public class RingEffect extends ParticleEffect {
     private final double radius;
     private static final int BASE_PARTICLES_DENSITY = 20;
 
-    public RingEffect(Location location, ParticleType particleType, int yaw, int pitch, int roll, double size, List<Player> visibleTo) {
-        super(location, particleType, yaw, pitch, roll, size, visibleTo);
+    public RingEffect(RelativePosition relativePosition, ParticleType particleType, int yaw, int pitch, int roll, double size, List<Player> visibleTo, Location moduleLocation) {
+        super(relativePosition, particleType, yaw, pitch, roll, size, visibleTo, moduleLocation);
         this.radius = size;
         super.buildInventory();
     }
@@ -55,7 +55,7 @@ public class RingEffect extends ParticleEffect {
 
     @Override
     public ParticleEffectData getEffectData() {
-        return new ParticleEffectData(this.getEffectType(), super.getLocation(), super.getParticleType().name(), super.getYaw(), super.getPitch(), super.getRoll(), super.getSize());
+        return new ParticleEffectData(this.getEffectType(), super.getRelativePosition(), super.getParticleType().name(), super.getYaw(), super.getPitch(), super.getRoll(), super.getSize());
     }
 
 }

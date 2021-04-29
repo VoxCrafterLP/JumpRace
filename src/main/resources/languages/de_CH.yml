@@ -118,6 +118,9 @@ particle-cloud-name: "§fCloud"
 particle-crit-name: "§5Crits"
 particle-redstone-name: "§cRedstone"
 
+particles-message-delete-success: "&7You &asuccessfully &7deleted the &bparticle effect&7."
+particles-message-teleport-success: "&7You &asuccessfully &7teleported the &bparticle effect &7to your current position."
+
 message-editor-start-1: "&7Du chasch s'Modul jetzt &bbaue&8."
 message-editor-start-2: "&7Du chasch Partikel ih de &bIhstellige &cdeaktiviere&7, indem du ih de &cPerformance-Editor &7wechslisch&8."
 message-editor-save-success: "&7S'Modul isch &aerfolgrich &7gspeicheret worde&8."

@@ -3,6 +3,7 @@ package com.voxcrafterlp.jumprace.builderserver.listener.editor;
 import com.voxcrafterlp.jumprace.JumpRace;
 import com.voxcrafterlp.jumprace.modules.enums.EditorMode;
 import com.voxcrafterlp.jumprace.modules.enums.InteractionType;
+import com.voxcrafterlp.jumprace.modules.utils.CalculatorUtil;
 import com.voxcrafterlp.jumprace.modules.utils.ModuleEditor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -30,7 +31,7 @@ public class PlayerModifyBarrierListener implements Listener {
             if(session.getSettings().getEditorMode() == EditorMode.PERFORMANCE) return;
 
             if(!isInRegion(event.getBlock().getLocation(), moduleBorders[0], moduleBorders[1])) {
-                if(event.getBlock().getLocation().getBlockX() < session.getModule().calculateLocation(session.getModule().getSpawnLocation(), session.getModule().getStartPoint()).getBlockX()) {
+                if(event.getBlock().getLocation().getBlockX() < new CalculatorUtil().calculateLocation(session.getModule().getSpawnLocation(), session.getModule().getStartPoint()).getBlockX()) {
                     event.setCancelled(true);
                     event.getPlayer().sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("building-not-allowed"));
                     return;

@@ -39,7 +39,6 @@ public class ModuleEditor {
         this.player = player;
         this.module = module;
         this.settings = new ModuleEditorSettings(this);
-        this.module.initializeParticleManager(player);
 
         JumpRace.getInstance().getEditorSessions().put(this.player, this);
     }
@@ -59,6 +58,8 @@ public class ModuleEditor {
 
         this.giveItems();
         this.startActionbar();
+
+        this.module.initializeParticleManager(player);
     }
 
     /**
@@ -82,7 +83,7 @@ public class ModuleEditor {
 
         final Location[] borders = (this.settings.getEditorMode() == EditorMode.QUICK) ? this.module.getModuleBorders() : this.editorSetup.getBorders();
 
-        this.module.saveModule(borders, this.calculateRelativePosition(this.module.getStartPointLocation(), borders[0]), calculateRelativePosition(this.module.getEndPointLocation(), borders[0]));
+        this.module.saveModule(borders, new CalculatorUtil().calculateRelativePosition(this.module.getStartPointLocation(), borders[0]), new CalculatorUtil().calculateRelativePosition(this.module.getEndPointLocation(), borders[0]));
         this.clearArea(borders);
 
         JumpRace.getInstance().getEditorSessions().remove(this.player);
@@ -245,19 +246,5 @@ public class ModuleEditor {
                 }
             }
         }
-    }
-
-    /**
-     * Calculate a {@link RelativePosition} based on a {@link Location}
-     * @param location Location which should be converted to a {@link RelativePosition}
-     * @param borderLocation Location of the left lower border
-     * @return Calculated RelativePosition
-     */
-    private RelativePosition calculateRelativePosition(Location location, Location borderLocation) {
-        final int relativeX = location.getBlockX() - borderLocation.getBlockX();
-        final int relativeY = location.getBlockY() - borderLocation.getBlockY();
-        final int relativeZ = location.getBlockZ() - borderLocation.getBlockZ();
-
-        return new RelativePosition(relativeX, relativeY, relativeZ);
     }
 }

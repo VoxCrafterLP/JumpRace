@@ -8,6 +8,7 @@ import com.voxcrafterlp.jumprace.modules.objects.Module;
 import com.voxcrafterlp.jumprace.modules.particlesystem.effects.ParticleEffect;
 import com.voxcrafterlp.jumprace.modules.particlesystem.enums.EffectType;
 import com.voxcrafterlp.jumprace.modules.particlesystem.enums.ParticleType;
+import com.voxcrafterlp.jumprace.modules.utils.CalculatorUtil;
 import com.voxcrafterlp.jumprace.modules.utils.ModuleEditor;
 import com.voxcrafterlp.jumprace.utils.ItemManager;
 import net.wesjd.anvilgui.AnvilGUI;
@@ -292,7 +293,7 @@ public class InventoryClickListener implements Listener {
                 final EffectType effectType = EffectType.values()[event.getSlot()];
                 final Module module = JumpRace.getInstance().getEditorSessions().get(player).getModule();
 
-                module.getParticleManager().addParticleEffect(effectType, player.getLocation());
+                module.getParticleManager().addParticleEffect(effectType, new CalculatorUtil().calculateRelativePosition(player.getLocation(), module.getModuleBorders()[0]));
                 module.getParticleUI().updateOverviewInventory();
                 player.playSound(player.getLocation(), Sound.LEVEL_UP,1,1);
                 player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("particles-addeffect-success", effectType.getDisplayName()));
@@ -339,6 +340,7 @@ public class InventoryClickListener implements Listener {
                     return;
                 }
 
+                particleEffect.setRelativePosition(new CalculatorUtil().calculateRelativePosition(player.getLocation(), module.getModuleBorders()[0]));
                 particleEffect.setLocation(player.getLocation());
                 player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("particles-message-teleport-success"));
                 player.closeInventory();

@@ -1,7 +1,9 @@
 package com.voxcrafterlp.jumprace.modules.particlesystem;
 
 import com.google.common.collect.Lists;
+import com.voxcrafterlp.jumprace.modules.objects.Module;
 import com.voxcrafterlp.jumprace.modules.objects.ModuleData;
+import com.voxcrafterlp.jumprace.modules.objects.RelativePosition;
 import com.voxcrafterlp.jumprace.modules.particlesystem.effects.ParticleEffect;
 import com.voxcrafterlp.jumprace.modules.particlesystem.enums.EffectType;
 import com.voxcrafterlp.jumprace.modules.particlesystem.enums.ParticleType;
@@ -25,22 +27,24 @@ public class ParticleManager {
 
     private final List<ParticleEffect> particleEffects;
     private final Player player;
+    private final Location moduleLocation;
 
-    public ParticleManager(ModuleData moduleData, Player player) {
+    public ParticleManager(Module module, Player player) {
         this.particleEffects = Lists.newCopyOnWriteArrayList();
         this.player = player;
+        this.moduleLocation = module.getModuleBorders()[0];
 
-        moduleData.getParticleEffectData().forEach(particleEffectData ->
+        module.getModuleData().getParticleEffectData().forEach(particleEffectData ->
                 this.particleEffects.add(new ParticleEffectBuilder(particleEffectData.getEffectType(),
-                particleEffectData.getLocation(), particleEffectData.getParticleType())
+                particleEffectData.getRelativePosition(), particleEffectData.getParticleType(), this.moduleLocation)
                 .setRotation(particleEffectData.getYaw(), particleEffectData.getPitch(), particleEffectData.getRoll())
                 .setSize(particleEffectData.getSize()).setVisibleTo(Collections.singletonList(player)).build()));
 
         this.startEffects();
     }
 
-    public void addParticleEffect(EffectType effectType, Location location) {
-        final ParticleEffect particleEffect = new ParticleEffectBuilder(effectType, location, ParticleType.FLAME)
+    public void addParticleEffect(EffectType effectType, RelativePosition relativePosition) {
+        final ParticleEffect particleEffect = new ParticleEffectBuilder(effectType, relativePosition, ParticleType.FLAME, this.moduleLocation)
                 .setVisibleTo(Collections.singletonList(this.player)).setRotation(0, 0, 0)
                 .setSize(1).build();
         this.particleEffects.add(particleEffect);

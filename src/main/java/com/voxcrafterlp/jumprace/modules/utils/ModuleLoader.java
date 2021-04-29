@@ -83,8 +83,7 @@ public class ModuleLoader {
                         final JSONObject particleEffect = properties.getJSONArray("particles").getJSONObject(i);
                         module.getModuleData().getParticleEffectData().add(new ParticleEffectData(
                                 EffectType.valueOf(particleEffect.getString("type")),
-                                new Location(Bukkit.getWorld("jumprace"), particleEffect.getDouble("x"),
-                                        particleEffect.getDouble("y"), particleEffect.getDouble("z")),
+                                new RelativePosition(particleEffect.getJSONObject("location")),
                                 particleEffect.getString("particleType"), particleEffect.getInt("yaw"),
                                 particleEffect.getInt("pitch"), particleEffect.getInt("roll"),
                                 particleEffect.getDouble("size")));

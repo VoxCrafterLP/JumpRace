@@ -13,20 +13,18 @@ import org.json.JSONObject;
 @Getter
 public class RelativePosition {
 
-    private int relativeX;
-    private int relativeY;
-    private int relativeZ;
+    private double relativeX, relativeY, relativeZ;
 
-    public RelativePosition(int relativeX, int relativeY, int relativeZ) {
+    public RelativePosition(double relativeX, double relativeY, double relativeZ) {
         this.relativeX = relativeX;
         this.relativeY = relativeY;
         this.relativeZ = relativeZ;
     }
 
     public RelativePosition(JSONObject jsonObject) {
-        this.relativeX = jsonObject.getInt("relativeX");
-        this.relativeY = jsonObject.getInt("relativeY");
-        this.relativeZ = jsonObject.getInt("relativeZ");
+        this.relativeX = jsonObject.getDouble("relativeX");
+        this.relativeY = jsonObject.getDouble("relativeY");
+        this.relativeZ = jsonObject.getDouble("relativeZ");
     }
 
     public RelativePosition(RelativePosition relativePosition) {

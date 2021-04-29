@@ -2,10 +2,10 @@ package com.voxcrafterlp.jumprace.modules.particlesystem;
 
 import com.google.common.collect.Lists;
 import com.voxcrafterlp.jumprace.JumpRace;
+import com.voxcrafterlp.jumprace.modules.objects.RelativePosition;
 import com.voxcrafterlp.jumprace.modules.particlesystem.effects.ParticleEffect;
 import com.voxcrafterlp.jumprace.modules.particlesystem.enums.EffectType;
 import com.voxcrafterlp.jumprace.modules.particlesystem.enums.ParticleType;
-import net.minecraft.server.v1_8_R3.EnumParticle;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -23,20 +23,22 @@ import java.util.List;
 public class ParticleEffectBuilder {
 
     private final EffectType effectType;
-    private Location location;
+    private RelativePosition relativePosition;
     private ParticleType particleType;
     private int yaw, pitch, roll;
     private double size;
     private List<Player> visibleTo;
+    private final Location moduleLocation;
 
-    public ParticleEffectBuilder(EffectType effectType, Location location, ParticleType particleType) {
+    public ParticleEffectBuilder(EffectType effectType, RelativePosition relativePosition, ParticleType particleType, Location moduleLocation) {
         this.effectType = effectType;
-        this.location = location;
+        this.relativePosition = relativePosition;
         this.particleType = particleType;
+        this.moduleLocation = moduleLocation;
     }
 
-    public ParticleEffectBuilder setLocation(Location location) {
-        this.location = location;
+    public ParticleEffectBuilder setRelativePosition(RelativePosition relativePosition) {
+        this.relativePosition = relativePosition;
         return this;
     }
 
@@ -86,11 +88,12 @@ public class ParticleEffectBuilder {
             this.visibleTo.addAll(Bukkit.getOnlinePlayers());
         }
 
-        final Class[] typeArray = new Class[]{Location.class, ParticleType.class, int.class, int.class, int.class,
-                double.class, List.class};
+        final Class[] typeArray = new Class[]{RelativePosition.class, ParticleType.class, int.class, int.class, int.class,
+                double.class, List.class, Location.class};
 
         try {
-            return effectType.getClazz().getDeclaredConstructor(typeArray).newInstance(this.location, this.particleType, this.yaw, this.pitch, this.roll, this.size, this.visibleTo);
+            return effectType.getClazz().getDeclaredConstructor(typeArray).newInstance(this.relativePosition,
+                    this.particleType, this.yaw, this.pitch, this.roll, this.size, this.visibleTo, this.moduleLocation);
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             Bukkit.broadcastMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("error-message"));
             e.printStackTrace();

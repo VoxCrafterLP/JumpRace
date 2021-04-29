@@ -6,6 +6,7 @@ import com.voxcrafterlp.jumprace.modules.enums.ModuleDifficulty;
 import com.voxcrafterlp.jumprace.modules.enums.ParticleDirection;
 import com.voxcrafterlp.jumprace.modules.particlesystem.ParticleManager;
 import com.voxcrafterlp.jumprace.modules.particlesystem.ParticleUI;
+import com.voxcrafterlp.jumprace.modules.utils.CalculatorUtil;
 import com.voxcrafterlp.jumprace.modules.utils.ModuleExportUtil;
 import com.voxcrafterlp.jumprace.utils.HologramUtil;
 import lombok.Getter;
@@ -99,8 +100,8 @@ public class Module {
             }
         }
 
-        this.startPointLocation = calculateLocation(location, startPoint);
-        this.endPointLocation = calculateLocation(location, endPoint);
+        this.startPointLocation = new CalculatorUtil().calculateLocation(location, startPoint);
+        this.endPointLocation = new CalculatorUtil().calculateLocation(location, endPoint);
 
         location.getWorld().getBlockAt(this.startPointLocation).setType(Material.GOLD_BLOCK);
         location.getWorld().getBlockAt(this.endPointLocation).setType(isLastModule ? Material.EMERALD_BLOCK : Material.GOLD_BLOCK);
@@ -126,9 +127,9 @@ public class Module {
      * Calculates the border particles based on the size of the module
      */
     public void recalculateParticles() {
-        int width = this.border2.getRelativeZ() - this.border1.getRelativeZ() + 1;
-        int depth = this.border2.getRelativeX() - this.border1.getRelativeX() + 1;
-        int height = this.border2.getRelativeY() - this.border1.getRelativeY() + 1;
+        int width = (int) this.border2.getRelativeZ() - (int) this.border1.getRelativeZ() + 1;
+        int depth = (int) this.border2.getRelativeX() - (int) this.border1.getRelativeX() + 1;
+        int height = (int) this.border2.getRelativeY() - (int) this.border1.getRelativeY() + 1;
 
         RelativePosition border3, border4, border5;
         border3 = new RelativePosition(border1.getRelativeX(), border1.getRelativeY(), (border1.getRelativeZ() + width));
@@ -137,26 +138,26 @@ public class Module {
 
         final List<ParticleLine> particleLines = Lists.newCopyOnWriteArrayList();
 
-        particleLines.add(new ParticleLine(this.calculateLocation(this.spawnLocation, this.border1), ParticleDirection.EAST, depth));
-        particleLines.add(new ParticleLine(this.calculateLocation(this.spawnLocation, this.border1), ParticleDirection.UP, height));
-        particleLines.add(new ParticleLine(this.calculateLocation(this.spawnLocation, this.border1), ParticleDirection.SOUTH, width));
+        particleLines.add(new ParticleLine(new CalculatorUtil().calculateLocation(this.spawnLocation, this.border1), ParticleDirection.EAST, depth));
+        particleLines.add(new ParticleLine(new CalculatorUtil().calculateLocation(this.spawnLocation, this.border1), ParticleDirection.UP, height));
+        particleLines.add(new ParticleLine(new CalculatorUtil().calculateLocation(this.spawnLocation, this.border1), ParticleDirection.SOUTH, width));
 
-        particleLines.add(new ParticleLine(this.calculateLocation(this.spawnLocation, new RelativePosition(this.border2).getForParticles()), ParticleDirection.WEST, depth));
-        particleLines.add(new ParticleLine(this.calculateLocation(this.spawnLocation, new RelativePosition(this.border2).getForParticles()), ParticleDirection.DOWN, height));
-        particleLines.add(new ParticleLine(this.calculateLocation(this.spawnLocation, new RelativePosition(this.border2).getForParticles()), ParticleDirection.NORTH, width));
+        particleLines.add(new ParticleLine(new CalculatorUtil().calculateLocation(this.spawnLocation, new RelativePosition(this.border2).getForParticles()), ParticleDirection.WEST, depth));
+        particleLines.add(new ParticleLine(new CalculatorUtil().calculateLocation(this.spawnLocation, new RelativePosition(this.border2).getForParticles()), ParticleDirection.DOWN, height));
+        particleLines.add(new ParticleLine(new CalculatorUtil().calculateLocation(this.spawnLocation, new RelativePosition(this.border2).getForParticles()), ParticleDirection.NORTH, width));
 
-        particleLines.add(new ParticleLine(this.calculateLocation(this.spawnLocation, border3), ParticleDirection.UP, height));
-        particleLines.add(new ParticleLine(this.calculateLocation(this.spawnLocation, border3), ParticleDirection.EAST, depth));
+        particleLines.add(new ParticleLine(new CalculatorUtil().calculateLocation(this.spawnLocation, border3), ParticleDirection.UP, height));
+        particleLines.add(new ParticleLine(new CalculatorUtil().calculateLocation(this.spawnLocation, border3), ParticleDirection.EAST, depth));
 
-        particleLines.add(new ParticleLine(this.calculateLocation(this.spawnLocation, border4), ParticleDirection.UP, height));
-        particleLines.add(new ParticleLine(this.calculateLocation(this.spawnLocation, border4), ParticleDirection.SOUTH, width));
+        particleLines.add(new ParticleLine(new CalculatorUtil().calculateLocation(this.spawnLocation, border4), ParticleDirection.UP, height));
+        particleLines.add(new ParticleLine(new CalculatorUtil().calculateLocation(this.spawnLocation, border4), ParticleDirection.SOUTH, width));
 
-        particleLines.add(new ParticleLine(this.calculateLocation(this.spawnLocation, border5), ParticleDirection.EAST, depth));
-        particleLines.add(new ParticleLine(this.calculateLocation(this.spawnLocation, border5), ParticleDirection.SOUTH, width));
+        particleLines.add(new ParticleLine(new CalculatorUtil().calculateLocation(this.spawnLocation, border5), ParticleDirection.EAST, depth));
+        particleLines.add(new ParticleLine(new CalculatorUtil().calculateLocation(this.spawnLocation, border5), ParticleDirection.SOUTH, width));
 
         this.particleLines = particleLines;
-        this.startPointLocation = calculateLocation(this.spawnLocation, startPoint);
-        this.endPointLocation = calculateLocation(this.spawnLocation, endPoint);
+        this.startPointLocation = new CalculatorUtil().calculateLocation(this.spawnLocation, startPoint);
+        this.endPointLocation = new CalculatorUtil().calculateLocation(this.spawnLocation, endPoint);
     }
 
     /**
@@ -167,21 +168,11 @@ public class Module {
     }
 
     /**
-     * Calculates a {@link Location} based on {@link RelativePosition}
-     * @param location Lower left corner of the module
-     * @param relativePosition RelativePosition which should be converted
-     * @return Calculated location
-     */
-    public Location calculateLocation(Location location, RelativePosition relativePosition) {
-        return new Location(location.getWorld(), (location.getX() + relativePosition.getRelativeX()), (location.getY() + relativePosition.getRelativeY()), (location.getZ()) + relativePosition.getRelativeZ());
-    }
-
-    /**
      * Gets the module's borders
      * @return Array containing the lower left and the upper right corner
      */
     public Location[] getModuleBorders() {
-        return new Location[]{this.calculateLocation(this.spawnLocation, this.border1), this.calculateLocation(this.spawnLocation, this.border2)};
+        return new Location[]{new CalculatorUtil().calculateLocation(this.spawnLocation, this.border1), new CalculatorUtil().calculateLocation(this.spawnLocation, this.border2)};
     }
 
     /**
@@ -219,7 +210,7 @@ public class Module {
      * @return Spawn location
      */
     public Location getPlayerSpawnLocation() {
-        final Location spawnLocation = this.calculateLocation(this.getSpawnLocation(), this.getStartPoint());
+        final Location spawnLocation = new CalculatorUtil().calculateLocation(this.getSpawnLocation(), this.getStartPoint());
         spawnLocation.setX(spawnLocation.getX() + 0.5);
         spawnLocation.setY(spawnLocation.getY() + 1.0);
         spawnLocation.setZ(spawnLocation.getZ() + 0.5);
@@ -234,7 +225,7 @@ public class Module {
      * @param player Player required to initialize the {@link ParticleManager}
      */
     public void initializeParticleManager(Player player) {
-        this.particleManager = new ParticleManager(this.moduleData, player);
+        this.particleManager = new ParticleManager(this, player);
         if(JumpRace.getInstance().getJumpRaceConfig().isBuilderServer())
             this.particleUI = new ParticleUI(this, player);
     }
