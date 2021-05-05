@@ -22,8 +22,9 @@ public class ParticleEffectData {
     private final ParticleType particleType;
     private final int yaw, pitch, roll;
     private final double size;
+    private final Action action;
 
-    public ParticleEffectData(EffectType effectType, RelativePosition relativePosition, String particleType, int yaw, int pitch, int roll, double size) {
+    public ParticleEffectData(EffectType effectType, RelativePosition relativePosition, String particleType, int yaw, int pitch, int roll, double size, Action action) {
         this.effectType = effectType;
         this.relativePosition = relativePosition;
         this.particleType = ParticleType.valueOf(particleType);
@@ -31,6 +32,7 @@ public class ParticleEffectData {
         this.pitch = pitch;
         this.roll = roll;
         this.size = size;
+        this.action = action;
     }
 
     public JSONObject toJSON() {
@@ -38,7 +40,8 @@ public class ParticleEffectData {
                 .put("location", this.relativePosition.toJSONObject())
                 .put("particleType", this.particleType.name())
                 .put("yaw", this.yaw).put("pitch", this.pitch).put("roll", this.roll)
-                .put("size", this.size);
+                .put("size", this.size).put("actionType", this.action.getActionType().name())
+                .put("actionValue", this.action.getValue());
     }
 
 }

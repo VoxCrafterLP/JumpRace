@@ -38,7 +38,8 @@ public class ParticleManager {
                 this.particleEffects.add(new ParticleEffectBuilder(particleEffectData.getEffectType(),
                 particleEffectData.getRelativePosition(), particleEffectData.getParticleType(), this.moduleLocation)
                 .setRotation(particleEffectData.getYaw(), particleEffectData.getPitch(), particleEffectData.getRoll())
-                .setSize(particleEffectData.getSize()).setVisibleTo(Collections.singletonList(player)).build()));
+                .setSize(particleEffectData.getSize()).setVisibleTo(Collections.singletonList(player))
+                .setAction(particleEffectData.getAction()).build()));
 
         this.startEffects();
     }

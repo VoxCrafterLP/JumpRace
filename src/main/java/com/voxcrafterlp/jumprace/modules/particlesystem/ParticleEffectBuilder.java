@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.voxcrafterlp.jumprace.JumpRace;
 import com.voxcrafterlp.jumprace.modules.objects.RelativePosition;
 import com.voxcrafterlp.jumprace.modules.particlesystem.effects.ParticleEffect;
+import com.voxcrafterlp.jumprace.modules.particlesystem.enums.ActionType;
 import com.voxcrafterlp.jumprace.modules.particlesystem.enums.EffectType;
 import com.voxcrafterlp.jumprace.modules.particlesystem.enums.ParticleType;
 import org.bukkit.Bukkit;
@@ -29,12 +30,15 @@ public class ParticleEffectBuilder {
     private double size;
     private List<Player> visibleTo;
     private final Location moduleLocation;
+    private Action action;
 
     public ParticleEffectBuilder(EffectType effectType, RelativePosition relativePosition, ParticleType particleType, Location moduleLocation) {
         this.effectType = effectType;
         this.relativePosition = relativePosition;
         this.particleType = particleType;
         this.moduleLocation = moduleLocation;
+
+        this.action = new Action();
     }
 
     public ParticleEffectBuilder setRelativePosition(RelativePosition relativePosition) {
@@ -79,6 +83,11 @@ public class ParticleEffectBuilder {
         return this;
     }
 
+    public ParticleEffectBuilder setAction(Action action) {
+        this.action = action;
+        return this;
+    }
+
     public ParticleEffect build() {
         //Set missing values
         if(this.size == 0)
@@ -89,11 +98,11 @@ public class ParticleEffectBuilder {
         }
 
         final Class[] typeArray = new Class[]{RelativePosition.class, ParticleType.class, int.class, int.class, int.class,
-                double.class, List.class, Location.class};
+                double.class, List.class, Location.class, Action.class};
 
         try {
             return effectType.getClazz().getDeclaredConstructor(typeArray).newInstance(this.relativePosition,
-                    this.particleType, this.yaw, this.pitch, this.roll, this.size, this.visibleTo, this.moduleLocation);
+                    this.particleType, this.yaw, this.pitch, this.roll, this.size, this.visibleTo, this.moduleLocation, this.action);
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             Bukkit.broadcastMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("error-message"));
             e.printStackTrace();

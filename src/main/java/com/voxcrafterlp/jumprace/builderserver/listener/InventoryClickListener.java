@@ -5,7 +5,9 @@ import com.voxcrafterlp.jumprace.builderserver.objects.ModuleSetup;
 import com.voxcrafterlp.jumprace.modules.enums.EditorMode;
 import com.voxcrafterlp.jumprace.modules.enums.ModuleDifficulty;
 import com.voxcrafterlp.jumprace.modules.objects.Module;
+import com.voxcrafterlp.jumprace.modules.particlesystem.Action;
 import com.voxcrafterlp.jumprace.modules.particlesystem.effects.ParticleEffect;
+import com.voxcrafterlp.jumprace.modules.particlesystem.enums.ActionType;
 import com.voxcrafterlp.jumprace.modules.particlesystem.enums.EffectType;
 import com.voxcrafterlp.jumprace.modules.particlesystem.enums.ParticleType;
 import com.voxcrafterlp.jumprace.modules.utils.CalculatorUtil;
@@ -365,7 +367,17 @@ public class InventoryClickListener implements Listener {
             }
 
             if(event.getSlot() == 49) {
-                //TODO
+                final Module module = JumpRace.getInstance().getEditorSessions().get(player).getModule();
+                final ParticleEffect particleEffect = module.getParticleManager().getParticleEffects().stream()
+                        .filter(particleEffects -> particleEffects.getEffectInventory().equals(event.getInventory())).findFirst().orElse(null);
+
+                if(particleEffect == null) {
+                    player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("error-message"));
+                    return;
+                }
+
+                player.openInventory(particleEffect.getAction().getConfigurationInventory());
+                player.playSound(player.getLocation(), Sound.CLICK, 1, 1);
                 return;
             }
 
@@ -416,6 +428,77 @@ public class InventoryClickListener implements Listener {
                     return;
             }
 
+            return;
+        }
+        if(event.getInventory().getName().equals(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("action-inventory-name"))) {
+            event.setCancelled(true);
+
+            if(event.getSlot() == 18) {
+                player.openInventory(JumpRace.getInstance().getEditorSessions().get(player).getModule().getParticleUI().getParticleOverviewInventory());
+                player.playSound(player.getLocation(), Sound.CLICK, 1, 1);
+                return;
+            }
+
+            if(event.getSlot() == 12) {
+                final Module module = JumpRace.getInstance().getEditorSessions().get(player).getModule();
+                final ParticleEffect particleEffect = module.getParticleManager().getParticleEffects().stream()
+                        .filter(particleEffects -> particleEffects.getAction().getConfigurationInventory().equals(event.getInventory())).findFirst().orElse(null);
+
+                if(particleEffect == null) {
+                    player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("error-message"));
+                    return;
+                }
+
+                final ActionType nextActionType = ActionType.values()[((particleEffect.getAction().getActionType().ordinal() + 1) == ActionType.values().length) ?
+                        0 : particleEffect.getAction().getActionType().ordinal() + 1];
+
+                particleEffect.getAction().setActionType(nextActionType);
+                particleEffect.getAction().updateInventory();
+                player.playSound(player.getLocation(), Sound.CLICK,1,1);
+                return;
+            }
+
+            if(event.getSlot() == 5) {
+                final Module module = JumpRace.getInstance().getEditorSessions().get(player).getModule();
+                final ParticleEffect particleEffect = module.getParticleManager().getParticleEffects().stream()
+                        .filter(particleEffects -> particleEffects.getAction().getConfigurationInventory().equals(event.getInventory())).findFirst().orElse(null);
+
+                if(particleEffect == null) {
+                    player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("error-message"));
+                    return;
+                }
+
+                if(particleEffect.getAction().getValue() != 100) {
+                    particleEffect.getAction().setValue(particleEffect.getAction().getValue() + 1);
+                    player.playSound(player.getLocation(), Sound.CLICK,1,1);
+                    particleEffect.getAction().updateInventory();
+                } else {
+                    player.playSound(player.getLocation(), Sound.NOTE_BASS,1,1);
+                    return;
+                }
+                return;
+            }
+
+            if(event.getSlot() == 23) {
+                final Module module = JumpRace.getInstance().getEditorSessions().get(player).getModule();
+                final ParticleEffect particleEffect = module.getParticleManager().getParticleEffects().stream()
+                        .filter(particleEffects -> particleEffects.getAction().getConfigurationInventory().equals(event.getInventory())).findFirst().orElse(null);
+
+                if(particleEffect == null) {
+                    player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("error-message"));
+                    return;
+                }
+
+                if(particleEffect.getAction().getValue() != 0) {
+                    particleEffect.getAction().setValue(particleEffect.getAction().getValue() - 1);
+                    player.playSound(player.getLocation(), Sound.CLICK,1,1);
+                    particleEffect.getAction().updateInventory();
+                } else {
+                    player.playSound(player.getLocation(), Sound.NOTE_BASS,1,1);
+                    return;
+                }
+                return;
+            }
             return;
         }
     }

@@ -91,6 +91,11 @@ public class ItemManager {
         return this;
     }
 
+    public ItemManager setType(Material material) {
+        this.itemStack.setType(material);
+        return this;
+    }
+
     public ItemStack setHeadOwnerAndBuild(String owner) {
         SkullMeta skullMeta = (SkullMeta) itemMeta;
         skullMeta.setOwner(owner);

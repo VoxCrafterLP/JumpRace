@@ -1,6 +1,7 @@
 package com.voxcrafterlp.jumprace.modules.particlesystem.effects;
 
 import com.voxcrafterlp.jumprace.modules.objects.RelativePosition;
+import com.voxcrafterlp.jumprace.modules.particlesystem.Action;
 import com.voxcrafterlp.jumprace.modules.particlesystem.ParticleEffectData;
 import com.voxcrafterlp.jumprace.modules.particlesystem.enums.EffectType;
 import com.voxcrafterlp.jumprace.modules.particlesystem.enums.ParticleType;
@@ -23,8 +24,8 @@ public class RingEffect extends ParticleEffect {
 
     private static final int BASE_PARTICLES_DENSITY = 20;
 
-    public RingEffect(RelativePosition relativePosition, ParticleType particleType, int yaw, int pitch, int roll, double size, List<Player> visibleTo, Location moduleLocation) {
-        super(relativePosition, particleType, yaw, pitch, roll, size, visibleTo, moduleLocation);
+    public RingEffect(RelativePosition relativePosition, ParticleType particleType, int yaw, int pitch, int roll, double size, List<Player> visibleTo, Location moduleLocation, Action action) {
+        super(relativePosition, particleType, yaw, pitch, roll, size, visibleTo, moduleLocation, action);
         super.buildInventory();
     }
 
@@ -53,7 +54,7 @@ public class RingEffect extends ParticleEffect {
 
     @Override
     public ParticleEffectData getEffectData() {
-        return new ParticleEffectData(this.getEffectType(), super.getRelativePosition(), super.getParticleType().name(), super.getYaw(), super.getPitch(), super.getRoll(), super.getSize());
+        return new ParticleEffectData(this.getEffectType(), super.getRelativePosition(), super.getParticleType().name(), super.getYaw(), super.getPitch(), super.getRoll(), super.getSize(), super.getAction());
     }
 
 }

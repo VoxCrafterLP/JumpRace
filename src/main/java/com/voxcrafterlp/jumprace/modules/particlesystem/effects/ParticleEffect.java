@@ -2,6 +2,7 @@ package com.voxcrafterlp.jumprace.modules.particlesystem.effects;
 
 import com.voxcrafterlp.jumprace.JumpRace;
 import com.voxcrafterlp.jumprace.modules.objects.RelativePosition;
+import com.voxcrafterlp.jumprace.modules.particlesystem.Action;
 import com.voxcrafterlp.jumprace.modules.particlesystem.ParticleEffectData;
 import com.voxcrafterlp.jumprace.modules.particlesystem.enums.EffectType;
 import com.voxcrafterlp.jumprace.modules.particlesystem.enums.ParticleType;
@@ -36,12 +37,12 @@ public abstract class ParticleEffect {
     private int yaw, pitch, roll;
     private double size;
     private final List<Player> visibleTo;
+    private final Action action;
 
     private int taskID;
-
     private Inventory effectInventory;
 
-    public ParticleEffect(RelativePosition relativePosition, ParticleType particleType, int yaw, int pitch, int roll, double size, List<Player> visibleTo, Location moduleLocation) {
+    public ParticleEffect(RelativePosition relativePosition, ParticleType particleType, int yaw, int pitch, int roll, double size, List<Player> visibleTo, Location moduleLocation, Action action) {
         this.relativePosition = relativePosition;
         this.particleType = particleType;
         this.yaw = yaw;
@@ -49,6 +50,7 @@ public abstract class ParticleEffect {
         this.roll = roll;
         this.size = size;
         this.visibleTo = visibleTo;
+        this.action = action;
 
         this.location = new CalculatorUtil().calculateLocation(moduleLocation, this.relativePosition);
     }
