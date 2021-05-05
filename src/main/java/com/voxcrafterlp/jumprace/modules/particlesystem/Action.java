@@ -9,7 +9,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -29,6 +28,7 @@ public class Action {
     private int value;
     private ActionType actionType;
     private Inventory configurationInventory;
+    private long lastExecuted;
 
     public Action() {
         this(ActionType.VELOCITY_BOOST, 1);
@@ -37,25 +37,30 @@ public class Action {
     public Action(ActionType actionType, int value) {
         this.value = value;
         this.actionType = actionType;
+        this.lastExecuted = System.currentTimeMillis();
 
         if(JumpRace.getInstance().getJumpRaceConfig().isBuilderServer())
             this.buildInventory();
     }
 
     public void execute(Player player) {
+        if(System.currentTimeMillis() <= (this.lastExecuted + 1000)) return;
+
         player.playSound(player.getLocation(), Sound.CREEPER_HISS, 1,1);
 
         switch (this.actionType) {
             case VELOCITY_BOOST:
-                player.setVelocity(new Vector(0, this.value, 0));
+                player.setVelocity(new Vector(0, (0.5 * this.value), 0));
                 break;
             case JUMP_BOOST:
-                player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP,this.value * 20 ,0, false));
+                player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP,this.value * 20 ,0, false, false));
                 break;
             case SPEED_BOOST:
-                player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED,this.value * 20 ,0, false));
+                player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED,this.value * 20 ,0, false, false));
                 break;
         }
+
+        this.lastExecuted = System.currentTimeMillis();
     }
 
     /**

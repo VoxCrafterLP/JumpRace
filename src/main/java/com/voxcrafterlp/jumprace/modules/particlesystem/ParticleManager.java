@@ -49,11 +49,11 @@ public class ParticleManager {
                 .setVisibleTo(Collections.singletonList(this.player)).setRotation(0, 0, 0)
                 .setSize(1).build();
         this.particleEffects.add(particleEffect);
-        particleEffect.startDrawing();
+        particleEffect.startEffect();
     }
 
     public void startEffects() {
-        new Thread(() -> this.particleEffects.forEach(ParticleEffect::startDrawing)).start();
+        new Thread(() -> this.particleEffects.forEach(ParticleEffect::startEffect)).start();
     }
 
     public void stopEffects() {

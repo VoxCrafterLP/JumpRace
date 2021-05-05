@@ -39,7 +39,7 @@ public abstract class ParticleEffect {
     private final List<Player> visibleTo;
     private final Action action;
 
-    private int taskID;
+    private int effectTaskID, actionTaskID;
     private Inventory effectInventory;
 
     public ParticleEffect(RelativePosition relativePosition, ParticleType particleType, int yaw, int pitch, int roll, double size, List<Player> visibleTo, Location moduleLocation, Action action) {
@@ -57,16 +57,24 @@ public abstract class ParticleEffect {
 
     /**
      * Starts a scheduler which calls the {@link ParticleEffect#draw()} method every 4 ticks
+     * and checks every 2 ticks if the {@link Action} should be executed
      */
-    public void startDrawing() {
-        this.taskID = Bukkit.getScheduler().scheduleAsyncRepeatingTask(JumpRace.getInstance(), this::draw, 10, 4);
+    public void startEffect() {
+        this.effectTaskID = Bukkit.getScheduler().scheduleAsyncRepeatingTask(JumpRace.getInstance(), this::draw, 10, 4);
+        this.actionTaskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(JumpRace.getInstance(), () -> {
+            this.visibleTo.forEach(player -> {
+                if(player.getLocation().distance(this.location) <= 2.1)
+                    this.action.execute(player);
+            });
+        }, 10, 2);
     }
 
     /**
      * Stops the scheduler that is drawing the particle effect
      */
     public void stopDrawing() {
-        Bukkit.getScheduler().cancelTask(this.taskID);
+        Bukkit.getScheduler().cancelTask(this.effectTaskID);
+        Bukkit.getScheduler().cancelTask(this.actionTaskID);
     }
 
     public abstract void draw();
