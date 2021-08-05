@@ -4,6 +4,7 @@ import com.voxcrafterlp.jumprace.JumpRace;
 import com.voxcrafterlp.jumprace.modules.particlesystem.effects.CubeEffect;
 import com.voxcrafterlp.jumprace.modules.particlesystem.effects.ParticleEffect;
 import com.voxcrafterlp.jumprace.modules.particlesystem.effects.RingEffect;
+import com.voxcrafterlp.jumprace.modules.particlesystem.effects.SphereEffect;
 import lombok.Getter;
 import org.bukkit.Material;
 
@@ -18,7 +19,8 @@ import org.bukkit.Material;
 public enum EffectType {
 
     RING(RingEffect.class, JumpRace.getInstance().getLanguageLoader().getTranslationByKey("particle-effect-ring-name"), Material.EMERALD),
-    CUBE(CubeEffect.class, JumpRace.getInstance().getLanguageLoader().getTranslationByKey("particle-effect-cube-name"), Material.NOTE_BLOCK);
+    CUBE(CubeEffect.class, JumpRace.getInstance().getLanguageLoader().getTranslationByKey("particle-effect-cube-name"), Material.NOTE_BLOCK),
+    SPHERE(SphereEffect.class, JumpRace.getInstance().getLanguageLoader().getTranslationByKey("particle-effect-sphere-name"), Material.SLIME_BALL);
 
     private final Class<? extends ParticleEffect> clazz;
     private final String displayName;

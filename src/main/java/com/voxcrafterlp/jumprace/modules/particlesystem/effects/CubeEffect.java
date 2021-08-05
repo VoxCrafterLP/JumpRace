@@ -23,7 +23,7 @@ import java.util.List;
 
 public class CubeEffect extends ParticleEffect {
 
-    private static final double BASE_PARTICLES_DENSITY = 0.2;
+    private static final double BASE_PARTICLE_DENSITY = 0.2;
     private final List<Location> particleLocations;
 
     public CubeEffect(RelativePosition relativePosition, ParticleType particleType, int yaw, int pitch, int roll, double size, List<Player> visibleTo, Location moduleLocation, Action action) {
@@ -42,7 +42,7 @@ public class CubeEffect extends ParticleEffect {
         final RelativePosition corner2 = new RelativePosition(halfSize, halfSize, halfSize);
 
         //Calculates the outlines and applies rotation
-        this.getHollowCube(corner1, corner2, BASE_PARTICLES_DENSITY).forEach(location -> {
+        this.getHollowCube(corner1, corner2, BASE_PARTICLE_DENSITY).forEach(location -> {
             final Vector vector = new Vector(location.getRelativeX(), location.getRelativeY(), location.getRelativeZ());
             new MathUtils().rotate(vector, super.getYaw(), super.getPitch(), super.getRoll());
             this.particleLocations.add(super.getLocation().clone().add(vector));

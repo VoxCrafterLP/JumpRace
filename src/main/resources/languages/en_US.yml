@@ -112,6 +112,7 @@ particles-effectsettings-configure-description: "&7Click to configure a\n&7custo
 
 particle-effect-ring-name: "&2Ring"
 particle-effect-cube-name: "&6Cube"
+particle-effect-sphere-name: "&aSphere"
 
 particle-flame-name: "&6Flames"
 particle-villager_happy-name: "&2Happy villager"
