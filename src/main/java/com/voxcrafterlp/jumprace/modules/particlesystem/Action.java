@@ -43,6 +43,10 @@ public class Action {
             this.buildInventory();
     }
 
+    /**
+     * Executes the specified action for a specific player
+     * @param player Player who triggered the action
+     */
     public void execute(Player player) {
         if(System.currentTimeMillis() <= (this.lastExecuted + 1000)) return;
 
@@ -50,7 +54,8 @@ public class Action {
 
         switch (this.actionType) {
             case VELOCITY_BOOST:
-                player.setVelocity(new Vector(0, (0.5 * this.value), 0));
+                if(this.value != 0)
+                    player.setVelocity(new Vector(0, (0.5 * this.value), 0));
                 break;
             case JUMP_BOOST:
                 player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP,this.value * 20 ,0, false, false));

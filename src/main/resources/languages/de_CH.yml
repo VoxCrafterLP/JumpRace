@@ -110,6 +110,7 @@ particles-effectsettings-configure-name: "&cConfigure action"
 particles-effectsettings-configure-description: "&7Click to configure a\n&7custom action\n&7for the effect"
 
 particle-effect-ring-name: "&2Ring"
+particle-effect-cube-name: "&6Cube"
 
 particle-flame-name: "&6Flames"
 particle-villager_happy-name: "&2Happy villager"

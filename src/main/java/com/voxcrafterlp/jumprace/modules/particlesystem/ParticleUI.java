@@ -89,7 +89,6 @@ public class ParticleUI {
                     .setDisplayName(effectTypes[i].getDisplayName())
                     .addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("particles-addeffect-item-description"))
                     .build());
-            i++;
         }
     }
 

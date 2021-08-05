@@ -344,6 +344,7 @@ public class InventoryClickListener implements Listener {
 
                 particleEffect.setRelativePosition(new CalculatorUtil().calculateRelativePosition(player.getLocation(), module.getModuleBorders()[0]));
                 particleEffect.setLocation(player.getLocation());
+                particleEffect.updateInventory();
                 player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("particles-message-teleport-success"));
                 player.closeInventory();
                 player.playSound(player.getLocation(), Sound.CLICK, 1, 1);

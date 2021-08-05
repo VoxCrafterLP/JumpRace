@@ -60,6 +60,8 @@ public abstract class ParticleEffect {
      * and checks every 2 ticks if the {@link Action} should be executed
      */
     public void startEffect() {
+        this.calculatePositions();
+
         this.effectTaskID = Bukkit.getScheduler().scheduleAsyncRepeatingTask(JumpRace.getInstance(), this::draw, 10, 4);
         this.actionTaskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(JumpRace.getInstance(), () -> {
             this.visibleTo.forEach(player -> {
@@ -77,11 +79,13 @@ public abstract class ParticleEffect {
         Bukkit.getScheduler().cancelTask(this.actionTaskID);
     }
 
+    public abstract void calculatePositions();
+
     public abstract void draw();
 
     /**
      * Sends a {@link PacketPlayOutWorldParticles} packet to players in a 50 block radius
-     * @param packet Packet that should be send
+     * @param packet Packet that should be sent
      * @param location Location of the particle effect
      */
     public void sendPacket(PacketPlayOutWorldParticles packet, Location location) {
@@ -120,6 +124,13 @@ public abstract class ParticleEffect {
         this.effectInventory.setItem(23, new ItemManager(Material.BOOK).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("particles-effectsettings-size-name")).addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("particles-effectsettings-size-description", String.valueOf(this.size))).build());
 
         this.effectInventory.setItem(16, new ItemManager(Material.BLAZE_POWDER).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("particles-effectsettings-particles-name")).addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("particles-effectsettings-particles-description", this.particleType.getDisplayName())).build());
+
+        /*
+         * This method is only called if the server is configured as a builder server,
+         * so it can be used to trigger the recalculation of the particle locations
+         * after changing a parameter of the effect.
+         */
+        this.calculatePositions();
     }
 
     public abstract EffectType getEffectType();

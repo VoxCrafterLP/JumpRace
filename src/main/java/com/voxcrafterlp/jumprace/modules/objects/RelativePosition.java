@@ -1,6 +1,7 @@
 package com.voxcrafterlp.jumprace.modules.objects;
 
 import lombok.Getter;
+import org.bukkit.Location;
 import org.json.JSONObject;
 
 /**
@@ -31,6 +32,17 @@ public class RelativePosition {
         this.relativeX = relativePosition.getRelativeX();
         this.relativeY = relativePosition.getRelativeY();
         this.relativeZ = relativePosition.getRelativeZ();
+    }
+
+    /**
+     * Important! Only extracts the x, y and z coordinates!
+     * It doesn't actually calculate any relative position!
+     * @param location Location that should be extracted
+     */
+    public RelativePosition(Location location) {
+        this.relativeX = location.getX();
+        this.relativeY = location.getY();
+        this.relativeZ = location.getZ();
     }
 
     public JSONObject toJSONObject() {
@@ -66,5 +78,14 @@ public class RelativePosition {
         this.relativeY++;
         this.relativeZ++;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return "RelativePosition{" +
+                "relativeX=" + relativeX +
+                ", relativeY=" + relativeY +
+                ", relativeZ=" + relativeZ +
+                '}';
     }
 }

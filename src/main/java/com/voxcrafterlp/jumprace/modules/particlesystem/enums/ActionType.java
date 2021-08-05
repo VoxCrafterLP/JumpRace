@@ -16,7 +16,7 @@ import org.bukkit.inventory.ItemStack;
 @Getter
 public enum ActionType {
 
-    VELOCITY_BOOST(new ItemManager(Material.SLIME_BLOCK).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("action-velocity-name")).addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("action-velocity-description")).build()),
+    VELOCITY_BOOST(new ItemManager(Material.PISTON_BASE).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("action-velocity-name")).addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("action-velocity-description")).build()),
     JUMP_BOOST(new ItemManager(Material.DIAMOND_BOOTS).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("action-jumpboost-name")).addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("action-jumpboost-description")).build()),
     SPEED_BOOST(new ItemManager(Material.SUGAR).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("action-speed-name")).addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("action-speed-description")).build());
 

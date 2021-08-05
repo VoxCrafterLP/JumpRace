@@ -1,5 +1,6 @@
 package com.voxcrafterlp.jumprace.modules.particlesystem.effects;
 
+import com.google.common.collect.Lists;
 import com.voxcrafterlp.jumprace.modules.objects.RelativePosition;
 import com.voxcrafterlp.jumprace.modules.particlesystem.Action;
 import com.voxcrafterlp.jumprace.modules.particlesystem.ParticleEffectData;
@@ -23,16 +24,22 @@ import java.util.List;
 public class RingEffect extends ParticleEffect {
 
     private static final int BASE_PARTICLES_DENSITY = 20;
+    private final List<Location> particleLocations;
 
     public RingEffect(RelativePosition relativePosition, ParticleType particleType, int yaw, int pitch, int roll, double size, List<Player> visibleTo, Location moduleLocation, Action action) {
         super(relativePosition, particleType, yaw, pitch, roll, size, visibleTo, moduleLocation, action);
+        this.particleLocations = Lists.newCopyOnWriteArrayList();
         super.buildInventory();
     }
 
     @Override
-    public void draw() {
+    public void calculatePositions() {
+        this.particleLocations.clear();
+
+        //Calculates the particle density
         final int particles = (int) super.getSize() * BASE_PARTICLES_DENSITY;
 
+        //Calculates the circle outlines and applies rotation
         for(double t = 0; t < particles; t+=0.5) {
             final double x = super.getSize() * Math.sin(t);
             final double y = 0;
@@ -40,11 +47,14 @@ public class RingEffect extends ParticleEffect {
 
             final Vector vector = new Vector(x, y, z);
             new MathUtils().rotate(vector, super.getYaw(), super.getPitch(), super.getRoll());
-            final Location location = super.getLocation().clone().add(vector);
-
-            super.sendPacket(new PacketPlayOutWorldParticles(super.getParticleType().getEnumParticle(), true, (float) location.getX(),
-                    (float) location.getY(), (float) location.getZ(), 0, 0, 0, 255, 0, 0),location);
+            this.particleLocations.add(super.getLocation().clone().add(vector));
         }
+    }
+
+    @Override
+    public void draw() {
+        this.particleLocations.forEach(location -> super.sendPacket(new PacketPlayOutWorldParticles(super.getParticleType().getEnumParticle(),
+                true, (float) location.getX(), (float) location.getY(), (float) location.getZ(), 0, 0, 0, 255, 0, 0), location));
     }
 
     @Override
@@ -56,5 +66,4 @@ public class RingEffect extends ParticleEffect {
     public ParticleEffectData getEffectData() {
         return new ParticleEffectData(this.getEffectType(), super.getRelativePosition(), super.getParticleType().name(), super.getYaw(), super.getPitch(), super.getRoll(), super.getSize(), super.getAction());
     }
-
 }
