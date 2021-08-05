@@ -66,4 +66,14 @@ public class RingEffect extends ParticleEffect {
     public ParticleEffectData getEffectData() {
         return new ParticleEffectData(this.getEffectType(), super.getRelativePosition(), super.getParticleType().name(), super.getYaw(), super.getPitch(), super.getRoll(), super.getSize(), super.getAction());
     }
+
+    @Override
+    public double getSizeStepAmount() {
+        return 0.1;
+    }
+
+    @Override
+    public double getMaxSize() {
+        return 2.5;
+    }
 }

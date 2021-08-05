@@ -104,10 +104,10 @@ public abstract class ParticleEffect {
 
         this.effectInventory.setItem(10, new ItemManager(Material.SKULL_ITEM, 3).setDisplayName("§a+10").setHeadValueAndBuild("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzA0MGZlODM2YTZjMmZiZDJjN2E5YzhlYzZiZTUxNzRmZGRmMWFjMjBmNTVlMzY2MTU2ZmE1ZjcxMmUxMCJ9fX0="));
         this.effectInventory.setItem(12, new ItemManager(Material.SKULL_ITEM, 3).setDisplayName("§a+10").setHeadValueAndBuild("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzA0MGZlODM2YTZjMmZiZDJjN2E5YzhlYzZiZTUxNzRmZGRmMWFjMjBmNTVlMzY2MTU2ZmE1ZjcxMmUxMCJ9fX0="));
-        this.effectInventory.setItem(14, new ItemManager(Material.SKULL_ITEM, 3).setDisplayName("§a+0.1").setHeadValueAndBuild("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzA0MGZlODM2YTZjMmZiZDJjN2E5YzhlYzZiZTUxNzRmZGRmMWFjMjBmNTVlMzY2MTU2ZmE1ZjcxMmUxMCJ9fX0="));
+        this.effectInventory.setItem(14, new ItemManager(Material.SKULL_ITEM, 3).setDisplayName("§a+" + this.getSizeStepAmount()).setHeadValueAndBuild("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzA0MGZlODM2YTZjMmZiZDJjN2E5YzhlYzZiZTUxNzRmZGRmMWFjMjBmNTVlMzY2MTU2ZmE1ZjcxMmUxMCJ9fX0="));
         this.effectInventory.setItem(28, new ItemManager(Material.SKULL_ITEM, 3).setDisplayName("§c-10").setHeadValueAndBuild("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzQzNzM0NmQ4YmRhNzhkNTI1ZDE5ZjU0MGE5NWU0ZTc5ZGFlZGE3OTVjYmM1YTEzMjU2MjM2MzEyY2YifX19"));
         this.effectInventory.setItem(30, new ItemManager(Material.SKULL_ITEM, 3).setDisplayName("§c-10").setHeadValueAndBuild("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzQzNzM0NmQ4YmRhNzhkNTI1ZDE5ZjU0MGE5NWU0ZTc5ZGFlZGE3OTVjYmM1YTEzMjU2MjM2MzEyY2YifX19"));
-        this.effectInventory.setItem(32, new ItemManager(Material.SKULL_ITEM, 3).setDisplayName("§c-0.1").setHeadValueAndBuild("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzQzNzM0NmQ4YmRhNzhkNTI1ZDE5ZjU0MGE5NWU0ZTc5ZGFlZGE3OTVjYmM1YTEzMjU2MjM2MzEyY2YifX19"));
+        this.effectInventory.setItem(32, new ItemManager(Material.SKULL_ITEM, 3).setDisplayName("§c-" + this.getSizeStepAmount()).setHeadValueAndBuild("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzQzNzM0NmQ4YmRhNzhkNTI1ZDE5ZjU0MGE5NWU0ZTc5ZGFlZGE3OTVjYmM1YTEzMjU2MjM2MzEyY2YifX19"));
 
         this.effectInventory.setItem(25, new ItemManager(Material.ENDER_PEARL).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("particles-effectsettings-teleport-name")).addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("particles-effectsettings-teleport-description")).build());
         this.effectInventory.setItem(34, new ItemManager(Material.BARRIER).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("particles-effectsettings-delete-name")).addLore(JumpRace.getInstance().getLanguageLoader().buildDescription("particles-effectsettings-delete-description")).build());
@@ -136,5 +136,9 @@ public abstract class ParticleEffect {
     public abstract EffectType getEffectType();
 
     public abstract ParticleEffectData getEffectData();
+
+    public abstract double getSizeStepAmount();
+
+    public abstract double getMaxSize();
 
 }

@@ -8,7 +8,6 @@ import com.voxcrafterlp.jumprace.modules.particlesystem.enums.EffectType;
 import com.voxcrafterlp.jumprace.modules.particlesystem.enums.ParticleType;
 import com.voxcrafterlp.jumprace.modules.utils.MathUtils;
 import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
@@ -24,7 +23,7 @@ import java.util.List;
 
 public class CubeEffect extends ParticleEffect {
 
-    private static final int BASE_PARTICLES_DENSITY = 3;
+    private static final double BASE_PARTICLES_DENSITY = 0.2;
     private final List<Location> particleLocations;
 
     public CubeEffect(RelativePosition relativePosition, ParticleType particleType, int yaw, int pitch, int roll, double size, List<Player> visibleTo, Location moduleLocation, Action action) {
@@ -35,11 +34,7 @@ public class CubeEffect extends ParticleEffect {
 
     @Override
     public void calculatePositions() {
-        Bukkit.broadcastMessage("recalc"); //TODO
         this.particleLocations.clear();
-
-        //Calculates the particle density
-        final double particleDistance = super.getSize() * BASE_PARTICLES_DENSITY;
 
         //Calculates the two corners of the cube
         final double halfSize = super.getSize() / 2.0;
@@ -47,7 +42,7 @@ public class CubeEffect extends ParticleEffect {
         final RelativePosition corner2 = new RelativePosition(halfSize, halfSize, halfSize);
 
         //Calculates the outlines and applies rotation
-        this.getHollowCube(corner1, corner2, 0.25).forEach(location -> {
+        this.getHollowCube(corner1, corner2, BASE_PARTICLES_DENSITY).forEach(location -> {
             final Vector vector = new Vector(location.getRelativeX(), location.getRelativeY(), location.getRelativeZ());
             new MathUtils().rotate(vector, super.getYaw(), super.getPitch(), super.getRoll());
             this.particleLocations.add(super.getLocation().clone().add(vector));
@@ -104,5 +99,15 @@ public class CubeEffect extends ParticleEffect {
     @Override
     public ParticleEffectData getEffectData() {
         return new ParticleEffectData(this.getEffectType(), super.getRelativePosition(), super.getParticleType().name(), super.getYaw(), super.getPitch(), super.getRoll(), super.getSize(), super.getAction());
+    }
+
+    @Override
+    public double getSizeStepAmount() {
+        return 1.0;
+    }
+
+    @Override
+    public double getMaxSize() {
+        return 2.0;
     }
 }

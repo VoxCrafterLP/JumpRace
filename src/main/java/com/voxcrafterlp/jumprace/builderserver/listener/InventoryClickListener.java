@@ -403,8 +403,8 @@ public class InventoryClickListener implements Listener {
                     if(event.getSlot() == 12)
                         particleEffect.setPitch((particleEffect.getPitch() != 360) ? particleEffect.getPitch() + 10 : 0);
                     if(event.getSlot() == 14) {
-                        if(particleEffect.getSize() != 20.0)
-                            particleEffect.setSize(this.round((particleEffect.getSize() + 0.1), 1)); //Avoid floating point conversion
+                        if(particleEffect.getSize() < particleEffect.getMaxSize())
+                            particleEffect.setSize(this.round((particleEffect.getSize() + particleEffect.getSizeStepAmount()), 1)); //Avoid floating point conversion
                         else {
                             player.playSound(player.getLocation(), Sound.NOTE_BASS,1,1);
                             return;
@@ -417,7 +417,7 @@ public class InventoryClickListener implements Listener {
                         particleEffect.setPitch((particleEffect.getPitch() != 0) ? particleEffect.getPitch() - 10 : 360);
                     if(event.getSlot() == 32) {
                         if(particleEffect.getSize() != 1.0)
-                            particleEffect.setSize(this.round((particleEffect.getSize() - 0.1), 1)); //Avoid floating point conversion
+                            particleEffect.setSize(this.round((particleEffect.getSize() - particleEffect.getSizeStepAmount()), 1)); //Avoid floating point conversion
                         else {
                             player.playSound(player.getLocation(), Sound.NOTE_BASS,1,1);
                             return;
