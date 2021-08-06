@@ -30,7 +30,9 @@ public class PlayerInteractListener implements Listener {
     public void onInteract(PlayerInteractEvent event) {
         final Player player = event.getPlayer();
 
-        if(JumpRace.getInstance().getGameManager().getGameState() == GameState.LOBBY) {
+        if(JumpRace.getInstance().getGameManager().getGameState() == GameState.LOBBY ||
+            JumpRace.getInstance().getGameManager().getGameState() == GameState.ENDING) {
+
             if(event.getItem() == null) return;
             if(event.getItem().getItemMeta().getDisplayName() == null) return;
 
