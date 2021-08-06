@@ -17,18 +17,18 @@ import java.util.List;
 /**
  * This file was created by VoxCrafter_LP!
  * Date: 06.08.2021
- * Time: 01:31
+ * Time: 12:29
  * Project: JumpRace
  */
 
-public class PlateEffect extends ParticleEffect {
+public class HollowPlateEffect extends ParticleEffect {
 
     private static final double BASE_PARTICLE_DENSITY = 4;
     private static final double BASE_PARTICLE_DISTANCE = 0.25;
 
     private final List<Location> particleLocations;
 
-    public PlateEffect(RelativePosition relativePosition, ParticleType particleType, int yaw, int pitch, int roll, double size, List<Player> visibleTo, Location moduleLocation, Action action) {
+    public HollowPlateEffect(RelativePosition relativePosition, ParticleType particleType, int yaw, int pitch, int roll, double size, List<Player> visibleTo, Location moduleLocation, Action action) {
         super(relativePosition, particleType, yaw, pitch, roll, size, visibleTo, moduleLocation, action);
         this.particleLocations = Lists.newCopyOnWriteArrayList();
         super.buildInventory();
@@ -48,10 +48,15 @@ public class PlateEffect extends ParticleEffect {
                 double y = 0;
                 double z = (iZ * BASE_PARTICLE_DISTANCE) - halfSize;
 
-                //Apply rotation
-                final Vector vector = new Vector(x, y, z);
-                new MathUtils().rotate(vector, super.getYaw(), super.getPitch(), super.getRoll());
-                this.particleLocations.add(super.getLocation().clone().add(vector));
+                int components = 0;
+                if(iX == 0 || iX == (particles - 1)) components++;
+                if(iZ == 0 || iZ == (particles - 1)) components++;
+                if(components >= 1) {
+                    //Apply rotation
+                    final Vector vector = new Vector(x, y, z);
+                    new MathUtils().rotate(vector, super.getYaw(), super.getPitch(), super.getRoll());
+                    this.particleLocations.add(super.getLocation().clone().add(vector));
+                }
             }
         }
     }
@@ -66,7 +71,7 @@ public class PlateEffect extends ParticleEffect {
 
     @Override
     public EffectType getEffectType() {
-        return EffectType.PLATE;
+        return EffectType.HOLLOW_PLATE;
     }
 
     @Override
@@ -76,7 +81,7 @@ public class PlateEffect extends ParticleEffect {
 
     @Override
     public double getSizeStepAmount() {
-        return 0.1;
+        return 0.5;
     }
 
     @Override

@@ -88,4 +88,8 @@ public class RelativePosition {
                 ", relativeZ=" + relativeZ +
                 '}';
     }
+
+    public Location calculateLocation(Location reference) {
+        return reference.clone().add(this.relativeX, this.relativeY, this.relativeZ);
+    }
 }
