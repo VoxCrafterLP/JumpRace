@@ -113,6 +113,7 @@ particle-effect-ring-name: "&2Ring"
 particle-effect-cube-name: "&6Cube"
 particle-effect-sphere-name: "&aSphere"
 particle-effect-plate-name: "&ePlate"
+particle-effect-helix-name: "&9Helix"
 
 particle-flame-name: "&6Flames"
 particle-villager_happy-name: "&2Happy villager"

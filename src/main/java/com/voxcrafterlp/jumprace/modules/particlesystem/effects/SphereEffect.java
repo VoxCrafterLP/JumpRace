@@ -78,4 +78,9 @@ public class SphereEffect extends ParticleEffect {
     public double getMaxSize() {
         return 2.0;
     }
+
+    @Override
+    public int getParticleSpawnDelay() {
+        return 4;
+    }
 }

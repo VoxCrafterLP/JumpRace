@@ -17,18 +17,17 @@ import java.util.List;
 /**
  * This file was created by VoxCrafter_LP!
  * Date: 06.08.2021
- * Time: 01:31
+ * Time: 01:59
  * Project: JumpRace
  */
 
-public class PlateEffect extends ParticleEffect {
+public class HelixEffect extends ParticleEffect {
 
-    private static final double BASE_PARTICLE_DENSITY = 4;
-    private static final double BASE_PARTICLE_DISTANCE = 0.25;
-
+    private static final int BASE_PARTICLE_DENSITY = 20;
     private final List<Location> particleLocations;
+    private int step = 0;
 
-    public PlateEffect(RelativePosition relativePosition, ParticleType particleType, int yaw, int pitch, int roll, double size, List<Player> visibleTo, Location moduleLocation, Action action) {
+    public HelixEffect(RelativePosition relativePosition, ParticleType particleType, int yaw, int pitch, int roll, double size, List<Player> visibleTo, Location moduleLocation, Action action) {
         super(relativePosition, particleType, yaw, pitch, roll, size, visibleTo, moduleLocation, action);
         this.particleLocations = Lists.newCopyOnWriteArrayList();
         super.buildInventory();
@@ -38,38 +37,40 @@ public class PlateEffect extends ParticleEffect {
     public void calculatePositions() {
         this.particleLocations.clear();
 
-        //Calculates the particle amount
-        final double particles = super.getSize() * BASE_PARTICLE_DENSITY;
+        //Calculates the particle density
+        final int particles = (int) super.getSize() * BASE_PARTICLE_DENSITY;
 
-        //Calculates the two corners of the plate
-        final double halfSize = super.getSize() / 2.0;
-        final RelativePosition startLocation = new RelativePosition(-halfSize, 0, -halfSize);
+        //Calculates the circle outlines and applies rotation
+        double yStep = 0;
+        for(double t = 0; t < particles; t+=0.5) {
+            yStep+=0.1;
 
-        for(int iX = 0; iX<particles; iX++) {
-            for(int iZ = 0; iZ<particles; iZ++) {
-                double x = iX * BASE_PARTICLE_DISTANCE;
-                double y = 0;
-                double z = iZ * BASE_PARTICLE_DISTANCE;
+            final double x = super.getSize() * Math.sin(t);
+            final double y = yStep;
+            final double z = super.getSize() * Math.cos(t);
 
-                //Apply rotation
-                final Vector vector = new Vector(x, y, z);
-                new MathUtils().rotate(vector, super.getYaw(), super.getPitch(), super.getRoll());
-                this.particleLocations.add(super.getLocation().clone().add(vector));
-            }
+            final Vector vector = new Vector(x, y, z);
+            new MathUtils().rotate(vector, super.getYaw(), super.getPitch(), super.getRoll());
+            this.particleLocations.add(super.getLocation().clone().add(vector));
         }
     }
 
     @Override
     public void draw() {
-        this.particleLocations.forEach(location -> {
-            super.sendPacket(new PacketPlayOutWorldParticles(super.getParticleType().getEnumParticle(),
-                    true, (float) location.getX(), (float) location.getY(), (float) location.getZ(), 0, 0, 0, 255, 0, 0), location);
-        });
+        if(step == (this.particleLocations.size() - 1))
+            step = 0;
+        if(particleLocations.size() < step)
+            step = 0;
+
+        final Location location = particleLocations.get(step);
+        super.sendPacket(new PacketPlayOutWorldParticles(super.getParticleType().getEnumParticle(),
+                true, (float) location.getX(), (float) location.getY(), (float) location.getZ(), 0, 0, 0, 255, 0, 0), location);
+        step++;
     }
 
     @Override
     public EffectType getEffectType() {
-        return EffectType.PLATE;
+        return EffectType.HELIX;
     }
 
     @Override
@@ -84,11 +85,11 @@ public class PlateEffect extends ParticleEffect {
 
     @Override
     public double getMaxSize() {
-        return 3.5;
+        return 2.5;
     }
 
     @Override
     public int getParticleSpawnDelay() {
-        return 4;
+        return 1;
     }
 }

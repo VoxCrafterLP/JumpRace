@@ -62,7 +62,7 @@ public abstract class ParticleEffect {
     public void startEffect() {
         this.calculatePositions();
 
-        this.effectTaskID = Bukkit.getScheduler().scheduleAsyncRepeatingTask(JumpRace.getInstance(), this::draw, 10, 4);
+        this.effectTaskID = Bukkit.getScheduler().scheduleAsyncRepeatingTask(JumpRace.getInstance(), this::draw, 10, this.getParticleSpawnDelay());
         this.actionTaskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(JumpRace.getInstance(), () -> {
             this.visibleTo.forEach(player -> {
                 if(player.getLocation().distance(this.location) <= 2.1)
@@ -140,5 +140,7 @@ public abstract class ParticleEffect {
     public abstract double getSizeStepAmount();
 
     public abstract double getMaxSize();
+
+    public abstract int getParticleSpawnDelay();
 
 }

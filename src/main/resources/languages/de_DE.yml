@@ -114,6 +114,7 @@ particle-effect-ring-name: "&2Kreis"
 particle-effect-cube-name: "&6Würfel"
 particle-effect-sphere-name: "&aKugel"
 particle-effect-plate-name: "&ePlatte"
+particle-effect-helix-name: "&9Helix"
 
 particle-flame-name: "&6Flames"
 particle-villager_happy-name: "&2Happy villager"

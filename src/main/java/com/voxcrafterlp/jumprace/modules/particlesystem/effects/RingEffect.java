@@ -76,4 +76,9 @@ public class RingEffect extends ParticleEffect {
     public double getMaxSize() {
         return 2.5;
     }
+
+    @Override
+    public int getParticleSpawnDelay() {
+        return 4;
+    }
 }

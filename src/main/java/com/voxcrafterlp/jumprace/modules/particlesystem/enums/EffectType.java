@@ -18,7 +18,8 @@ public enum EffectType {
     RING(RingEffect.class, JumpRace.getInstance().getLanguageLoader().getTranslationByKey("particle-effect-ring-name"), Material.EMERALD),
     CUBE(CubeEffect.class, JumpRace.getInstance().getLanguageLoader().getTranslationByKey("particle-effect-cube-name"), Material.NOTE_BLOCK),
     SPHERE(SphereEffect.class, JumpRace.getInstance().getLanguageLoader().getTranslationByKey("particle-effect-sphere-name"), Material.SLIME_BALL),
-    PLATE(PlateEffect.class, JumpRace.getInstance().getLanguageLoader().getTranslationByKey("particle-effect-plate-name"), Material.GOLD_PLATE);
+    PLATE(PlateEffect.class, JumpRace.getInstance().getLanguageLoader().getTranslationByKey("particle-effect-plate-name"), Material.GOLD_PLATE),
+    HELIX(HelixEffect.class, JumpRace.getInstance().getLanguageLoader().getTranslationByKey("particle-effect-helix-name"), Material.EYE_OF_ENDER);
 
     private final Class<? extends ParticleEffect> clazz;
     private final String displayName;
