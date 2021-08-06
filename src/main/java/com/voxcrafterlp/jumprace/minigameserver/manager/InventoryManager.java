@@ -50,7 +50,7 @@ public class InventoryManager {
         //===============================================//
 
         this.jumpingInventory.setItem(0, new ItemManager(Material.WOOD_AXE).setUnbreakable(true).build());
-        this.jumpingInventory.setItem(8, new ItemManager(Material.COMPASS).build());
+        this.jumpingInventory.setItem(8, new ItemManager(Material.COMPASS).setDisplayName(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("item-tracker-name")).build());
 
         //===============================================//
 

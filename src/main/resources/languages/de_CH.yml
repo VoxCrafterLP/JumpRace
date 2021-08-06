@@ -253,4 +253,6 @@ scoreboard-map: "&7Map&8:"
 scoreboard-teams: "&7Teams&8:"
 scoreboard-time: "&7Ziit&8: "
 
+item-tracker-name: "§9Tracker"
+
 # Translated by Lezurex (https://github.com/Lezurex) 

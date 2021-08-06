@@ -256,3 +256,5 @@ scoreboard-spectator: "&c\u2718 &8\u258C &7"
 scoreboard-map: "&7Map&8:"
 scoreboard-teams: "&7Teams&8:"
 scoreboard-time: "&7Time&8: "
+
+item-tracker-name: "§9Tracker"
