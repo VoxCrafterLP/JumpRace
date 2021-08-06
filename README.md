@@ -3,6 +3,7 @@
 [![build](https://github.com/VoxCrafterLP/JumpRace/actions/workflows/maven.yml/badge.svg)](https://github.com/VoxCrafterLP/JumpRace/actions/workflows/maven.yml)
 ![GitHub release (latest by date)](https://img.shields.io/github/downloads/VoxCrafterLP/JumpRace/total?label=Downloads)
 ![GitHub](https://img.shields.io/github/license/VoxCrafterLP/JumpRace)
+![GitHub milestone](https://img.shields.io/github/milestones/progress/VoxCrafterLP/JumpRace/3)
 
 This is a spigot based jumpandrun minigame. It's almost like the gamemode 'JumpLeague' on the gommehd.net server but with a few changes. The plugin contains its own building system, which can be used to build your own modules.
 
