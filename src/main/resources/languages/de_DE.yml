@@ -71,7 +71,7 @@ settings-item-physics-description: "&7Hier kannst du die\n&7Block-Physik\n&7umst
 settings-item-heads-name: "&bKöpfe"
 settings-item-heads-description: "&7Hier findest du einige\n&7Köpfe für dein Bauwerk"
 settings-item-particles-name: "&bPartikel-Effekte"
-settings-item-particles-description: "&7Hier kannst du eigene\n&7Partikel-Effekte für\n&7dein Bauwerk hinzufügen"
+settings-item-particles-description: "&7Hier kannst du eigene\n&7Partikel-Effekte zu\n&7deinem Bauwerk hinzufügen"
 
 previous-page-name: "&bVorherige Seite"
 next-page-name: "&bNächste Seite"
@@ -94,7 +94,7 @@ particles-addeffect-back-name: "&cZurück zur Übersicht"
 particles-addeffect-back-description: "&7Klicke um zurück zu\n&7der Übersicht zu gelangen"
 particles-addeffect-success: "&7Du hast den {0}&7-Effekt &berfolgreich &7hinzugefügt."
 
-particles-effectsettings-inventory: "&bEffekt Einstellungen"
+particles-effectsettings-inventory: "&bEffekteinstellungen"
 particles-effectsettings-yaw-name: "&bYaw"
 particles-effectsettings-yaw-description: "&7Ändere die &bYaw\n&7Rotation des Effektes\n\n&7Aktueller Wert&8: &3{0}"
 particles-effectsettings-pitch-name: "&bPitch"
