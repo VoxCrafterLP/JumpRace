@@ -17,6 +17,8 @@ This is a spigot based jumpandrun minigame. It's almost like the gamemode 'JumpL
 - Quick editor
 - API
 - Holograms
+- Particle system
+- Small head database
 - Multiple maps
 - Fully customizable
 - Multiple languages
@@ -43,7 +45,7 @@ You can learn here how to use the [latest build](https://www.spigotmc.org/wiki/b
 <dependency>
   <groupId>com.voxcrafterlp</groupId>
   <artifactId>JumpRace</artifactId>
-  <version>1.1.0-RELEASE</version>
+  <version>1.2.0-RELEASE</version>
   <scope>provided</scope>
 </dependency>
 
