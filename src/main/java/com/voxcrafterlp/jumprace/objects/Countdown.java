@@ -81,7 +81,8 @@ public class Countdown {
                     case 10:
                     case 5:
                         if(this.type == Type.LOBBY)
-                            Bukkit.getOnlinePlayers().forEach(player -> new TitleUtil().sendTitle(player, "§bJumpRace", 10, 45, 10));
+                            Bukkit.getOnlinePlayers().forEach(player -> new TitleUtil().sendFullTitle(player, "§bJumpRace",
+                                    JumpRace.getInstance().getLocationManager().getCurrentMapName(), 10, 45, 10));
                     case 4:
                     case 3:
                     case 2:
