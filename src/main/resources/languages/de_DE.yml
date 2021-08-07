@@ -23,6 +23,8 @@ command-jumprace-help-1: "&b/jumprace&8: &7Zeigt dieses Fenster"
 command-jumprace-help-2: "&b/jumprace newmodule&8: &7Erstellt ein neues Modul"
 command-jumprace-help-3: "&b/jumprace list&8: &7Zeigt eine Liste aller Module"
 command-jumprace-help-4: "&b/jumprace edit <Modul>&8: &7Bearbeite ein Modul"
+command-jumprace-help-5: "&b/jumprace reload&8: &7Lade alle Module neu"
+command-jumprace-reload-success: "&a{0} &7Module wurden &aerfolgreich &7neugeladen"
 
 selection-tool-name: "&bAuswahlwerkzeug"
 editor-setup-instructions-1: "&7Bitte schlage jetzt die &buntere linke Ecke &7des Moduls mit der &bAxt&8."

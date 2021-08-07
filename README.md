@@ -37,6 +37,19 @@ You can learn how to use the latest build [here](https://www.spigotmc.org/wiki/b
 6. Configure the plugin to your needs.
 7. Have fun!
 
+## Updating
+
+To update the plugin, please make sure that you follow these steps:
+
+1. Download the latest JAR file from the [releases tab](https://github.com/VoxCrafterLP/JumpRace/releases) and put it into the `plugins` folder.
+2. Delete the old plugin JAR file.
+3. Delete the `languages` folder in the `plugins/JumpRace/` folder.
+4. Make a backup of you current `config.yml` file.
+5. Delete the `config.yml` file from the `plugins/JumpRace/` folder.
+6. Start the server.
+7. Update your `config.yml` file with the settings from your backup file.
+8. Have fun!
+
 ## API
 
 ### Maven dependency

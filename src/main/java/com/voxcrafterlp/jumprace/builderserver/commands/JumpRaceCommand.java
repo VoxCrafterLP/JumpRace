@@ -60,6 +60,17 @@ public class JumpRaceCommand implements CommandExecutor {
                         player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("command-jumprace-list"));
                         modules.forEach(module -> player.sendMessage(JumpRace.getInstance().getPrefix() + "§8- §b" + module.getName()));
                         break;
+                    case "reload":
+                        JumpRace.getInstance().getModuleLoader().reloadModules();
+
+                        if(JumpRace.getInstance().getModuleLoader().getModuleList().isEmpty()) {
+                            player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("no-modules-found"));
+                            return false;
+                        }
+
+                        player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("command-jumprace-reload-success",
+                                String.valueOf(JumpRace.getInstance().getModuleLoader().getModuleList().size())));
+                        break;
                     default:
                         this.listCommands(player);
                         break;
@@ -112,7 +123,7 @@ public class JumpRaceCommand implements CommandExecutor {
         player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("command-jumprace-help-2"));
         player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("command-jumprace-help-3"));
         player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("command-jumprace-help-4"));
+        player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("command-jumprace-help-5"));
         player.sendMessage("§8===================================");
     }
-
 }

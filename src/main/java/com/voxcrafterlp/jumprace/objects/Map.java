@@ -33,9 +33,9 @@ public class Map {
         this.name = jsonObject.getString("name");
         this.spawnLocations = Lists.newCopyOnWriteArrayList();
         this.endPointLocations = Lists.newCopyOnWriteArrayList();
-        this.loadWorld();
         jsonObject.getJSONArray("locations").forEach(location -> this.spawnLocations.add(this.getLocationFromJSONObject((JSONObject) location)));
         jsonObject.getJSONArray("endpoints").forEach(location -> this.endPointLocations.add(this.getLocationFromJSONObject((JSONObject) location)));
+        this.loadWorld();
     }
 
     public Map(String name, List<Location> spawnLocations, List<Location> endPointLocations) {
