@@ -10,6 +10,7 @@ import org.bukkit.WorldCreator;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -123,8 +124,15 @@ public class Map {
         return list;
     }
 
+    /**
+     * Checks if a folder with the specified world name exists, if so,
+     * the world will be loaded.
+     */
     private void loadWorld() {
-        Bukkit.createWorld(new WorldCreator(this.name));
+        final String worldName = this.spawnLocations.get(0).getWorld().getName();
+
+        if(new File("/" + worldName).exists())
+            Bukkit.createWorld(new WorldCreator(worldName));
     }
 
 }
