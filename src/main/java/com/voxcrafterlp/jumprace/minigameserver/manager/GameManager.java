@@ -88,6 +88,7 @@ public class GameManager {
             Bukkit.getOnlinePlayers().forEach(player -> player.playSound(player.getLocation(), Sound.NOTE_BASS_GUITAR, 1, 4));
         });
         this.preDeathMatchCountdown = new Countdown(Countdown.Type.PRE_DEATHMATCH, () -> {
+            if(this.checkTeams()) return;
             this.deathMatchCountdown.startCountdown();
             Bukkit.getOnlinePlayers().forEach(player -> player.playSound(player.getLocation(), Sound.NOTE_BASS_GUITAR, 1, 4));
         });
@@ -192,10 +193,14 @@ public class GameManager {
 
     /**
      * End the game if there are not enough players online
+     * @return Returns if the game should end
      */
-    private void checkTeams() {
-        if((int) this.registeredTeams.stream().filter(team -> team.getMembers().size() >= 1).count() < 2)
+    private boolean checkTeams() {
+        if((int) this.registeredTeams.stream().filter(team -> team.getMembers().size() >= 1).count() < 2) {
             this.endGame(this.registeredTeams.stream().filter(Team::isAlive).findAny().get());
+            return true;
+        }
+        return false;
     }
 
     private void endGame(Team winningTeam) {

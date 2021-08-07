@@ -80,8 +80,11 @@ public class ModuleRow {
 
         this.modules.get(0).spawnHologram(player, 1);
         this.modules.get(1).spawnHologram(player, 2);
-        this.startRespawnScheduler();
 
+        this.modules.get(0).initializeParticleManager(player);
+        this.modules.get(1).initializeParticleManager(player);
+
+        this.startRespawnScheduler();
         return this;
     }
 
@@ -104,14 +107,17 @@ public class ModuleRow {
         if(!location.equals(this.modules.get(this.modulesCompleted).getGoldPlateLocation())) return;
 
         Bukkit.getPluginManager().callEvent(new PlayerCompleteModuleEvent(player, this.modules.get(this.modulesCompleted)));
+        this.modules.get(this.modulesCompleted).disableParticleSystem();
 
         this.modulesCompleted++;
         player.playSound(player.getLocation(), Sound.LEVEL_UP,1,1);
         player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("message-module-complete", String.valueOf(this.modulesCompleted)));
 
         final int nextModule = this.modulesCompleted + 1;
-        if(nextModule < 10)
+        if(nextModule < 10) {
             this.modules.get(nextModule).spawnHologram(player, this.modulesCompleted + 2);
+            this.modules.get(nextModule).initializeParticleManager(player);
+        }
 
         if(this.modulesCompleted == 10) {
             JumpRace.getInstance().getGameManager().reachGoal(player);
