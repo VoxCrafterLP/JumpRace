@@ -54,7 +54,7 @@ public class Countdown {
                         Bukkit.getOnlinePlayers().forEach(player -> new TitleUtil().sendTitle(player, "§e2", 10, 30, 10));
                         break;
                     case 1:
-                        Bukkit.getOnlinePlayers().forEach(player -> new TitleUtil().sendTitle(player, "§a1", 0, 20, 5));
+                        Bukkit.getOnlinePlayers().forEach(player -> new TitleUtil().sendTitle(player, "§a1", 0, 10, 2));
                         break;
                 }
 

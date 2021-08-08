@@ -230,6 +230,8 @@ setup-help-1: "&8==================================="
 setup-help-2: "&b/setup lobby&8: &7Leg de Lobby-Spawnpunkt fest"
 setup-help-3: "&b/setup map <Map>&8: &7Erstell e PvP-Map"
 setup-help-4: "&8==================================="
+setup-error-no-spawnpoint: "&7Du has &cvergessen &7einen oder mehrere &cSpawnpunkte &7für die Map zu setzen"
+setup-error-no-endpoint: "&7Du has &cvergessen &7einen oder mehrere &cEndpunkte &7für die Map zu setzen"
 
 hotbar-item-spectator-teleport-name: "&bTeleportiere"
 hotbar-item-spectator-teleport-description: "&7Klick da, um dich\n&7zu emene andere Spieler\n&7z'teleportiere"

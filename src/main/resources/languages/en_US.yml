@@ -232,6 +232,8 @@ setup-help-1: "&8==================================="
 setup-help-2: "&b/setup lobby&8: &7Set the lobby location"
 setup-help-3: "&b/setup map <map>&8: &7Setup a pvp map"
 setup-help-4: "&8==================================="
+setup-error-no-spawnpoint: "&7You &cforgot &7to set a &cspawn location &7for the map"
+setup-error-no-endpoint: "&7You &cforgot &7to set an &cendpoint location &7for the map"
 
 hotbar-item-spectator-teleport-name: "&bTeleport"
 hotbar-item-spectator-teleport-description: "&7Click here to teleport\n&7to another player"

@@ -34,7 +34,8 @@ public class SetupListener implements Listener {
                 player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("setup-map-endpoint-success"));
                 break;
             case "finish":
-                JumpRace.getInstance().getLocationManager().getLoadedMaps().add(mapSetup.finish());
+                if(!mapSetup.finish()) return;
+
                 JumpRace.getInstance().getLocationManager().saveData();
                 JumpRace.getInstance().getLocationManager().loadData();
                 player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("setup-map-finish-success"));
