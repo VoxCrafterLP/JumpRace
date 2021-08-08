@@ -171,6 +171,9 @@ public class LocationManager {
         if(!jsonObject.has("endpoints")) return false;
 
         if(jsonObject.getJSONArray("locations").length() == 0) return false;
+        if(jsonObject.getJSONArray("locations").length() <
+                (JumpRace.getInstance().getJumpRaceConfig().getTeamAmount() * JumpRace.getInstance().getJumpRaceConfig().getTeamSize()))
+            return false;
         if(jsonObject.getJSONArray("endpoints").length() == 0) return false;
 
         return true;

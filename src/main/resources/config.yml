@@ -19,6 +19,9 @@ deathmatch-duration: 420
 # Max amount of lives in the deathmatch (Range: 1-10) (default: 3)
 max-lives: 3
 
+# Determines if the 'jumprace' world should be automatically deleted after the game ends
+auto-delete-world: false
+
 # Head values for the head tab in the builder settings menu. (You can find head values for instance on minecraft-heads.com)
 head-values:
   - "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNThmZTI1MWE0MGU0MTY3ZDM1ZDA4MWMyNzg2OWFjMTUxYWY5NmI2YmQxNmRkMjgzNGQ1ZGM3MjM1ZjQ3NzkxZCJ9fX0="

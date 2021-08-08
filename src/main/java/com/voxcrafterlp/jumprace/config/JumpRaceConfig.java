@@ -25,6 +25,8 @@ public class JumpRaceConfig {
 
     private final int jumpTime, deathmatchTime;
 
+    private final boolean autoDeleteWorld;
+
     private final List<String> headValues;
 
     private final String adminPermission, builderPermission, setupPermission, mapSwitchPermission, startPermission;
@@ -48,6 +50,8 @@ public class JumpRaceConfig {
         this.deathmatchTime = this.configuration.getInt("deathmatch-duration");
 
         this.maxLives = this.configuration.getInt("max-lives");
+
+        this.autoDeleteWorld = this.configuration.getBoolean("auto-delete-world");
 
         this.headValues = this.configuration.getStringList("head-values");
 

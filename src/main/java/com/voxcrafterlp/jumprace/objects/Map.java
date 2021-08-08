@@ -7,10 +7,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.WorldCreator;
+import org.bukkit.block.Block;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -29,10 +31,13 @@ public class Map {
     private final List<Location> spawnLocations, endPointLocations;
     private Location endPointLocation;
 
+    private HashMap<Location, Material> oldBlocks;
+
     public Map(JSONObject jsonObject) {
         this.name = jsonObject.getString("name");
         this.spawnLocations = Lists.newCopyOnWriteArrayList();
         this.endPointLocations = Lists.newCopyOnWriteArrayList();
+        this.oldBlocks = new HashMap<>();
         jsonObject.getJSONArray("locations").forEach(location -> this.spawnLocations.add(this.getLocationFromJSONObject((JSONObject) location)));
         jsonObject.getJSONArray("endpoints").forEach(location -> this.endPointLocations.add(this.getLocationFromJSONObject((JSONObject) location)));
         this.loadWorld();
@@ -72,9 +77,11 @@ public class Map {
      */
     public void spawnEndPoint() {
         if(this.endPointLocations.isEmpty()) return;
-
         this.endPointLocation = this.endPointLocations.get(new Random().nextInt(this.endPointLocations.size()));
+
+        this.oldBlocks.put(this.endPointLocation, this.endPointLocation.getBlock().getType());
         this.endPointLocation.getBlock().setType(Material.BEACON);
+
         this.setBeaconBase(this.endPointLocation.clone().add(1.0, -1.0, 1.0)); //Offset to the first iron block
         Bukkit.getConsoleSender().sendMessage("§aA beacon has been spawned at: X:" + this.endPointLocation.getBlockX() + " Y:" + this.endPointLocation.getBlockY() +
                 " Z:" + this.endPointLocation.getBlockZ());
@@ -86,8 +93,11 @@ public class Map {
      */
     private void setBeaconBase(Location firstBlock) {
         for(int x = firstBlock.getBlockX(); x>(firstBlock.getBlockX() - 3); x--) {
-            for(int z = firstBlock.getBlockZ(); z>(firstBlock.getBlockZ() - 3); z--)
-                firstBlock.getWorld().getBlockAt(x, firstBlock.getBlockY(), z).setType(Material.IRON_BLOCK);
+            for(int z = firstBlock.getBlockZ(); z>(firstBlock.getBlockZ() - 3); z--) {
+                final Block block = firstBlock.getWorld().getBlockAt(x, firstBlock.getBlockY(), z);
+                this.oldBlocks.put(block.getLocation(), block.getType());
+                block.setType(Material.IRON_BLOCK);
+            }
         }
     }
 
@@ -135,4 +145,11 @@ public class Map {
             Bukkit.createWorld(new WorldCreator(worldName));
     }
 
+    /**
+     * Restores the previous blocks
+     */
+    public void restoreOldBlocks() {
+        this.oldBlocks.forEach((location, material) -> location.getBlock().setType(material));
+        this.oldBlocks.clear();
+    }
 }
