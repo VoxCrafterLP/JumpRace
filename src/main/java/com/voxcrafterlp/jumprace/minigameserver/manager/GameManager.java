@@ -24,6 +24,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.scheduler.BukkitScheduler;
 
+import java.io.File;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -88,6 +89,7 @@ public class GameManager {
             Bukkit.getOnlinePlayers().forEach(player -> player.playSound(player.getLocation(), Sound.NOTE_BASS_GUITAR, 1, 4));
         });
         this.preDeathMatchCountdown = new Countdown(Countdown.Type.PRE_DEATHMATCH, () -> {
+            if(this.checkTeams()) return;
             this.deathMatchCountdown.startCountdown();
             Bukkit.getOnlinePlayers().forEach(player -> player.playSound(player.getLocation(), Sound.NOTE_BASS_GUITAR, 1, 4));
         });
@@ -192,10 +194,14 @@ public class GameManager {
 
     /**
      * End the game if there are not enough players online
+     * @return Returns if the game should end
      */
-    private void checkTeams() {
-        if((int) this.registeredTeams.stream().filter(team -> team.getMembers().size() >= 1).count() < 2)
+    private boolean checkTeams() {
+        if((int) this.registeredTeams.stream().filter(team -> team.getMembers().size() >= 1).count() < 2) {
             this.endGame(this.registeredTeams.stream().filter(Team::isAlive).findAny().get());
+            return true;
+        }
+        return false;
     }
 
     private void endGame(Team winningTeam) {
@@ -218,6 +224,8 @@ public class GameManager {
         this.firework();
         Bukkit.getPluginManager().callEvent(new TeamWinEvent(winningTeam));
         this.endingCountdown.startCountdown();
+
+        this.deleteWorld();
     }
 
     /**
@@ -432,4 +440,27 @@ public class GameManager {
         this.endGame(this.getTeamFromPlayer(winner));
     }
 
+    private void deleteWorld() {
+        if(JumpRace.getInstance().getJumpRaceConfig().isAutoDeleteWorld()) {
+            Bukkit.getConsoleSender().sendMessage("§aDeleting jumprace world... (This can take a while)");
+
+            Bukkit.getConsoleSender().sendMessage("§aUnloading world...");
+            Bukkit.unloadWorld("jumprace", false);
+
+            Bukkit.getConsoleSender().sendMessage("§aRestoring blocks...");
+            JumpRace.getInstance().getLocationManager().getSelectedMap().restoreOldBlocks();
+
+            new Thread(() -> {
+                try {
+                    Thread.sleep(5000);
+                    if(new File("jumprace").delete())
+                        Bukkit.getConsoleSender().sendMessage("§aSuccessfully deleted jumprace world.");
+                    else
+                        Bukkit.getConsoleSender().sendMessage("§cAn error occurred while deleting the jumprace world!");
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }).start();
+        }
+    }
 }

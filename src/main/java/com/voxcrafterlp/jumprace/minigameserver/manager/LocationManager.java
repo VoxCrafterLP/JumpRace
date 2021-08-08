@@ -9,7 +9,6 @@ import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -65,9 +64,19 @@ public class LocationManager {
 
         if(configuration.contains("maps"))
             this.configuration.getStringList("maps").forEach(string -> {
-                final Map map = new Map(new JSONObject(string));
-                this.loadedMaps.add(map);
-                Bukkit.getConsoleSender().sendMessage("§aSuccessfully loaded map " + map.getName());
+                final JSONObject mapJSON = new JSONObject(string);
+
+                if(this.isConfiguredProperly(mapJSON)) {
+                    final Map map = new Map(mapJSON);
+                    this.loadedMaps.add(map);
+                    Bukkit.getConsoleSender().sendMessage("§aSuccessfully loaded map " + map.getName());
+                } else {
+                    if(mapJSON.has("name"))
+                        Bukkit.getConsoleSender().sendMessage("§cThe map " + mapJSON.getString("name") +
+                                " is not configured properly!");
+                    else
+                        Bukkit.getConsoleSender().sendMessage("§cAn unknown map is not configured properly!");
+                }
             });
 
         if(this.loadedMaps.isEmpty())
@@ -149,6 +158,25 @@ public class LocationManager {
         return new JSONObject().put("world", location.getWorld().getName())
                 .put("x", location.getX()).put("y", location.getY()).put("z", location.getZ())
                 .put("yaw", location.getYaw()).put("pitch", location.getPitch());
+    }
+
+    /**
+     * Checks if the {@link JSONObject} contains a proper configuration for a {@link Map}
+     * @param jsonObject JSONObject that should be checked
+     * @return Returns if the JSONObject contains the proper configuration
+     */
+    private boolean isConfiguredProperly(JSONObject jsonObject) {
+        if(!jsonObject.has("name")) return false;
+        if(!jsonObject.has("locations")) return false;
+        if(!jsonObject.has("endpoints")) return false;
+
+        if(jsonObject.getJSONArray("locations").length() == 0) return false;
+        if(jsonObject.getJSONArray("locations").length() <
+                (JumpRace.getInstance().getJumpRaceConfig().getTeamAmount() * JumpRace.getInstance().getJumpRaceConfig().getTeamSize()))
+            return false;
+        if(jsonObject.getJSONArray("endpoints").length() == 0) return false;
+
+        return true;
     }
 
 }

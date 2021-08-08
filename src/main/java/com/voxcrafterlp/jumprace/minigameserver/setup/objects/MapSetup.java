@@ -43,9 +43,25 @@ public class MapSetup {
         this.endPointLocations.add(location.clone().getBlock().getLocation().add(0.0, -1.0, 0.0));
     }
 
-    public Map finish() {
+    /**
+     * Checks if the map has been configured correctly and gives the player feedback.
+     * If so, the map will be added to the loaded maps list.
+     * @return Returns if the map has been configured correctly
+     */
+    public boolean finish() {
+        if(spawnLocations.isEmpty()) {
+            player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("setup-error-no-spawnpoint"));
+            return false;
+        }
+        if(endPointLocations.isEmpty()) {
+            player.sendMessage(JumpRace.getInstance().getLanguageLoader().getTranslationByKeyWithPrefix("setup-error-no-endpoint"));
+            return false;
+        }
+
         JumpRace.getInstance().getMapSetups().remove(this.player);
-        return new Map(this.name, this.spawnLocations, this.endPointLocations);
+        JumpRace.getInstance().getLocationManager().getLoadedMaps()
+                .add(new Map(this.name, this.spawnLocations, this.endPointLocations));
+        return true;
     }
 
 }

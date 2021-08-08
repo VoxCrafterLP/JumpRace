@@ -230,6 +230,14 @@ public class Module {
             this.particleUI = new ParticleUI(this, player);
     }
 
+    /**
+     * Disables the particle system with all module related schedulers
+     */
+    public void disableParticleSystem() {
+        if(this.particleManager != null)
+            this.particleManager.stopEffects();
+    }
+
     @Override
     public Module clone() {
         final Module module = new Module(this.name, this.builder, this.moduleDifficulty, this.moduleData, this.startPoint, this.endPoint, false);
