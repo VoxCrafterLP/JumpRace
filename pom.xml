@@ -15,7 +15,7 @@
     <groupId>com.voxcrafterlp</groupId>
     <artifactId>JumpRace</artifactId>
     <name>JumpRace</name>
-    <version>1.2.1-SNAPSHOT</version>
+    <version>1.2.1-RELEASE</version>
 
     <build>
         <plugins>
