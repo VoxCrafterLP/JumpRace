@@ -58,7 +58,7 @@ To update the plugin, please make sure that you follow these steps:
 <dependency>
   <groupId>com.voxcrafterlp</groupId>
   <artifactId>JumpRace</artifactId>
-  <version>1.2.1-RELEASE</version>
+  <version>1.2.2-RELEASE</version>
   <scope>provided</scope>
 </dependency>
 

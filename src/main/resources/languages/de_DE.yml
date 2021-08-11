@@ -220,7 +220,7 @@ actionbar-waiting-player: "&7Warte auf &beinen &7weiteren Spieler&8..."
 actionbar-waiting-players: "&7Warte auf &b{0} &7weitere Spieler&8..."
 actionbar-team: "{0}Team {1}"
 actionbar-spectator: "&7Zuschauer"
-actionbar-module-progress: "&7Modul Fortschritt&8:"
+actionbar-module-progress: "&7Modulfortschritt&8:"
 actionbar-goal-reached: "&aZIEL ERREICHT!"
 
 setup-lobby-success: "&7Der Standort wurde erfolgreich &agespeichert&8."
