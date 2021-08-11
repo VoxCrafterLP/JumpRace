@@ -1,5 +1,8 @@
 package com.voxcrafterlp.jumprace;
 
+import com.lezurex.githubversionchecker.CheckResult;
+import com.lezurex.githubversionchecker.GithubVersionChecker;
+import com.lezurex.githubversionchecker.ReleaseVersion;
 import com.voxcrafterlp.jumprace.builderserver.commands.JumpRaceCommand;
 import com.voxcrafterlp.jumprace.builderserver.listener.*;
 import com.voxcrafterlp.jumprace.builderserver.listener.editor.BlockPhysicsListener;
@@ -102,6 +105,8 @@ public class JumpRace extends JavaPlugin {
         this.editorSessions = new HashMap<>();
         this.loadDefaultModule();
         this.loadModules();
+
+        this.checkForUpdates();
     }
 
     private void minigameServerStartup() {
@@ -148,10 +153,11 @@ public class JumpRace extends JavaPlugin {
         }
 
         this.loadMetrics();
+        this.checkForUpdates();
     }
 
     /**
-     * Load the main world
+     * Loads the main world and sets gamerules
      */
     private void loadWorld() {
         if(Bukkit.getWorld("jumprace") == null) {
@@ -180,7 +186,7 @@ public class JumpRace extends JavaPlugin {
     }
 
     /**
-     * Saves the default languages into the languages folder &
+     * Saves the default languages into the 'languages' folder &
      * loads the set language
      */
     private void loadLanguages() {
@@ -225,6 +231,31 @@ public class JumpRace extends JavaPlugin {
     private void loadMetrics() {
         final int pluginId = 11049;
         this.metrics = new Metrics(this, pluginId);
+    }
+
+    /**
+     * Checks for plugin updates on GitHub.
+     */
+    private void checkForUpdates() {
+        Bukkit.getConsoleSender().sendMessage("§aChecking for updates..");
+
+        try {
+            final ReleaseVersion currentVersion = new ReleaseVersion(this.getDescription().getVersion());
+            final GithubVersionChecker versionChecker = new GithubVersionChecker("VoxCrafterLP", "JumpRace", currentVersion, false);
+            final CheckResult checkResult = versionChecker.check();
+
+            switch (checkResult.getVersionState()) {
+                case OUTDATED:
+                    Bukkit.getConsoleSender().sendMessage("§7There is a §anewer §7version available§8: §2" + checkResult.getVersion().toString());
+                    break;
+                case NEWER:
+                case UP_TO_DATE:
+                    Bukkit.getConsoleSender().sendMessage("§aYou are up to date.");
+                    break;
+            }
+        } catch (Exception exception) {
+            Bukkit.getConsoleSender().sendMessage("§cAn error occurred while checking for updates...");
+        }
     }
 
     public String getPrefix() {
