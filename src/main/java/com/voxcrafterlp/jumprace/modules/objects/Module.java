@@ -238,6 +238,39 @@ public class Module {
             this.particleManager.stopEffects();
     }
 
+
+    public int getModuleLength() {
+        return this.getModuleData().getWidth() - 1;
+    }
+
+    /**
+     * Generates a progress bar based on a percentage
+     * @param percentage Percentage that should be used to generate the progress bar
+     * @return Returns the progress bar formatted as  a String
+     */
+    public String getModuleProgress(int percentage) {
+        final StringBuilder stringBuilder = new StringBuilder();
+        final int BARS = 50;
+        int fill = (int) (percentage / 2);
+
+        //Creative player protection xD
+        if(fill > BARS)
+            fill = BARS;
+
+        stringBuilder.append(JumpRace.getInstance().getLanguageLoader().getTranslationByKey("actionbar-module-progress") + " [§a");
+
+        for(int i = 0; i<fill; i++)
+            stringBuilder.append("|");
+
+        stringBuilder.append("§c");
+
+        for(int i = 0; i<(BARS - fill); i++)
+            stringBuilder.append("|");
+
+        stringBuilder.append("§8]");
+        return stringBuilder.toString();
+    }
+
     @Override
     public Module clone() {
         final Module module = new Module(this.name, this.builder, this.moduleDifficulty, this.moduleData, this.startPoint, this.endPoint, false);

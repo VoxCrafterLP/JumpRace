@@ -38,9 +38,9 @@ public class Map {
         this.spawnLocations = Lists.newCopyOnWriteArrayList();
         this.endPointLocations = Lists.newCopyOnWriteArrayList();
         this.oldBlocks = new HashMap<>();
+        this.loadWorld(jsonObject.getJSONArray("locations").getJSONObject(0));
         jsonObject.getJSONArray("locations").forEach(location -> this.spawnLocations.add(this.getLocationFromJSONObject((JSONObject) location)));
         jsonObject.getJSONArray("endpoints").forEach(location -> this.endPointLocations.add(this.getLocationFromJSONObject((JSONObject) location)));
-        this.loadWorld();
     }
 
     public Map(String name, List<Location> spawnLocations, List<Location> endPointLocations) {
@@ -137,11 +137,12 @@ public class Map {
     /**
      * Checks if a folder with the specified world name exists, if so,
      * the world will be loaded.
+     * @param jsonLocation JSONObject of one location
      */
-    private void loadWorld() {
-        final String worldName = this.spawnLocations.get(0).getWorld().getName();
+    private void loadWorld(JSONObject jsonLocation) {
+        final String worldName = jsonLocation.getString("world");
 
-        if(new File("/" + worldName).exists())
+        if(new File( worldName).exists())
             Bukkit.createWorld(new WorldCreator(worldName));
     }
 

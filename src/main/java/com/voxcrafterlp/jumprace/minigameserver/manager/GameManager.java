@@ -211,7 +211,7 @@ public class GameManager {
         this.deathMatchCountdown.stop();
 
         this.gameState = GameState.ENDING;
-        this.moduleRows.forEach((player, moduleRow) -> moduleRow.stopRespawnScheduler());
+        this.moduleRows.forEach((player, moduleRow) -> moduleRow.stopScheduler());
 
         Bukkit.getOnlinePlayers().forEach(player -> {
             player.teleport(JumpRace.getInstance().getLocationManager().getLobbyLocation());
@@ -284,10 +284,13 @@ public class GameManager {
                             ((playerLeft == 1) ? JumpRace.getInstance().getLanguageLoader().getTranslationByKey("actionbar-waiting-player") : JumpRace.getInstance().getLanguageLoader().getTranslationByKey("actionbar-waiting-players", String.valueOf(playerLeft)))));
                 } else
                     Bukkit.getOnlinePlayers().forEach(player -> new ActionBarUtil().sendActionbar(player, JumpRace.getInstance().getLanguageLoader().getTranslationByKey("actionbar-teaming-forbidden")));
+            } else
+            if(this.gameState == GameState.JUMPING) {
+                this.registeredTeams.forEach(team -> team.getMembers().forEach(player ->
+                        new ActionBarUtil().sendActionbar(player, JumpRace.getInstance().getLanguageLoader().getTranslationByKey("actionbar-team",
+                                team.getTeamColor().getColorCode(), team.getTeamColor().getDisplayName()) + "§7▐ " + JumpRace.getInstance().getModuleManager().getModuleRow(player).getModuleProgress())));
             } else {
-                Bukkit.getScheduler().scheduleAsyncRepeatingTask(JumpRace.getInstance(), () -> this.registeredTeams.forEach(team -> team.getMembers().forEach(player ->
-                        new ActionBarUtil().sendActionbar(player, JumpRace.getInstance().getLanguageLoader().getTranslationByKey("actionbar-team", team.getTeamColor().getColorCode(), team.getTeamColor().getDisplayName())))), 5, 200);
-
+                this.registeredTeams.forEach(team -> team.getMembers().forEach(player -> new ActionBarUtil().sendActionbar(player, JumpRace.getInstance().getLanguageLoader().getTranslationByKey("actionbar-team", team.getTeamColor().getColorCode(), team.getTeamColor().getDisplayName()))));
                 this.spectatorManager.getSpectators().forEach(player -> new ActionBarUtil().sendActionbar(player, JumpRace.getInstance().getLanguageLoader().getTranslationByKey("actionbar-spectator")));
             }
         }, 20, 20);
@@ -382,7 +385,7 @@ public class GameManager {
         final AtomicInteger index = new AtomicInteger(0);
 
         this.moduleRows.forEach((player, moduleRow) -> {
-            moduleRow.stopRespawnScheduler();
+            moduleRow.stopScheduler();
 
             if(map.getSpawnLocations().size() == index.get())
                 index.set(0);
