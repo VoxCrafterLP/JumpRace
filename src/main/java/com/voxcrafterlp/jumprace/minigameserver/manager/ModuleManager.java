@@ -8,6 +8,7 @@ import com.voxcrafterlp.jumprace.modules.objects.Module;
 import com.voxcrafterlp.jumprace.modules.objects.ModuleRow;
 import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -69,7 +70,7 @@ public class ModuleManager {
         }, 10, 10));
 
 
-        this.selectedModules.forEach(module -> this.moduleLength = moduleLength + (module.getModuleData().getWidth() - 1));
+        this.selectedModules.forEach(module -> this.moduleLength = moduleLength + module.getModuleLength());
         Bukkit.getConsoleSender().sendMessage("§aModules built successfully");
     }
 
@@ -111,6 +112,13 @@ public class ModuleManager {
             throw new ModuleNotFoundException("The server couldn't find enough modules to build the map!");
 
         list.addAll(Arrays.asList(newModules));
+    }
+
+    public ModuleRow getModuleRow(Player player) {
+        return this.moduleRows.stream()
+                .filter(moduleRow -> moduleRow.getPlayer() != null)
+                .filter(moduleRow -> moduleRow.getPlayer().equals(player))
+                .findFirst().get();
     }
 
 }

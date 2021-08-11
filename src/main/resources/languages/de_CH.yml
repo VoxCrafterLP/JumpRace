@@ -217,6 +217,8 @@ actionbar-waiting-player: "&7Wart uf &ben &7witere Spieler&8..."
 actionbar-waiting-players: "&7Wart uf &b{0} &7witeri Spieler&8..."
 actionbar-team: "{0}Team {1}"
 actionbar-spectator: "&7Zueschauer"
+actionbar-module-progress: "&7Modulfortschritt&8:"
+actionbar-goal-reached: "&aZIEL ERREICHT!"
 
 setup-lobby-success: "&7De Standort isch erfolgrich &agspeicheret &7worde&8."
 setup-map-instructions-1: "&7Schrib &b\"add\"&7, um e neui &bSpawn-Position &7hinzuezfüege&8."

@@ -1,7 +1,14 @@
 package com.voxcrafterlp.jumprace;
 
+import com.lezurex.githubversionchecker.CheckResult;
+import com.lezurex.githubversionchecker.GithubVersionChecker;
+import com.lezurex.githubversionchecker.ReleaseVersion;
 import com.voxcrafterlp.jumprace.builderserver.commands.JumpRaceCommand;
 import com.voxcrafterlp.jumprace.builderserver.listener.*;
+import com.voxcrafterlp.jumprace.builderserver.listener.InventoryClickListener;
+import com.voxcrafterlp.jumprace.builderserver.listener.PlayerInteractListener;
+import com.voxcrafterlp.jumprace.builderserver.listener.PlayerJoinListener;
+import com.voxcrafterlp.jumprace.builderserver.listener.PlayerQuitListener;
 import com.voxcrafterlp.jumprace.builderserver.listener.editor.BlockPhysicsListener;
 import com.voxcrafterlp.jumprace.builderserver.listener.editor.EditorSetupListener;
 import com.voxcrafterlp.jumprace.builderserver.listener.editor.PlayerModifyBarrierListener;
@@ -11,10 +18,7 @@ import com.voxcrafterlp.jumprace.config.LanguageLoader;
 import com.voxcrafterlp.jumprace.minigameserver.commands.SetupCommand;
 import com.voxcrafterlp.jumprace.minigameserver.commands.SkipCommand;
 import com.voxcrafterlp.jumprace.minigameserver.commands.StartCommand;
-import com.voxcrafterlp.jumprace.minigameserver.listener.EnchantmentListener;
-import com.voxcrafterlp.jumprace.minigameserver.listener.MetricsListener;
-import com.voxcrafterlp.jumprace.minigameserver.listener.PlayerLoginListener;
-import com.voxcrafterlp.jumprace.minigameserver.listener.PlayerMoveListener;
+import com.voxcrafterlp.jumprace.minigameserver.listener.*;
 import com.voxcrafterlp.jumprace.minigameserver.listener.deathmatch.EntityDamageByEntityListener;
 import com.voxcrafterlp.jumprace.minigameserver.listener.deathmatch.InstantTNTListener;
 import com.voxcrafterlp.jumprace.minigameserver.listener.deathmatch.PlayerDeathListener;
@@ -102,6 +106,8 @@ public class JumpRace extends JavaPlugin {
         this.editorSessions = new HashMap<>();
         this.loadDefaultModule();
         this.loadModules();
+
+        this.checkForUpdates();
     }
 
     private void minigameServerStartup() {
@@ -130,6 +136,7 @@ public class JumpRace extends JavaPlugin {
         pluginManager.registerEvents(new InstantTNTListener(), this);
         pluginManager.registerEvents(new EnchantmentListener(), this);
         pluginManager.registerEvents(new MetricsListener(), this);
+        pluginManager.registerEvents(new PlayerReachGoalListener(), this);
 
         this.loadWorld();
         this.mapSetups = new HashMap<>();
@@ -148,10 +155,11 @@ public class JumpRace extends JavaPlugin {
         }
 
         this.loadMetrics();
+        this.checkForUpdates();
     }
 
     /**
-     * Load the main world
+     * Loads the main world and sets gamerules
      */
     private void loadWorld() {
         if(Bukkit.getWorld("jumprace") == null) {
@@ -180,7 +188,7 @@ public class JumpRace extends JavaPlugin {
     }
 
     /**
-     * Saves the default languages into the languages folder &
+     * Saves the default languages into the 'languages' folder &
      * loads the set language
      */
     private void loadLanguages() {
@@ -225,6 +233,31 @@ public class JumpRace extends JavaPlugin {
     private void loadMetrics() {
         final int pluginId = 11049;
         this.metrics = new Metrics(this, pluginId);
+    }
+
+    /**
+     * Checks for plugin updates on GitHub.
+     */
+    private void checkForUpdates() {
+        Bukkit.getConsoleSender().sendMessage("§aChecking for updates..");
+
+        try {
+            final ReleaseVersion currentVersion = new ReleaseVersion(this.getDescription().getVersion());
+            final GithubVersionChecker versionChecker = new GithubVersionChecker("VoxCrafterLP", "JumpRace", currentVersion, false);
+            final CheckResult checkResult = versionChecker.check();
+
+            switch (checkResult.getVersionState()) {
+                case OUTDATED:
+                    Bukkit.getConsoleSender().sendMessage("§7There is a §anewer §7version available§8: §2" + checkResult.getVersion().toString());
+                    break;
+                case NEWER:
+                case UP_TO_DATE:
+                    Bukkit.getConsoleSender().sendMessage("§aYou are up to date.");
+                    break;
+            }
+        } catch (Exception exception) {
+            Bukkit.getConsoleSender().sendMessage("§cAn error occurred while checking for updates...");
+        }
     }
 
     public String getPrefix() {

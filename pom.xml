@@ -15,7 +15,7 @@
     <groupId>com.voxcrafterlp</groupId>
     <artifactId>JumpRace</artifactId>
     <name>JumpRace</name>
-    <version>1.2.1-RELEASE</version>
+    <version>1.2.2-RELEASE</version>
 
     <build>
         <plugins>
@@ -37,6 +37,18 @@
                         <relocation>
                             <pattern>org.bstats</pattern>
                             <shadedPattern>com.voxcrafterlp.jumprace.bstats</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>net.wesjd.anvilgui</pattern>
+                            <shadedPattern>com.voxcrafterlp.jumprace.anvilgui</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>com.lezurex.githubversionchecker</pattern>
+                            <shadedPattern>com.voxcrafterlp.jumprace.githubversionchecker</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>com.google.gson</pattern>
+                            <shadedPattern>com.voxcrafterlp.jumprace.gson</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>
@@ -92,6 +104,10 @@
             <id>nms-repo</id>
             <url>https://repo.codemc.org/repository/nms/</url>
         </repository>
+        <repository>
+            <id>voxcrafter-repo</id>
+            <url>https://repo.voxcrafter.dev/repository/maven-releases/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -134,6 +150,12 @@
             <groupId>org.bstats</groupId>
             <artifactId>bstats-bukkit</artifactId>
             <version>2.2.1</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.lezurex</groupId>
+            <artifactId>github-version-checker</artifactId>
+            <version>1.0.0</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

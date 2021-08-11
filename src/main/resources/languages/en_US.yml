@@ -219,6 +219,8 @@ actionbar-waiting-player: "&7Waiting for &bone &7more player&8..."
 actionbar-waiting-players: "&7Waiting for &b{0} &7more players&8..."
 actionbar-team: "{0}Team {1}"
 actionbar-spectator: "&7Spectator"
+actionbar-module-progress: "&7Module progress&8:"
+actionbar-goal-reached: "&aGOAL REACHED!"
 
 setup-lobby-success: "&7The location has been &asaved &7successfully&8."
 setup-map-instructions-1: "&7Type &b\"add\" &7to add a new &bspawn location&8."

@@ -84,7 +84,7 @@ public class ModuleRow {
         this.modules.get(0).initializeParticleManager(player);
         this.modules.get(1).initializeParticleManager(player);
 
-        this.startRespawnScheduler();
+        this.startScheduler();
         return this;
     }
 
@@ -128,6 +128,18 @@ public class ModuleRow {
         this.respawnHeight = this.getModules().get(this.modulesCompleted).getModuleBorders()[0].getBlockY();
    }
 
+   public String getModuleProgress() {
+       if(this.modulesCompleted == 10)
+           return JumpRace.getInstance().getLanguageLoader().getTranslationByKey("actionbar-goal-reached");
+
+       final Module currentModule = this.modules.get(this.modulesCompleted);
+       final int percentage = new CalculatorUtil().calculatePercent(currentModule.getModuleLength(),
+               (player.getLocation().getBlockX() - currentModule.getStartPointLocation().getBlockX()));
+
+
+       return currentModule.getModuleProgress(percentage);
+   }
+
     /**
      * Get the current ModuleDifficulty based on the completed modules
      * @return Calculated ModuleDifficulty
@@ -143,14 +155,14 @@ public class ModuleRow {
             return ModuleDifficulty.VERY_HARD;
    }
 
-   private void startRespawnScheduler() {
+   private void startScheduler() {
         this.taskID = Bukkit.getScheduler().scheduleAsyncRepeatingTask(JumpRace.getInstance(), () -> {
             if(player.getLocation().getBlockY() < this.respawnHeight)
                 this.respawn();
         }, 5, 1);
    }
 
-   public void stopRespawnScheduler() {
+   public void stopScheduler() {
         Bukkit.getScheduler().cancelTask(this.taskID);
    }
 

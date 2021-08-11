@@ -3,7 +3,7 @@
 [![build](https://github.com/VoxCrafterLP/JumpRace/actions/workflows/maven.yml/badge.svg)](https://github.com/VoxCrafterLP/JumpRace/actions/workflows/maven.yml)
 ![GitHub release (latest by date)](https://img.shields.io/github/downloads/VoxCrafterLP/JumpRace/total?label=Downloads)
 ![GitHub](https://img.shields.io/github/license/VoxCrafterLP/JumpRace)
-![GitHub milestone](https://img.shields.io/github/milestones/progress/VoxCrafterLP/JumpRace/4)
+![GitHub milestone](https://img.shields.io/github/milestones/progress/VoxCrafterLP/JumpRace/5)
 ![MV version](https://img.shields.io/badge/Minecraft%20version-1.8.x-brightgreen)
 ![bStats Servers](https://img.shields.io/bstats/servers/11049)
 
@@ -58,7 +58,7 @@ To update the plugin, please make sure that you follow these steps:
 <dependency>
   <groupId>com.voxcrafterlp</groupId>
   <artifactId>JumpRace</artifactId>
-  <version>1.2.1-RELEASE</version>
+  <version>1.2.2-RELEASE</version>
   <scope>provided</scope>
 </dependency>
 
