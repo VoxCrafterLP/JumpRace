@@ -61,7 +61,9 @@ To update the plugin, please make sure that you follow these steps:
   <version>1.2.2-RELEASE</version>
   <scope>provided</scope>
 </dependency>
+```
 
+```xml
 <repository>
   <id>voxcrafter-repo</id>
   <url>https://repo.voxcrafter.dev/repository/maven-releases/</url>
